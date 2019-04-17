@@ -3,13 +3,13 @@ package com.excilys.cdb.persistence;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.excilys.cdb.mapper.DTOCompany;
+import com.excilys.cdb.model.Company;
 
 public class DAOCompanyImpl implements DAOCompany {
 	private DAOFactory daoFactory;
 	
-	private static DTOCompany mapCompany( ResultSet resultSet ) throws SQLException {
-		DTOCompany company = new DTOCompany();
+	private static Company mapCompany( ResultSet resultSet ) throws SQLException {
+		Company company = new Company();
 		company.setId( resultSet.getLong( "id" ) );
 		company.setName( resultSet.getString( "name" ) );
 	    return company;
@@ -21,7 +21,7 @@ public class DAOCompanyImpl implements DAOCompany {
 
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
     @Override
-    public DTOCompany listCompany() throws DAOException {
+    public Company listCompany() throws DAOException {
         return null;
     }
 

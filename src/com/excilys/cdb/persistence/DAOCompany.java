@@ -1,9 +1,9 @@
 package com.excilys.cdb.persistence;
 
-import com.excilys.cdb.mapper.DTOCompany;
+import com.excilys.cdb.model.Company;
 
 public interface DAOCompany {
 
-    DTOCompany listCompany() throws DAOException;
+    Company listCompany() throws DAOException;
 
 }

@@ -1,7 +1,14 @@
 package com.excilys.cdb.mapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Optional;
+
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 
 public class Mapper {
 	/*
@@ -9,10 +16,10 @@ public class Mapper {
 	 * mapping) entre une ligne issue de la table des utilisateurs (un
 	 * ResultSet) et un bean Utilisateur.
 	 */
-	private static DTOCompany mapCompany( ResultSet resultSet ) throws SQLException {
-		DTOCompany company = new DTOCompany();
-		company.setId( resultSet.getLong( "id" ) );
-		company.setName( resultSet.getString( "name" ) );
+	public static Company mapCompany( DTOCompany dtoCompany ) {
+		Company company = new Company();
+		company.setId( Long.parseLong(dtoCompany.getId()) );
+		company.setName(dtoCompany.getName());
 	    return company;
 	}
 	/*
@@ -20,12 +27,17 @@ public class Mapper {
 	 * mapping) entre une ligne issue de la table des utilisateurs (un
 	 * ResultSet) et un bean Utilisateur.
 	 */
-	private static DTOComputer mapComputer( ResultSet resultSet ) throws SQLException {
-		DTOComputer computer = new DTOComputer();
-		computer.setId( resultSet.getLong( "id" ) );
-		computer.setName( resultSet.getString( "name" ) );
-		computer.setIntroduced( resultSet.getString( "introduced" ) );
-		computer.setDiscontinued( resultSet.getString( "discontinued" ) );
+	public static Computer mapComputer( DTOComputer dtoComputer ) throws ParseException{
+		Computer computer = new Computer();
+		computer.setId(Long.valueOf(Optional.ofNullable(dtoComputer.getId()).orElseGet(() -> "-1")));
+		computer.setName( dtoComputer.getName());
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		computer.setIntroduced( dateFormat.parse(dtoComputer.getIntroduced()) );
+		computer.setDiscontinued( dateFormat.parse(dtoComputer.getDiscontinued()) );
+		computer.setCompanyId(Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1")));
+		
 	    return computer;
 	}
 	}

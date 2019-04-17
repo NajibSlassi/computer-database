@@ -1,16 +1,18 @@
 package com.excilys.cdb.persistence;
 
-import com.excilys.cdb.mapper.DTOCompany;
-import com.excilys.cdb.mapper.DTOComputer;
+
+import java.text.ParseException;
+
+import com.excilys.cdb.model.Computer;
 
 public interface DAOComputer {
 	
-	void createComputer( DTOComputer computer ) throws DAOException;
+	void createComputer( Computer computer ) throws DAOException;
 	
-	void updateComputer( DTOComputer computer ) throws DAOException;
+	void updateComputer( Computer computer ) throws DAOException;
 
-    DTOComputer showComputer( String name ) throws DAOException;
+    Computer showComputer( String name ) throws DAOException, ParseException;
 
-	DTOComputer listComputer() throws DAOException;
+	Computer listComputer() throws DAOException;
 
 }

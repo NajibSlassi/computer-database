@@ -1,25 +1,30 @@
-package com.excilys.cdb.mapper;
+package com.excilys.cdb.model;
 
 
 
-public class DTOCompany {
+public class Company {
 	
-	private String id;
+	private Long id;
 	private String name;
-	public String getId() {
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
-		this.id = id;
+
+
+	public void setId(Long l) {
+		this.id = l;
 	}
+
+
 	public String getName() {
 		return name;
 	}
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 	
 
 }
