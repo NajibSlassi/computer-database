@@ -18,7 +18,7 @@ public class Mapper {
 	 */
 	public static Company mapCompany( DTOCompany dtoCompany ) {
 		Company company = new Company();
-		company.setId( Long.parseLong(dtoCompany.getId()) );
+		company.setId( Long.valueOf(Optional.ofNullable(dtoCompany.getId()).orElseGet(() -> "-1")) );
 		company.setName(dtoCompany.getName());
 	    return company;
 	}
@@ -34,8 +34,8 @@ public class Mapper {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		computer.setIntroduced( dateFormat.parse(dtoComputer.getIntroduced()) );
-		computer.setDiscontinued( dateFormat.parse(dtoComputer.getDiscontinued()) );
+		computer.setIntroduced(dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15 08:00:00")));
+		computer.setDiscontinued( dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15 08:00:00")));
 		computer.setCompanyId(Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1")));
 		
 	    return computer;

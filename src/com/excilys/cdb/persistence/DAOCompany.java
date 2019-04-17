@@ -1,9 +1,12 @@
 package com.excilys.cdb.persistence;
 
+import java.text.ParseException;
+import java.util.List;
+
 import com.excilys.cdb.model.Company;
 
 public interface DAOCompany {
 
-    Company listCompany() throws DAOException;
+	List<Company> listCompany() throws DAOException, ParseException;
 
 }
