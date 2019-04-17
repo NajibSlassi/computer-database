@@ -1,7 +1,6 @@
 package Main;
 
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
@@ -43,11 +42,29 @@ public class cdb {
 				+ "4: Créer un ordinateur \n"
 				+ "5: Mettre à jour un ordinateur\n"
 				+ "6: Supprimer un ordinateur\n");
-		int i = Integer.parseInt(sc.nextLine());
+		int i = 0;
+		boolean test=false;
+		do {
+			test=false;
+			try {
+				i = Integer.parseInt(sc.nextLine());
+			}
+			catch ( NumberFormatException badData ){
+				test=true;
+				System.out.println("Vous avez saisie "+i+" Veuillez choisir une option valide: \n"
+						+ "1: Voir la liste des ordinateurs\n"
+						+ "2: Voir la liste des sociétés \n"
+						+ "3: Voir les détails d'un ordinateur \n"
+						+ "4: Créer un ordinateur \n"
+						+ "5: Mettre à jour un ordinateur\n"
+						+ "6: Supprimer un ordinateur\n");
+		    }
+			}
+		while(test==true);
 		int[] array = {1,2,3,4,5,6};
-		int testValue = i;
+		int testValue = (int) i;
 		boolean contains = IntStream.of(array).anyMatch(x -> x == testValue);
-
+		
 		while (!contains) {
 			System.out.println("Vous avez saisie "+i+" Veuillez choisir une option valide: \n"
 					+ "1: Voir la liste des ordinateurs\n"
