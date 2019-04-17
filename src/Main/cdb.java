@@ -74,6 +74,8 @@ public class cdb {
 					+ "5: Mettre à jour un ordinateur\n"
 					+ "6: Supprimer un ordinateur\n");
 			i = Integer.parseInt(sc.nextLine());
+			int pValue = (int) i;
+			contains = IntStream.of(array).anyMatch(x -> x == pValue);
 		}
 		if (i==1) {
 			DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
