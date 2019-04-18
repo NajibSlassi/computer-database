@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
@@ -84,15 +83,16 @@ public class cdb{
 		if (i==1) {
 			DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
 			List<Computer> l = dao.listComputer();
-			int n=l.size();
-			int p= n/100;
+			int numOfElements=l.size();
+			int elementsPerPage=100;
+			int numOfPages= numOfElements/elementsPerPage +1;
 			int quitter=0;
 			
 			CommandLineTable st = new CommandLineTable();
 			
 			int numElement = 0;
 			
-			List<Computer> sublist= l.subList(0, 100);
+			List<Computer> sublist= l.subList(0, elementsPerPage);
 			while (quitter==0){
 				for (Computer x:sublist) {
 					numElement+=1;
@@ -104,20 +104,39 @@ public class cdb{
 			        
 			        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
 			        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
-			        if (numElement==100) {
-			        	numElement=1;
+			        if (numElement==elementsPerPage) {
+			        	numElement=0;
 			        	st.print();
+			        	System.out.println("Vous avez "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total");
 			        	st = new CommandLineTable();
 			        	break;
 			        }
 			    
 				}
-				System.out.println("Quitter le programme? 0 = Non, 1= Oui");
+				System.out.println("Consulter une autre page? 0 = Oui, 1= Non");
 				quitter=Integer.parseInt(sc.nextLine());
 				if (quitter==0) {
 					System.out.println("Aller vers la page:");
 					int t=Integer.parseInt(sc.nextLine());
-					sublist= l.subList((t-1)*100, t*100);
+					if (t==numOfPages) {
+						sublist= l.subList((t-1)*elementsPerPage, numOfElements);
+						for (Computer x:sublist) {
+							numElement+=1;
+							//test code
+					        //st.setRightAlign(true);//if true then cell text is right aligned
+					        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
+					        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
+					        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+					        
+					        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
+						}
+						st.print();
+			        	System.out.println("Vous avez "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total");
+			        	st = new CommandLineTable();
+					}else {
+						sublist= l.subList((t-1)*elementsPerPage, t*elementsPerPage);
+					}
+					
 				}
 				
 			}
@@ -142,6 +161,7 @@ public class cdb{
 				//System.out.println("CompanyID: "+ x.getId()+ " CompanyName: "+x.getName());
 			}
 			st.print();
+			
 		}
 		else if(i==3) {
 			System.out.println("Entrez le Id de l'ordinateur à consulter:");
@@ -152,7 +172,7 @@ public class cdb{
 			//test code
 	        //st.setRightAlign(true);//if true then cell text is right aligned
 	        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
-	        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
+	        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID");//optional - if not used then there will be no header and horizontal lines
 	        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 	        
 	        st.addRow(Long.toString(computer.getId()), computer.getName(), dateFormat.format(computer.getIntroduced()),dateFormat.format(computer.getDiscontinued()),Long.toString(computer.getCompanyId()));
