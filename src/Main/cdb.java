@@ -1,7 +1,11 @@
 package Main;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
@@ -13,7 +17,7 @@ import com.excilys.cdb.persistence.DAOCompanyImpl;
 import com.excilys.cdb.persistence.DAOComputerImpl;
 import com.excilys.cdb.persistence.DAOFactory;
 
-public class cdb {
+public class cdb{
 
 	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
@@ -80,31 +84,75 @@ public class cdb {
 		if (i==1) {
 			DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
 			List<Computer> l = dao.listComputer();
+			int n=l.size();
+			int p= n/100;
+			
+			CommandLineTable st = new CommandLineTable();
 			for (Computer x:l) {
-				System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
+				//test code
+		        //st.setRightAlign(true);//if true then cell text is right aligned
+		        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
+		        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
+		        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+		        
+		        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
+		        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
 			}
+			st.print();
 		}
 		else if(i==2){
 			DAOCompanyImpl dao = new DAOCompanyImpl(DAOFactory.getInstance());
 			List<Company> l = dao.listCompany(); 
+			CommandLineTable st = new CommandLineTable();
 			for (Company x:l) {
-				System.out.println("CompanyID: "+ x.getId()+ " CompanyName: "+x.getName());
+				//test code
+		        //st.setRightAlign(true);//if true then cell text is right aligned
+		        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
+		        st.setHeaders("id", "CompanyName");//optional - if not used then there will be no header and horizontal lines
+		    
+		        
+		        st.addRow(Long.toString(x.getId()), x.getName());
+		        
+				//System.out.println("CompanyID: "+ x.getId()+ " CompanyName: "+x.getName());
 			}
+			st.print();
 		}
 		else if(i==3) {
 			System.out.println("Entrez le Id de l'ordinateur à consulter:");
 			int idComputer = sc.nextInt();
 			DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
 			Computer computer =dao.showComputer(idComputer);
-			System.out.print("ComputerID: "+ computer.getId()+ "\n ComputerName: "+computer.getName()+"\n Date Introduced: " + computer.getIntroduced()+"\n Date Discontinued: " + computer.getDiscontinued()+"\n CompanyID: "+ computer.getCompanyId());
+			CommandLineTable st = new CommandLineTable();
+			//test code
+	        //st.setRightAlign(true);//if true then cell text is right aligned
+	        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
+	        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
+	        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+	        
+	        st.addRow(Long.toString(computer.getId()), computer.getName(), dateFormat.format(computer.getIntroduced()),dateFormat.format(computer.getDiscontinued()),Long.toString(computer.getCompanyId()));
+			st.print();
+	        //System.out.print("ComputerID: "+ computer.getId()+ "\n ComputerName: "+computer.getName()+"\n Date Introduced: " + computer.getIntroduced()+"\n Date Discontinued: " + computer.getDiscontinued()+"\n CompanyID: "+ computer.getCompanyId());
 		}
 		else if(i==4) {
 			System.out.println("Entrez le nom de l'ordinateur:");
 			String name = sc.nextLine();
 			System.out.println("Entrez la date d'introduction de l'ordinateur:");
 			String introduced= sc.nextLine();
-			System.out.println("Entrez la date d'abandon de l'ordinateur:");
+			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date dateIntro = dateFormat.parse(introduced);
+			
+			System.out.println("Entrez la date de sortie de l'ordinateur:");
 			String discontinued= sc.nextLine();
+			
+			Date dateDisc = dateFormat.parse(discontinued);
+			
+			while (dateIntro.compareTo(dateDisc)>0) {
+				System.out.println("Date d'entrée en stock: "+ introduced + " supérieur à la date de sortie que vous avez saisi, Veuillez entrez une date de sortie ultérieure :");
+				discontinued= sc.nextLine();
+				dateDisc = dateFormat.parse(discontinued);
+			}
+			
 			System.out.println("Entrez l'id de la société fabricante:");
 			String companyId= sc.nextLine();
 			DTOComputer dtoc1= new DTOComputer();
@@ -138,7 +186,7 @@ public class cdb {
 			dao.deleteComputer(id);
 		}
 		else {
-			System.out.println("Entrez l'id de l'ordinateur que vous voulez supprimer:");
+			System.out.println("Une erreur est survenue veuillez réessayez");
 			
 		}
 

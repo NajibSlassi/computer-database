@@ -35,7 +35,7 @@ public class DAOCompanyImpl implements DAOCompany {
 
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
     @Override
-    public List listCompany() throws DAOException, ParseException {
+    public List<Company> listCompany() throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;

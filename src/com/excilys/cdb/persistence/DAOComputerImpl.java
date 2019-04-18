@@ -45,7 +45,7 @@ public class DAOComputerImpl implements DAOComputer {
     }
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
     @Override
-    public List listComputer() throws DAOException, ParseException {
+    public List<Computer> listComputer() throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
