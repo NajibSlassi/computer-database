@@ -86,19 +86,45 @@ public class cdb{
 			List<Computer> l = dao.listComputer();
 			int n=l.size();
 			int p= n/100;
+			int quitter=0;
 			
 			CommandLineTable st = new CommandLineTable();
-			for (Computer x:l) {
-				//test code
-		        //st.setRightAlign(true);//if true then cell text is right aligned
-		        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
-		        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
-		        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-		        
-		        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
-		        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
+			
+			int numElement = 0;
+			
+			List<Computer> sublist= l.subList(0, 100);
+			while (quitter==0){
+				for (Computer x:sublist) {
+					numElement+=1;
+					//test code
+			        //st.setRightAlign(true);//if true then cell text is right aligned
+			        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
+			        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
+			        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+			        
+			        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
+			        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
+			        if (numElement==100) {
+			        	numElement=1;
+			        	st.print();
+			        	st = new CommandLineTable();
+			        	break;
+			        }
+			    
+				}
+				System.out.println("Quitter le programme? 0 = Non, 1= Oui");
+				quitter=Integer.parseInt(sc.nextLine());
+				if (quitter==0) {
+					System.out.println("Aller vers la page:");
+					int t=Integer.parseInt(sc.nextLine());
+					sublist= l.subList((t-1)*100, t*100);
+				}
+				
 			}
-			st.print();
+			
+			
+			
+					
 		}
 		else if(i==2){
 			DAOCompanyImpl dao = new DAOCompanyImpl(DAOFactory.getInstance());
