@@ -87,6 +87,7 @@ public class Start {
 			int numElement = 0;
 			
 			List<Computer> sublist= l.subList(0, elementsPerPage);
+			int t =1;
 			while (quitter==0){
 				for (Computer x:sublist) {
 					numElement+=1;
@@ -101,7 +102,7 @@ public class Start {
 			        if (numElement==elementsPerPage) {
 			        	numElement=0;
 			        	st.print();
-			        	System.out.println("Vous avez "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total");
+			        	System.out.println("Page "+t+" sur "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total");
 			        	st = new CommandLineTable();
 			        	break;
 			        }
@@ -111,7 +112,7 @@ public class Start {
 				quitter=Integer.parseInt(sc.nextLine());
 				if (quitter==0) {
 					System.out.println("Aller vers la page:");
-					int t=Integer.parseInt(sc.nextLine());
+					t=Integer.parseInt(sc.nextLine());
 					if (t==numOfPages) {
 						sublist= l.subList((t-1)*elementsPerPage, numOfElements);
 						for (Computer x:sublist) {
@@ -125,7 +126,7 @@ public class Start {
 					        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
 						}
 						st.print();
-			        	System.out.println("Vous avez "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total");
+			        	System.out.println("Page "+t+" sur " +numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total");
 			        	st = new CommandLineTable();
 					}else {
 						sublist= l.subList((t-1)*elementsPerPage, t*elementsPerPage);
