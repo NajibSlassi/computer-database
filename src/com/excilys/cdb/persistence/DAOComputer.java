@@ -12,10 +12,9 @@ public interface DAOComputer {
 
     Computer showComputer( int id ) throws DAOException, ParseException;
 
-	List listComputer() throws DAOException, ParseException;
+	List<Computer> listComputer() throws DAOException, ParseException;
 
-	void updateComputer( String name, String newname, String newDateIntroduced, String newDateDiscontinued,
-			String newCompanyId) throws DAOException;
+	void updateComputer( Computer computer) throws DAOException;
 	void deleteComputer(Long id) ;
 
 }

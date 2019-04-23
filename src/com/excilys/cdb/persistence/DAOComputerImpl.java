@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.mapper.Mapper;
+import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 
 
@@ -20,15 +20,14 @@ public class DAOComputerImpl implements DAOComputer {
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer";
 	private static final String SQL_SELECT_PAR_ID = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?";
 	private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES (?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE name = ?";
+	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
 
 
 	private static Computer mapComputer( ResultSet resultSet ) throws SQLException, ParseException {
 		DTOComputer dtoComputer = new DTOComputer();
 		
-		
-		
+
 		dtoComputer.setId( Long.toString(resultSet.getLong( "id" )) );
 		dtoComputer.setName( resultSet.getString( "name" ) );
 		dtoComputer.setIntroduced( resultSet.getString( "introduced" ) );
@@ -38,7 +37,7 @@ public class DAOComputerImpl implements DAOComputer {
 		String strValue1 = (item == null ? null : item.toString());
 
 		dtoComputer.setCompanyId(strValue1);
-	    return Mapper.mapComputer(dtoComputer);}
+	    return MapperComputer.DTOToModel(dtoComputer);}
 	    
 	public DAOComputerImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
@@ -101,13 +100,13 @@ public class DAOComputerImpl implements DAOComputer {
 	}
 
 	@Override
-	public void updateComputer(String name,String newname,String newDateIntroduced,String newDateDiscontinued,String newCompanyId) throws DAOException {
+	public void updateComputer(Computer computer) throws DAOException {
 		// TODO Auto-generated method stub
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    try {
 	        connexion = daoFactory.getConnection();
-	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, newname,newDateIntroduced,newDateDiscontinued,newCompanyId,name);
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId(),computer.getId());
 	        int statut = preparedStatement.executeUpdate();
 	        if ( statut == 0 ) {
 	            throw new DAOException( "Échec du changement de statut." );

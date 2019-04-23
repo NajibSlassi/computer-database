@@ -9,10 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.excilys.cdb.mapper.DTOCompany;
-import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.mapper.Mapper;
+import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
 
 public class DAOCompanyImpl implements DAOCompany {
 	private DAOFactory daoFactory;
@@ -22,12 +20,10 @@ public class DAOCompanyImpl implements DAOCompany {
 	private static Company mapCompany( ResultSet resultSet ) throws SQLException, ParseException {
 		DTOCompany dtoCompany = new DTOCompany();
 		
-		
-		
 		dtoCompany.setId( Long.toString(resultSet.getLong( "id" )) );
 		dtoCompany.setName( resultSet.getString( "name" ) );
 		
-	    return Mapper.mapCompany(dtoCompany);}
+	    return MapperCompany.DTOToModel(dtoCompany);}
 
 	public DAOCompanyImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;

@@ -1,11 +1,9 @@
 package com.excilys.cdb.persistence;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -28,7 +26,7 @@ public class DAOFactory {
     }
     
     /*
-     * Méthode chargée de récupérer les informations de connexion à la base de
+     * Méthode chargée de r�cupérer les informations de connexion à la base de
      * données, charger le driver JDBC et retourner une instance de la Factory
      */
     public static DAOFactory getInstance() throws DAOConfigurationException {

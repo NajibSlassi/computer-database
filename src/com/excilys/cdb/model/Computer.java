@@ -9,6 +9,18 @@ public class Computer {
 	private Date discontinued;
 	private Long companyId;
 	
+	
+	public Computer() {}
+	
+	public Computer(Long id, String name, Date introduced, Date discontinued, Long companyId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.companyId = companyId;
+	}
+
 	public Long getId() {
 		return id;
 	}
