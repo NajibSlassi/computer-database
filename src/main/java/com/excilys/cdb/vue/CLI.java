@@ -170,7 +170,7 @@ public class CLI {
 		        if (numElement==elementsPerPage) {
 		        	numElement=0;
 		        	st.print();
-		        	System.out.println("Page "+t+" sur "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" Ã©lÃ©ments en total");
+		        	System.out.println("Page "+t+" sur "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total en total");
 		        	st = new CommandLineTable();
 		        	break;
 		        }
