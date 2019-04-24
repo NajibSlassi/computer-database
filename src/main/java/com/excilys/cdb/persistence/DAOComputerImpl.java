@@ -13,7 +13,7 @@ import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 
 
-public class DAOComputerImpl implements DAOComputer {
+public class DAOComputerImpl{
 		
 	private static DAOFactory daoFactory;
 	
@@ -44,7 +44,6 @@ public class DAOComputerImpl implements DAOComputer {
         this.daoFactory = daoFactory;
     }
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
-    @Override
     public List<Computer> listComputer(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
@@ -100,7 +99,6 @@ public class DAOComputerImpl implements DAOComputer {
 	    }
 	}
 
-	@Override
 	public void updateComputer(Computer computer) throws DAOException {
 		// TODO Auto-generated method stub
 		Connection connexion = null;
@@ -120,7 +118,6 @@ public class DAOComputerImpl implements DAOComputer {
 		
 	}
 
-	@Override
 	public Computer showComputer(int id) throws DAOException, ParseException {
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
@@ -145,7 +142,6 @@ public class DAOComputerImpl implements DAOComputer {
 	    return computer;
 	}
 
-	@Override
 	public void deleteComputer(Long id) {
 		// TODO Auto-generated method stub
 		Connection connexion = null;

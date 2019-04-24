@@ -12,7 +12,7 @@ import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 
-public class DAOCompanyImpl implements DAOCompany {
+public class DAOCompanyImpl {
 	private DAOFactory daoFactory;
 	
 	private static final String SQL_SELECT_ALL_COMPANY = "SELECT id, name FROM company ";
@@ -30,7 +30,6 @@ public class DAOCompanyImpl implements DAOCompany {
     }
 
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
-    @Override
     public List<Company> listCompany(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;

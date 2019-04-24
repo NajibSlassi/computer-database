@@ -18,16 +18,28 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		String id = Long.toString(computer.getId());
 		String name = computer.getName();
 		String introduced = "NULL";
-		if(computer.getIntroduced() != null) {
-			introduced = dateFormat.format(computer.getIntroduced());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			if(computer.getIntroduced() != null && !computer.getIntroduced().equals(dateFormat.parse("1996-01-15"))) {
+				introduced = dateFormat.format(computer.getIntroduced());
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		String discontinued = "NULL";
-		if(computer.getDiscontinued() != null) {
-			discontinued = dateFormat.format(computer.getDiscontinued());;
+		try {
+			if(computer.getDiscontinued() != null && !computer.getDiscontinued().equals(dateFormat.parse("1996-01-15"))) {
+				discontinued = dateFormat.format(computer.getDiscontinued());
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		String company = "NULL";
-		if(!computer.getCompanyId().equals(0) && computer.getCompanyId() != null) {
+		if(!(computer.getCompanyId()==-1) && computer.getCompanyId() != null) {
 			company = Long.toString(computer.getCompanyId());
 		}
 		return new DTOComputer(id, name, introduced, discontinued, company);
