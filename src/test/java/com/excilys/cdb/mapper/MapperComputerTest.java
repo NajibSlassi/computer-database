@@ -1,28 +1,28 @@
 package com.excilys.cdb.mapper;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-class MapperComputerTest {
+public class MapperComputerTest {
 
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	void testModelToDTO() {
+	public void testModelToDTO() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testDTOToModel() {
+	public void testDTOToModel() {
 		fail("Not yet implemented");
 	}
 
