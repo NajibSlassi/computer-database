@@ -46,21 +46,25 @@ public class Controller {
 			cli.quit();
 			break;
 		case 1:
+			int i = cli.readPage();
+			int j = cli.readLimit();
 			List<Computer> l =new LinkedList<Computer>();
-			for (DTOComputer x:serviceComputer.list()) {
+			for (DTOComputer x:serviceComputer.list(i,j)) {
 				l.add(MapperComputer.DTOToModel(x));
 			}
 			cli.showComputers(l);
 			break;
 		case 2:
+			int p = cli.readPage();
+			int q = cli.readLimit();
 			List<Company> c =new LinkedList<Company>();
-			for (DTOCompany x:serviceCompany.list()) {
+			for (DTOCompany x:serviceCompany.list(p,q)) {
 				c.add(MapperCompany.DTOToModel(x));
 			}
 			cli.showCompanies(c);
 			break;
 		case 3:
-			cli.showComputerDetails(MapperComputer.DTOToModel(serviceComputer.find(cli.readInt())));
+			cli.showComputerDetails(MapperComputer.DTOToModel(serviceComputer.find(cli.readInt("Entrez l'id de l'ordinateur à consulter"))));
 			break;
 		case 4:
 			serviceComputer.insert(cli.createComputer());

@@ -7,6 +7,6 @@ import com.excilys.cdb.model.Company;
 
 public interface DAOCompany {
 
-	List<Company> listCompany() throws DAOException, ParseException;
+	List<Company> listCompany(Page pagination) throws DAOException, ParseException;
 
 }

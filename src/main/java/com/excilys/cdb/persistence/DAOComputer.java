@@ -12,7 +12,7 @@ public interface DAOComputer {
 
     Computer showComputer( int id ) throws DAOException, ParseException;
 
-	List<Computer> listComputer() throws DAOException, ParseException;
+	List<Computer> listComputer(Page pagination) throws DAOException, ParseException;
 
 	void updateComputer( Computer computer) throws DAOException;
 	void deleteComputer(Long id) ;

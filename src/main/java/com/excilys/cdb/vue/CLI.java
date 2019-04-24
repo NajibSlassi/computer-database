@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,7 +34,7 @@ public class CLI {
         return INSTANCE;
     }
 	
-	boolean quit=false;
+	static boolean quit=false;
 	
 	public void run() throws DAOException, ParseException {
         while (!quit) {
@@ -93,8 +94,8 @@ public class CLI {
 		return id;
     }
     
-    public int readInt() {
-    	System.out.println("Entrez le Id de l'ordinateur à  consulter:");
+    public int readInt(String message) {
+    	System.out.println(message);
     	int id = sc.nextInt();
     	return id;
     }
@@ -111,6 +112,16 @@ public class CLI {
         st.addRow(Long.toString(computer.getId()), computer.getName(), dateFormat.format(computer.getIntroduced()),dateFormat.format(computer.getDiscontinued()),Long.toString(computer.getCompanyId()));
 		st.print();
         //System.out.print("ComputerID: "+ computer.getId()+ "\n ComputerName: "+computer.getName()+"\n Date Introduced: " + computer.getIntroduced()+"\n Date Discontinued: " + computer.getDiscontinued()+"\n CompanyID: "+ computer.getCompanyId());
+		if (readInt("Quitter? 0 = Oui, 1= Non")==0) {
+			try {
+				quit();
+			} catch (DAOException | ParseException | InputMismatchException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
+		}
+		
     }
 
 
@@ -145,64 +156,34 @@ public class CLI {
     }
     public void showComputers(List<Computer> l) {
     	
-    	int numOfElements=l.size();
-		int elementsPerPage=100;
-		int numOfPages= numOfElements/elementsPerPage +1;
-		int quitter=0;
+		
 		
 		CommandLineTable st = new CommandLineTable();
 		
-		int numElement = 0;
 		
-		List<Computer> sublist= l.subList(0, elementsPerPage);
-		int t =1;
-		while (quitter==0){
-			for (Computer x:sublist) {
-				numElement+=1;
-				//test code
-		        //st.setRightAlign(true);//if true then cell text is right aligned
-		        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
-		        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
-		        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-		        
-		        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
-		        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
-		        if (numElement==elementsPerPage) {
-		        	numElement=0;
-		        	st.print();
-		        	System.out.println("Page "+t+" sur "+numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total en total");
-		        	st = new CommandLineTable();
-		        	break;
-		        }
-		    
-			}
-			System.out.println("Consulter une autre page? 0 = Oui, 1= Non");
-			quitter=Integer.parseInt(sc.nextLine());
-			if (quitter==0) {
-				System.out.println("Aller vers la page:");
-				t=Integer.parseInt(sc.nextLine());
-				if (t==numOfPages) {
-					sublist= l.subList((t-1)*elementsPerPage, numOfElements);
-					for (Computer x:sublist) {
-						numElement+=1;
-						//test code
-				        //st.setRightAlign(true);//if true then cell text is right aligned
-				        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
-				        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
-				        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-				        
-				        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
-					}
-					st.print();
-		        	System.out.println("Page "+t+" sur " +numOfPages+" pages , "+elementsPerPage+" elements par page et "+numOfElements+" éléments en total");
-		        	st = new CommandLineTable();
-				}else {
-					sublist= l.subList((t-1)*elementsPerPage, t*elementsPerPage);
-				}
-				
-			}
+		for (Computer x:l) {
 			
-		};
+			//test code
+	        //st.setRightAlign(true);//if true then cell text is right aligned
+	        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
+	        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
+	        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+	        
+	        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
+	        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
+	    
+		}
+		st.print();
+		
+		if (readInt("Quitter? 0 = Oui, 1= Non")==0) {
+			try {
+				quit();
+			} catch (DAOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
     }
 
 
@@ -220,7 +201,27 @@ public class CLI {
 			//System.out.println("CompanyID: "+ x.getId()+ " CompanyName: "+x.getName());
 		}
 		st.print();
+		if (readInt("Quitter? 0 = Oui, 1= Non")==0) {
+			try {
+				quit();
+			} catch (DAOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
     }
+
+	public int readPage() {
+		System.out.println("Entrez la page à consulter");
+    	int id = sc.nextInt();
+    	return id;
+	}
+
+	public int readLimit() {
+		System.out.println("Entrez le nombre d'éléments par page");
+    	int id = sc.nextInt();
+    	return id;
+	}
 	
 
 }

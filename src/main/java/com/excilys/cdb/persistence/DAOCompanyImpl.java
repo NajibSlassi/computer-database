@@ -15,7 +15,7 @@ import com.excilys.cdb.model.Company;
 public class DAOCompanyImpl implements DAOCompany {
 	private DAOFactory daoFactory;
 	
-	private static final String SQL_SELECT_ALL_COMPANY = "SELECT id, name FROM company";
+	private static final String SQL_SELECT_ALL_COMPANY = "SELECT id, name FROM company ";
 	
 	private static Company mapCompany( ResultSet resultSet ) throws SQLException, ParseException {
 		DTOCompany dtoCompany = new DTOCompany();
@@ -31,7 +31,7 @@ public class DAOCompanyImpl implements DAOCompany {
 
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
     @Override
-    public List<Company> listCompany() throws DAOException, ParseException {
+    public List<Company> listCompany(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -41,7 +41,7 @@ public class DAOCompanyImpl implements DAOCompany {
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        connexion = daoFactory.getConnection();
-	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPANY, false);
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPANY+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {

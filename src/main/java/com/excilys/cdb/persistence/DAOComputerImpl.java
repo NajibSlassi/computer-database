@@ -17,7 +17,8 @@ public class DAOComputerImpl implements DAOComputer {
 		
 	private static DAOFactory daoFactory;
 	
-	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer";
+	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
+	
 	private static final String SQL_SELECT_PAR_ID = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?";
 	private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
@@ -44,7 +45,7 @@ public class DAOComputerImpl implements DAOComputer {
     }
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
     @Override
-    public List<Computer> listComputer() throws DAOException, ParseException {
+    public List<Computer> listComputer(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -54,9 +55,9 @@ public class DAOComputerImpl implements DAOComputer {
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        connexion = daoFactory.getConnection();
-	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPUTERS, false);
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPUTERS+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        /* Parcours de la ligne de donn�es de l'�ventuel ResulSet retourn� */
 	        while ( resultSet.next() ) {
 	            computer = mapComputer( resultSet );
 	            listComputers.add(computer);
@@ -109,7 +110,7 @@ public class DAOComputerImpl implements DAOComputer {
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId(),computer.getId());
 	        int statut = preparedStatement.executeUpdate();
 	        if ( statut == 0 ) {
-	            throw new DAOException( "Échec du changement de statut." );
+	            throw new DAOException( "�chec du changement de statut." );
 	        }
 	    } catch ( SQLException e ) {
 	        throw new DAOException( e );

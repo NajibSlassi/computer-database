@@ -10,6 +10,9 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOCompanyImpl;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.persistence.DAOFactory;
+import com.excilys.cdb.persistence.MySQLLimit;
+import com.excilys.cdb.persistence.MySQLOffset;
+import com.excilys.cdb.persistence.MySQLPage;
 
 public class ServiceCompany {
 	
@@ -29,13 +32,15 @@ public class ServiceCompany {
 		
 	/**
 	 * List all the company with pagination
+	 * @param j 
+	 * @param i 
 	 * @return the page of companies
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public List<DTOCompany> list() throws DAOException, ParseException{
+	public List<DTOCompany> list(int page, int limit) throws DAOException, ParseException{
 		List<DTOCompany> dtoCompanies = new ArrayList<DTOCompany>();
-		List<Company> companies = dao.listCompany();
+		List<Company> companies = dao.listCompany(new MySQLPage(new MySQLLimit(new MySQLOffset((page-1)*limit), limit),(page-1)*limit));
 		for(Company company:companies) {
 			dtoCompanies.add(MapperCompany.modelToDTO(company));
 		}

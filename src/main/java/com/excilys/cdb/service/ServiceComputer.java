@@ -10,6 +10,9 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOComputerImpl;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.persistence.DAOFactory;
+import com.excilys.cdb.persistence.MySQLLimit;
+import com.excilys.cdb.persistence.MySQLOffset;
+import com.excilys.cdb.persistence.MySQLPage;
 
 public class ServiceComputer {
 	
@@ -75,9 +78,9 @@ public class ServiceComputer {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public List<DTOComputer> list() throws DAOException, ParseException{
+	public List<DTOComputer> list(int offset, int limit) throws DAOException, ParseException{
 		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
-		List<Computer> computers = dao.listComputer();
+		List<Computer> computers = dao.listComputer(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
 		for(Computer computer:computers) {
 			dtoComputers.add(MapperComputer.modelToDTO(computer));
 		}
