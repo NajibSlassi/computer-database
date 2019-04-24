@@ -10,6 +10,7 @@ public class MapperCompany {
 	
 	
 	public static Company DTOToModel(DTOCompany dtoCompany) {
+		
 		return new Company(Long.parseLong(dtoCompany.getId()),dtoCompany.getName());
 	}
 

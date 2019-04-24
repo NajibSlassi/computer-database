@@ -44,7 +44,7 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		computer.setId(Long.valueOf(Optional.ofNullable(dtoComputer.getId()).orElseGet(() -> "-1")));
 		computer.setName( dtoComputer.getName());
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		computer.setIntroduced(dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15 08:00:00")));
 		computer.setDiscontinued( dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15 08:00:00")));

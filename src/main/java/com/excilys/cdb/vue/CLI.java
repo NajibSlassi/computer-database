@@ -45,9 +45,21 @@ public class CLI {
 
     private void showMenu() throws DAOException, ParseException {
         printMenu();
-        int m = sc.nextInt();
-        controller.sendToService(m) ;
-    }
+        boolean wenttocatch = false;
+        Scanner scan = new Scanner(System.in);
+        int m = 0;
+        do{
+            if(scan.hasNextInt()){
+                m = scan.nextInt();
+                wenttocatch = true;
+            }else{
+                scan.nextLine();
+                System.out.println("Entrez un entier valide");
+            }
+        }while(!wenttocatch);
+    
+        controller.sendToService(m);
+}
     
  
     private void printMenu() {
@@ -92,15 +104,17 @@ public class CLI {
     	System.out.println("Entrez l'id de l'ordinateur que vous voulez supprimer:");
 		Long id = sc.nextLong();
 		return id;
+		
     }
     
     public int readInt(String message) {
     	System.out.println(message);
+    	
     	int id = sc.nextInt();
     	return id;
     }
 
-    public void showComputerDetails(Computer computer) {
+    public void showComputerDetails(DTOComputer computer) {
 		
 		CommandLineTable st = new CommandLineTable();
 		//test code
@@ -109,19 +123,52 @@ public class CLI {
         st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID");//optional - if not used then there will be no header and horizontal lines
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         
-        st.addRow(Long.toString(computer.getId()), computer.getName(), dateFormat.format(computer.getIntroduced()),dateFormat.format(computer.getDiscontinued()),Long.toString(computer.getCompanyId()));
+        st.addRow(computer.getId(), computer.getName(), computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId());
 		st.print();
         //System.out.print("ComputerID: "+ computer.getId()+ "\n ComputerName: "+computer.getName()+"\n Date Introduced: " + computer.getIntroduced()+"\n Date Discontinued: " + computer.getDiscontinued()+"\n CompanyID: "+ computer.getCompanyId());
-		if (readInt("Quitter? 0 = Oui, 1= Non")==0) {
+		
+		quitProgram();
+		
+		
+    }
+    public void quitProgram() {
+    	boolean wenttocatch = false;
+        Scanner scan = new Scanner(System.in);
+        int m = 0;
+        do{
+        	System.out.println("Quitter? 0 = Oui, n'importe quel numéro = Non");
+            if(scan.hasNextInt()){
+                m = scan.nextInt();
+                wenttocatch = true;
+            }else{
+                scan.nextLine();
+                System.out.println("Entrez un entier valide");
+            }
+        }while(!wenttocatch);
+	
+		if (m==0) {
+			
 			try {
 				quit();
-			} catch (DAOException | ParseException | InputMismatchException e) {
+			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}else {
+			try {
+				run();
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		
     }
 
 
@@ -154,14 +201,14 @@ public class CLI {
 		dtoc1.setDiscontinued(discontinued);
 		return dtoc1;
     }
-    public void showComputers(List<Computer> l) {
+    public void showComputers(List<DTOComputer> l) {
     	
 		
 		
 		CommandLineTable st = new CommandLineTable();
 		
 		
-		for (Computer x:l) {
+		for (DTOComputer x:l) {
 			
 			//test code
 	        //st.setRightAlign(true);//if true then cell text is right aligned
@@ -169,20 +216,12 @@ public class CLI {
 	        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
 	        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 	        
-	        st.addRow(Long.toString(x.getId()), x.getName(), dateFormat.format(x.getIntroduced()),dateFormat.format(x.getDiscontinued()),Long.toString(x.getCompanyId()));
+	        st.addRow(x.getId(), x.getName(), x.getIntroduced(),x.getDiscontinued(),x.getCompanyId());
 	        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
 	    
 		}
 		st.print();
-		
-		if (readInt("Quitter? 0 = Oui, 1= Non")==0) {
-			try {
-				quit();
-			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		quitProgram();
 			
     }
 
@@ -201,14 +240,7 @@ public class CLI {
 			//System.out.println("CompanyID: "+ x.getId()+ " CompanyName: "+x.getName());
 		}
 		st.print();
-		if (readInt("Quitter? 0 = Oui, 1= Non")==0) {
-			try {
-				quit();
-			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		quitProgram();
     }
 
 	public int readPage() {
