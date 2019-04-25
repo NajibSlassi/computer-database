@@ -7,7 +7,7 @@ public class Company {
 	private Long id;
 	private String name;
 	
-	
+	public Company() {};
 	
 	public Company(Long id, String name) {
 		super();

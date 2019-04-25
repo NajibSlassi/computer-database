@@ -214,7 +214,6 @@ public class CLI {
 	        //st.setRightAlign(true);//if true then cell text is right aligned
 	        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
 	        st.setHeaders("ComputerID", "ComputerName", "Date Introduced","Date Discontinued","CompanyID:");//optional - if not used then there will be no header and horizontal lines
-	        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 	        
 	        st.addRow(x.getId(), x.getName(), x.getIntroduced(),x.getDiscontinued(),x.getCompanyId());
 	        //System.out.println("ComputerID: "+ x.getId()+ " ComputerName: "+x.getName()+" Date Introduced: " + x.getIntroduced()+" Date Discontinued: " + x.getDiscontinued()+" CompanyID: "+ x.getCompanyId());
@@ -229,15 +228,12 @@ public class CLI {
     public void showCompanies(List<Company> lc) {
     	CommandLineTable st = new CommandLineTable();
 		for (Company x:lc) {
-			//test code
-	        //st.setRightAlign(true);//if true then cell text is right aligned
 	        st.setShowVerticalLines(true);//if false (default) then no vertical lines are shown
 	        st.setHeaders("id", "CompanyName");//optional - if not used then there will be no header and horizontal lines
 	    
 	        
 	        st.addRow(Long.toString(x.getId()), x.getName());
 	        
-			//System.out.println("CompanyID: "+ x.getId()+ " CompanyName: "+x.getName());
 		}
 		st.print();
 		quitProgram();

@@ -1,29 +1,38 @@
 package com.excilys.cdb.mapper;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.when;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.persistence.DAOComputerImpl;
+
 
 public class MapperCompanyTest {
+	
+    private MapperCompany converterRegisterUserDto;
+    private DTOCompany registerUserDto;
 
-	@Before
-	public void setUp() throws Exception {
-	}
+    @Before
+    void init(){
+        converterRegisterUserDto = new MapperCompany();
+        DTOCompany dto = new DTOCompany();
+    }
 
-	@After
-	public void tearDown() throws Exception {
-	}
+    private DTOCompany getSampleDtoCompany(){
+        DTOCompany registerUserDto = new DTOCompany();
+        registerUserDto.setId("1");
+        registerUserDto.setName("Excilys");
+        return registerUserDto;
+    }
 
-	@Test
-	public void testModelToDTO() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDTOToModel() {
-		fail("Not yet implemented");
-	}
 
 }

@@ -10,9 +10,9 @@ public class MapperComputer {
 static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
 	/**
-	 * Map a model Computer to his DTO
+	 * Converti un objet Model Computer en DTOComputer
 	 * @param computer
-	 * @return the corresponding DTO
+	 * @return un objet DTOComputer
 	 */
 	public static DTOComputer modelToDTO(Computer computer) {
 		String id = Long.toString(computer.getId());
@@ -46,9 +46,9 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	}
 	
 	/**
-	 * Map a DTO Computer to his model
+	 * Converti un DTOComputer en Model
 	 * @param computer
-	 * @return the corresponding model
+	 * @return Le model qui est un objet Computer
 	 * @throws ParseException 
 	 */
 	public static Computer DTOToModel(DTOComputer dtoComputer) throws ParseException {

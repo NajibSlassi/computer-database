@@ -30,6 +30,13 @@ public class DAOCompanyImpl {
     }
 
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
+	/**
+	 * 
+	 * @param pagination
+	 * @return
+	 * @throws DAOException
+	 * @throws ParseException
+	 */
     public List<Company> listCompany(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
