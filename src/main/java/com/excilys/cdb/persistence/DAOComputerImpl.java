@@ -27,8 +27,6 @@ public class DAOComputerImpl{
 
 	private static Computer mapComputer( ResultSet resultSet ) throws SQLException, ParseException {
 		DTOComputer dtoComputer = new DTOComputer();
-		
-
 		dtoComputer.setId( Long.toString(resultSet.getLong( "id" )) );
 		dtoComputer.setName( resultSet.getString( "name" ) );
 		dtoComputer.setIntroduced( resultSet.getString( "introduced" ) );
@@ -43,7 +41,7 @@ public class DAOComputerImpl{
 	public DAOComputerImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
     }
-    /* ImplÃ©mentation de la mÃ©thode listCompany() dÃ©finie dans l'interface DAOCompany */
+    /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
     public List<Computer> listComputer(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
@@ -52,7 +50,7 @@ public class DAOComputerImpl{
 	    List<Computer> listComputers= new LinkedList<Computer>();
 
 	    try {
-	        /* RÃ©cupÃ©ration d'une connexion depuis la Factory */
+	        /* Récupération d'une connexion depuis la Factory */
 	        connexion = daoFactory.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPUTERS+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();

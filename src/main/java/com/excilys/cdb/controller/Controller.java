@@ -4,16 +4,19 @@ import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperCompany;
-import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
 import com.excilys.cdb.vue.CLI;
+
+
 
 public class Controller {
 	
@@ -32,6 +35,8 @@ public class Controller {
 	private ServiceCompany serviceCompany = ServiceCompany.getInstance();
 	private ServiceComputer serviceComputer = ServiceComputer.getInstance();
 	CLI cli = CLI.getInstance();
+	private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
+			     
 	
 	/**
 	 * reçoit le choix de l'utilisateur et communique avec le service adéquat pour répondre au besoin
@@ -40,9 +45,9 @@ public class Controller {
 	 * @throws DAOException 
 	 */
 	public void sendToService(int choice) throws DAOException, ParseException {
-		
 		switch(choice) {
 		case 0:
+			
 			cli.quit();
 			break;
 		case 1:
@@ -64,9 +69,12 @@ public class Controller {
 			cli.showCompanies(c);
 			break;
 		case 3:
-			cli.showComputerDetails(serviceComputer.find(cli.readInt("Entrez l'id de l'ordinateur à consulter")));
+			int consulter =cli.readInt("Entrez l'id de l'ordinateur à consulter");
+			LOGGER.info("id de l'ordinateur choisi par l'utilisateur: "+consulter);
+			cli.showComputerDetails(serviceComputer.find(consulter));
 			break;
 		case 4:
+			
 			serviceComputer.insert(cli.createComputer());
 			break;
 		case 5:

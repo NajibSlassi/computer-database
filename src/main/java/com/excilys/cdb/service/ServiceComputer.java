@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
@@ -13,12 +15,19 @@ import com.excilys.cdb.persistence.DAOFactory;
 import com.excilys.cdb.persistence.MySQLLimit;
 import com.excilys.cdb.persistence.MySQLOffset;
 import com.excilys.cdb.persistence.MySQLPage;
+import com.excilys.cdb.vue.CLI;
+
+import ch.qos.logback.classic.Logger;
 
 public class ServiceComputer {
 	
 	private ServiceComputer() {}
+	
+	
 		
 	private static ServiceComputer INSTANCE = null;
+	
+	
 	
 	public static ServiceComputer getInstance()
     {           
@@ -29,6 +38,8 @@ public class ServiceComputer {
     }
 	
 	DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
+	
+	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(ServiceComputer.class);
 
 	/**
 	 * Insert a new computer
@@ -69,7 +80,16 @@ public class ServiceComputer {
 	 * @throws ComputerNotFoundException if not found
 	 */
 	public DTOComputer find(int id) throws DAOException, ParseException {
-		return MapperComputer.modelToDTO(dao.showComputer(id));
+		Computer computer = null;
+		DTOComputer dtoComputer = null;
+		computer =dao.showComputer(id);
+		try {
+			dtoComputer = MapperComputer.modelToDTO(computer);
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			LOGGER.warn("L'id de l'ordinateur cherché par l'utilisateur ("+id+") n'existe pas dans la base de données "+ e);
+		}
+		return (dtoComputer);
 	}
 	
 	/**

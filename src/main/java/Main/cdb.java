@@ -12,7 +12,7 @@ public class cdb{
 	private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
 
 	public static void doSomething() {
-	      LOGGER.info("a test message");
+	      LOGGER.info("Lancement du programme");
 	  }
 
 	public static void main(String[] args) throws ParseException {
