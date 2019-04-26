@@ -52,17 +52,16 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	 * @throws ParseException 
 	 */
 	public static Computer DTOToModel(DTOComputer dtoComputer) throws ParseException {
-		Computer computer=new Computer();
-		computer.setId(Long.valueOf(Optional.ofNullable(dtoComputer.getId()).orElseGet(() -> "-1")));
-		computer.setName( dtoComputer.getName());
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
-		computer.setIntroduced(dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15 08:00:00")));
-		computer.setDiscontinued( dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15 08:00:00")));
-		computer.setCompanyId(Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1")));
-		
-		return computer;
+		return new Computer(
+				Long.valueOf(Optional.ofNullable(dtoComputer.getId()).orElseGet(() -> "-1")),
+				dtoComputer.getName(),
+				dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15 08:00:00")),
+				dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15 08:00:00")),
+				Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1"))
+				);
 	}
 
 }
