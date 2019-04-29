@@ -72,7 +72,11 @@ public class DAOFactory {
      * Méthodes de récupération de l'implémentation des différents DAO (un seul
      * pour le moment)
      */
+    
     public DAOCompanyImpl getDAOCompany() {
     	return new DAOCompanyImpl(this);
+    }
+    public DAOComputerImpl getDAOComputer() {
+    	return new DAOComputerImpl(this);
     }
 }

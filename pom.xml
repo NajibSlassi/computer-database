@@ -44,6 +44,17 @@
 			<version>1.2.3</version>
 		</dependency>
 		
+		<dependency>
+    		<groupId>javax.servlet</groupId>
+    		<artifactId>jstl</artifactId>
+    		<version>1.2</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>commons-digester</groupId>
+    		<artifactId>commons-digester</artifactId>
+    		<version>1.8</version>
+		</dependency>
 		
 		
 	</dependencies>

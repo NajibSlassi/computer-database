@@ -14,6 +14,7 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
+import com.excilys.cdb.validator.Validator;
 import com.excilys.cdb.vue.CLI;
 
 
@@ -74,11 +75,18 @@ public class Controller {
 			cli.showComputerDetails(serviceComputer.find(consulter));
 			break;
 		case 4:
-			
-			serviceComputer.insert(cli.createComputer());
+			DTOComputer computer = cli.createComputer();
+			if(new Validator().validateDTOComputer(computer)) {
+				serviceComputer.insert(computer);
+				
+			}
 			break;
+			
 		case 5:
-			serviceComputer.update(cli.updateComputer());
+			DTOComputer ucomputer= cli.updateComputer();
+			if(new Validator().validateDTOComputer(ucomputer)) {
+				serviceComputer.update(cli.updateComputer());
+			}
 			break;
 		case 6:
 			serviceComputer.delete(cli.deleteComputer());

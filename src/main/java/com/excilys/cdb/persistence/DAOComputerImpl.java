@@ -78,7 +78,7 @@ public class DAOComputerImpl{
 	        connexion = daoFactory.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompanyId() );
 	        int statut = preparedStatement.executeUpdate();
-	        /* Analyse du statut retourné par la requête d'insertion */
+	        /* Analyse du statut retourn� par la requ�te d'insertion */
 	        if ( statut == 0 ) {
 	            throw new DAOException( "Échec de la création du computer, aucune ligne ajoutée dans la table." );
 	        }
