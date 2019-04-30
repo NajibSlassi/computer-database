@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.DAOComputerImpl;
+import com.excilys.cdb.persistence.DAOFactory;
 import com.excilys.cdb.vue.CLI;
 
 public class cdb{
@@ -19,22 +21,10 @@ public class cdb{
 	  }
 
 	public static void main(String[] args) throws ParseException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		DTOComputer dtoComputer=new DTOComputer("1","Excilys","2012-11-11","2012-12-11","2");
-		Computer computer = new Computer();
-		try {
-			computer.setId(Long.valueOf(1));
-			computer.setName("Excilys");
-			computer.setIntroduced(dateFormat.parse("2012-11-11"));
-			computer.setDiscontinued(dateFormat.parse("2012-12-11"));
-			computer.setCompanyId(Long.valueOf(2));
-		} catch (ParseException e) {
-			
-		}
-		System.out.print(computer.toString());
 		
-		//doSomething();
-		//final CLI cli = new CLI();
-        //cli.run();
+		DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
+		doSomething();
+		final CLI cli = new CLI();
+        cli.run();
 	}}
 		

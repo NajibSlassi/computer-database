@@ -17,6 +17,7 @@ public class DAOComputerImpl{
 		
 	private static DAOFactory daoFactory;
 	
+	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
 	
 	private static final String SQL_SELECT_PAR_ID = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?";
@@ -156,8 +157,28 @@ public class DAOComputerImpl{
 		    } finally {
 		        UtilitaireDAO.fermeturesSilencieuses( preparedStatement, connexion );
 		    }
-	
-	
-}
-	
+	}
+	public long count() {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    long nb = 0;
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_COUNT, false);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            nb = resultSet.getLong("count");
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return nb;
+    }
 }

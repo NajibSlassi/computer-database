@@ -15,7 +15,7 @@ import com.excilys.cdb.persistence.DAOFactory;
 import com.excilys.cdb.persistence.MySQLLimit;
 import com.excilys.cdb.persistence.MySQLOffset;
 import com.excilys.cdb.persistence.MySQLPage;
-import com.excilys.cdb.vue.CLI;
+
 
 import ch.qos.logback.classic.Logger;
 
@@ -106,5 +106,14 @@ public class ServiceComputer {
 		}
 		return dtoComputers;
 	}
+	public long count() {
+        try {
+            return dao.count();
+        } catch (DAOException e) {
+            LOGGER.warn("count()", e);
+        }
+        return 0;
+    }
+
 
 }
