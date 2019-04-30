@@ -89,17 +89,17 @@
         <ul class="pagination">
             <c:if test="${not empty previous}">
                 <li><a aria-label="Previous"
-                       onclick="goToPage(${previous},${size})"> <span
+                       onclick="window.location.href='dashboard?page='+${previous}+'&size='+${size}"> <span
                         aria-hidden="true">&laquo;</span>
                 </a></li>
             </c:if>
 
             <c:forEach var="page" items="${pages}">
-                <li><a onclick="goToPage(${page},${size})">${page}</a></li>
+                <li><a onclick="window.location.href='dashboard?page='+${page}+'&size='+${size}">${page}</a></li>
             </c:forEach>
 
             <c:if test="${not empty next}">
-                <li><a aria-label="Next" onclick="goToPage(${next},${size})">
+                <li><a aria-label="Next" onclick="window.location.href='dashboard?page='+${next}+'&size='+${size}">
                     <span aria-hidden="true">&raquo;</span>
                 </a></li>
             </c:if>
@@ -107,13 +107,13 @@
 
         <div class="btn-group btn-group-sm pull-right" role="group">
             <button type="button" class="btn btn-default"
-                    onclick="goToPage(${current},10)">10
+                    onclick="window.location.href='dashboard?page='+${current}+'&size=10'">10
             </button>
             <button type="button" class="btn btn-default"
-                    onclick="goToPage(${current},50)">50
+                    onclick="window.location.href='dashboard?page='+${current}+'&size=50'">50
             </button>
             <button type="button" class="btn btn-default"
-                    onclick="goToPage(${current},100)">100
+                    onclick="window.location.href='dashboard?page='+${current}+'&size=100'">100
             </button>
         </div>
     </div>

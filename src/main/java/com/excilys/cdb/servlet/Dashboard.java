@@ -111,7 +111,7 @@ public class Dashboard extends HttpServlet {
 
     private void redirectToPageNumber(HttpServletResponse response, long pageNumber, long pageSize) throws IOException {
         response.sendRedirect("dashboard?page=" + pageNumber + "&size=" + pageSize);
-    }
+    }				
 
     private void setPaggingParameters(HttpServletRequest request, long pageCurrent, long numberOfEntities, long pageSize) {
         setPreviousPage(request, pageCurrent);
