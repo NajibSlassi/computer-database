@@ -32,7 +32,7 @@
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="addComputer">Add
+                <a class="btn btn-success" id="addComputer" href="addcomputer">Add
                     Computer</a> <a class="btn btn-default" id="editComputer" href="#"
                                     onclick="$.fn.toggleEditMode();">Edit</a>
             </div>
@@ -75,7 +75,7 @@
                     <td><a href="editComputer.html" onclick="">${computer.getName()}</a></td>
                     <td>${computer.getIntroduced()}</td>
                     <td>${computer.getDiscontinued()}</td>
-                    <td>${computer.getName()}</td>
+                    <td>${computer.getCompanyId()}</td>
 
                 </tr>
             </c:forEach>
