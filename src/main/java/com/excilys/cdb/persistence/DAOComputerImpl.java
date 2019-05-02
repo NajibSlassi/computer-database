@@ -25,6 +25,7 @@ public class DAOComputerImpl{
 	private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
+	private static final String SQL_MAX_ID ="SELECT MAX(id) AS LastID FROM computer";
 
 
 	private static Computer mapComputer( ResultSet resultSet ) throws SQLException, ParseException {
@@ -182,4 +183,27 @@ public class DAOComputerImpl{
 
 	    return nb;
     }
+	public long maxId() {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    long nb = 0;
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_MAX_ID, false);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            nb = resultSet.getLong("LastID");
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return nb;
+	}
 }
