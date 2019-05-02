@@ -8,6 +8,15 @@
 <link href="ressources/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="ressources/css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="ressources/css/main.css" rel="stylesheet" media="screen">
+
+<script src="${pageContext.request.contextPath}/ressources/js/jquery-340.js"></script>
+<script src="${pageContext.request.contextPath}/ressources/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/ressources/js/jquery.validate.min.js"></script>
+<script src="${pageContext.request.contextPath}/ressources/js/dashboard.js"></script>
+
+
+
+
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -21,7 +30,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="addcomputer" method="POST">
+                    <form id="monFormulaire" action="addcomputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -29,11 +38,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="text" name="introduced" class="form-control" id="introduced" placeholder="Introduced date">
+                                <input type="date" name="introduced" class="form-control" id="introduced" placeholder="Introduced date">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="text" name="discontinued" class="form-control" id="discontinued" placeholder="Discontinued date">
+                                <input type="date" name="discontinued" class="form-control" id="discontinued" placeholder="Discontinued date">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>

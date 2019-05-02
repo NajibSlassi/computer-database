@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -77,11 +78,11 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        connexion = daoFactory.getConnection();
-	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompanyId() );
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_INSERT, true, computer.getName(), new Date(computer.getIntroduced().getTime() + 3600*1000), new Date(computer.getDiscontinued().getTime() + 3600*1000), computer.getCompanyId() );
 	        int statut = preparedStatement.executeUpdate();
 	        /* Analyse du statut retourn� par la requ�te d'insertion */
 	        if ( statut == 0 ) {
-	            throw new DAOException( "Échec de la création du computer, aucune ligne ajoutée dans la table." );
+	            throw new DAOException( "Echec de la cr�ation du computer, aucune ligne ajout�e dans la table." );
 	        }
 	        /* Récupération de l'id auto-généré par la requête d'insertion */
 	        valeursAutoGenerees = preparedStatement.getGeneratedKeys();
@@ -89,7 +90,7 @@ public class DAOComputerImpl{
 	            /* Puis initialisation de la propriété id du bean Utilisateur avec sa valeur */
 	            computer.setId( valeursAutoGenerees.getLong( 1 ) );
 	        } else {
-	            throw new DAOException( "Échec de la création de l'ordinateur en base, aucun ID auto-généré retourné." );
+	            throw new DAOException( "Échec de la création de l'ordinateur en base, aucun ID auto-g�n�r� retourn�." );
 	        }
 	    } catch ( SQLException e ) {
 	        throw new DAOException( e );

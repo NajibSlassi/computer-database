@@ -88,7 +88,54 @@ $(document).keydown(function (e) {
             break;
     }
 });
+//=============Added by me=================
+jQuery(document).ready(function() {
+	   jQuery("#monFormulaire").validate({
+	      rules: {
+	         computerName:{
+	            "required": true,
+	         },
+	         "introduced": {
+	            usedFormat: true
+	         },
+	         "discontinued": {
+		            usedFormat: true
+		         },
+		     "companyId":{
+		    	 digits: true,
+		    	 required:false
+		     }
+	   
+	      }})});
 
+jQuery.extend(jQuery.validator.messages, {
+    required: "Ce champs est requis",
+    remote: "votre message",
+    url: "votre message",
+    date: "votre message",
+    dateISO: "votre message",
+    number: "yawld l97ba",
+    digits: "Seulement les chiffres sont autorisés",
+    creditcard: "votre message",
+    equalTo: "votre message",
+    accept: "votre message",
+    maxlength: jQuery.validator.format("votre message {0} caractéres."),
+    minlength: jQuery.validator.format("votre message {0} caractéres."),
+    rangelength: jQuery.validator.format("votre message  entre {0} et {1} caractéres."),
+    range: jQuery.validator.format("votre message  entre {0} et {1}."),
+    max: jQuery.validator.format("votre message  inférieur ou égal à {0}."),
+    min: jQuery.validator.format("votre message  supérieur ou égal à {0}.")
+  });
+
+$.validator.addMethod(
+	    "usedFormat",
+	    function(value, element) {
+	        // put your own logic here, this is just a (crappy) example
+	        return value.match(/^\d{4}-\d{2}-\d{2}$/);
+	    },
+	    "Please enter a date in the format yyyy-mm-dd."
+	);
+//=============Added by me=================
 
 function goToPage(index,size){
 	window.location.href="window.location.href='dashboard?page='+${current}+'&size='+size";

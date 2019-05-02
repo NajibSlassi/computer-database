@@ -50,6 +50,7 @@ public class ServiceComputer {
 	 */
 	public void insert(DTOComputer computer) throws IllegalArgumentException, DAOException, ParseException{
 		dao.createComputer(MapperComputer.DTOToModel(computer));
+		LOGGER.info("ordinateur créé : " +MapperComputer.DTOToModel(computer).toString());
 	}
 	
 	/**

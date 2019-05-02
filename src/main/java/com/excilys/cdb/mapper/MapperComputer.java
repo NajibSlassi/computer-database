@@ -58,8 +58,8 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		return new Computer(
 				Long.valueOf(Optional.ofNullable(dtoComputer.getId()).orElseGet(() -> "-1")),
 				dtoComputer.getName(),
-				dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15 08:00:00")),
-				dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15 08:00:00")),
+				dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15")),
+				dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15")),
 				Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1"))
 				);
 	}

@@ -195,12 +195,12 @@ public class CLI {
     	sc = new Scanner(System.in);
 		String name = sc.nextLine();
 		LOGGER.info("nom saisi par l'utilisateur: " +name);
-		System.out.println("Entrez la date d'introduction de l'ordinateur:");
+		System.out.println("Entrez la date d'introduction de l'ordinateur sous ce format yyyy-mm-dd:");
 		sc = new Scanner(System.in);
 		String introduced= sc.nextLine();
 		LOGGER.info("date d'introduction saisi par l'utilisateur: " +introduced);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateIntro = dateFormat.parse(introduced);
 		
 		System.out.println("Entrez la date de sortie de l'ordinateur:");

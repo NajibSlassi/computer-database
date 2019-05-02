@@ -79,7 +79,7 @@ public class Controller {
 			if(new Validator().validateDTOComputer(computer)) {
 				serviceComputer.insert(computer);
 				
-			}
+			}else LOGGER.warn("Les données entrées sont incorrectes");
 			break;
 			
 		case 5:
