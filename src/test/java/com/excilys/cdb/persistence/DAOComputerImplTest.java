@@ -116,5 +116,24 @@ public class DAOComputerImplTest {
         
     }
     
+    @Test
+    public void testUpdateComputer() {
+    	DAOComputerImpl instance = new DAOComputerImpl(DAOFactory.getInstance());
+        Computer computer = null;
+		try {
+			computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","1"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		instance.updateComputer(computer);
+		long id= instance.maxId();
+        instance.deleteComputer(id);
+        long expected= id-1;
+        long actual = instance.maxId();
+        
+        assertEquals("L'élément n'est pas supprimé", expected, actual);
+    }
+    
     
 }

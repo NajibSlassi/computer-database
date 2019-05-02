@@ -54,6 +54,15 @@
                             or
                             <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>
+                        <div class="actions pull-right">
+                        <c:forEach items="${al}" var="current">
+	                        <c:if test="${(not empty current)}">
+	                        	<div class="alert alert-danger" role="alert">
+	                        		<strong>${current}</strong>
+	                    		</div>
+	            			</c:if>
+	            		</c:forEach>
+                        </div>
                     </form>
                 </div>
             </div>
