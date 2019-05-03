@@ -8,6 +8,7 @@ public class DTOComputer {
 	private String companyId;
 	
 	public DTOComputer() {};
+	
 	public DTOComputer(String name){
 		this.id="-1";
 		this.name = name;

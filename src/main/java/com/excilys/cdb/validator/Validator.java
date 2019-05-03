@@ -32,8 +32,9 @@ public class Validator {
 			e.printStackTrace();
 		}
 		
-		if (discontinued.after(introduced)){
-			al.add("date introduction supérieur à date de sortie");}
+		if (introduced.after(discontinued)){ 
+			al.add("date introduction supérieur à date de sortie");
+			}
 		
 		return al;
 	}

@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
 import com.excilys.cdb.validator.Validator;
+import com.excilys.cdb.vue.CLI;
 
 /**
  * Servlet implementation class AddComputer
@@ -25,6 +29,8 @@ public class AddComputer extends HttpServlet {
     private static final String INTRO_ERROR = "date introduction requise";
     private static final String DISC_ERROR = "date sortie requise";
     private static final String INTRO_UNDER_DISC ="date introduction supérieur à date de sortie";
+    
+    private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
 	Validator validator=new Validator();
 	
 
@@ -49,7 +55,7 @@ public class AddComputer extends HttpServlet {
 				request.getParameter("introduced"),
 				request.getParameter("discontinued"),
 				request.getParameter("companyId"));
-		
+		LOGGER.info(dtoComputer.toString());
 		if (validator.validateDTOComputer(dtoComputer).size()==0) {
 			try {
 				ServiceComputer.getInstance().insert(dtoComputer);

@@ -76,7 +76,7 @@ public class Controller {
 			break;
 		case 4:
 			DTOComputer computer = cli.createComputer();
-			if(new Validator().validateDTOComputer(computer)) {
+			if(new Validator().validateDTOComputer(computer).size()==0) {
 				serviceComputer.insert(computer);
 				
 			}else LOGGER.warn("Les données entrées sont incorrectes");
@@ -84,7 +84,7 @@ public class Controller {
 			
 		case 5:
 			DTOComputer ucomputer= cli.updateComputer();
-			if(new Validator().validateDTOComputer(ucomputer)) {
+			if(new Validator().validateDTOComputer(ucomputer).size()==0) {
 				serviceComputer.update(cli.updateComputer());
 			}
 			break;
