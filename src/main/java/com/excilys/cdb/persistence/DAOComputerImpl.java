@@ -1,6 +1,5 @@
 package com.excilys.cdb.persistence;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,11 +14,10 @@ import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 
 
-
 public class DAOComputerImpl{
 		
 	private static DAOFactory daoFactory;
-	private static DataSource dataSoure;
+	private static DataSource dataSource;
 	
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
@@ -58,9 +56,8 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	
-	        connexion = DataSource.getConnection();
-	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPUTERS+pagination.getPagination(), false);
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPUTERS+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {

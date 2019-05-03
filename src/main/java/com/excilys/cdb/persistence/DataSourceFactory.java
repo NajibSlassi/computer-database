@@ -3,35 +3,43 @@ package com.excilys.cdb.persistence;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+public class DataSourceFactory {
 
-public class DataSource {
-	 
-    private static HikariConfig config = new HikariConfig();
-    private static HikariDataSource ds;
-    
     private static final String FICHIER_PROPERTIES       = "com/excilys/cdb/persistence/datasource.properties";
     private static final String PROPERTY_URL             = "jdbcUrl";
+    private static final String PROPERTY_DRIVER          = "driver";
     private static final String PROPERTY_NOM_UTILISATEUR = "dataSource.user";
     private static final String PROPERTY_MOT_DE_PASSE    = "dataSource.password";
     private static final String PROPERTY_CACHE_PS = "dataSource.cachePrepStmts";
     private static final String PROPERTY_PS_CACHE_SIZE="dataSource.prepStmtCacheSize";
     private static final String PROPERTY_PS_CACHE_SQL_LIMITE="dataSource.prepStmtCacheSqlLimit";
+    private String              url;
+    private String              username;
+    private String              password;
+    private String              cachPS;
+    private String              cacheSize;
+    private String              sqlLimit;
 
-    static {
-    	/*
-    	config.setJdbcUrl( "jdbc:mysql://localhost:3306/computer-database-db?serverTimezone=UTC" );
-        config.setUsername( "root" );
-        config.setPassword( "1234" );
-        config.addDataSourceProperty( "cachePrepStmts" , "true" );
-        config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-        config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-    	 */
-    	Properties properties = new Properties();
+    DataSourceFactory( String url, String username, String password, String cachPS,String cacheSize, String sqlLimit) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+        this.cachPS=cachPS;
+        this.cacheSize=cacheSize;
+        this.sqlLimit=sqlLimit;
+        
+    }
+    
+    /*
+     * MÈthode chargÈe de rÈcupÈrer les informations de connexion ‡† la base de
+     * donnÈes, charger le driver JDBC et retourner une instance de la Factory
+     */
+    public static DataSourceFactory getInstance() throws DAOConfigurationException {
+        Properties properties = new Properties();
         String url;
         String nomUtilisateur;
         String motDePasse;
@@ -58,13 +66,20 @@ public class DataSource {
         } catch ( IOException e ) {
             throw new DAOConfigurationException( "Impossible de charger le fichier properties " + FICHIER_PROPERTIES, e );
         }
-        config = new HikariConfig( properties );
-        ds = new HikariDataSource( config );
+
+        DataSourceFactory instance = new DataSourceFactory( url, nomUtilisateur, motDePasse,cachPS,cachSize, sqlLimit);
+        return instance;
     }
- 
-    private DataSource() {}
- 
-    public static Connection getConnection() throws SQLException {
-        return ds.getConnection();
+
+    /* M√©thode charg√©e de fournir une connexion √† la base de donn√©es */
+     /* package */ Connection getConnection() throws SQLException {
+        return DriverManager.getConnection( url, username, password );
     }
+
+    /*
+     * M√©thodes de r√©cup√©ration de l'impl√©mentation des diff√©rents DAO 
+     */
+    
+    
+    
 }
