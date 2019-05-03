@@ -27,7 +27,7 @@ public class DAOComputerImpl{
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
 	private static final String SQL_MAX_ID ="SELECT MAX(id) AS LastID FROM computer";
-	private static final String SQL_FIND_ID ="SELECT id FROM computer WHERE name= ?, introduced = ?, discontinued = ?, company_id=?";
+	private static final String SQL_FIND_ID ="SELECT id FROM computer WHERE name= ? AND introduced = ? AND discontinued = ? AND company_id = ?";
 	
 
 
@@ -216,11 +216,11 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        connexion = dataSource.getConnection();
-	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_ID, false, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId());
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_ID, false, computer.getName(),new Date(computer.getIntroduced().getTime() + 3600*1000), new Date(computer.getDiscontinued().getTime() + 3600*1000),computer.getCompanyId());
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
-	            nb = resultSet.getLong("count");
+	            nb = resultSet.getLong("id");
 	        }
 	    } catch ( SQLException e ) {
 	        throw new DAOException( e );
