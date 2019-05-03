@@ -37,7 +37,7 @@ public class ServiceComputer {
         return INSTANCE;
     }
 	
-	DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
+	DAOComputerImpl dao = new DAOComputerImpl();
 	
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(ServiceComputer.class);
 
@@ -116,5 +116,13 @@ public class ServiceComputer {
         return 0;
     }
 
+	public long findId(DTOComputer dtoComputer) {
+        try {
+            return dao.findId(MapperComputer.DTOToModel(dtoComputer));
+        } catch (DAOException | ParseException e) {
+            LOGGER.warn("une erreur est survenu lors de la recherche du computer", e);
+        }
+        return -1;
+    }
 
 }

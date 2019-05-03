@@ -23,14 +23,7 @@ public class DataSource {
     private static final String PROPERTY_PS_CACHE_SQL_LIMITE="dataSource.prepStmtCacheSqlLimit";
 
     static {
-    	/*
-    	config.setJdbcUrl( "jdbc:mysql://localhost:3306/computer-database-db?serverTimezone=UTC" );
-        config.setUsername( "root" );
-        config.setPassword( "1234" );
-        config.addDataSourceProperty( "cachePrepStmts" , "true" );
-        config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-        config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-    	 */
+    	
     	Properties properties = new Properties();
         String url;
         String nomUtilisateur;

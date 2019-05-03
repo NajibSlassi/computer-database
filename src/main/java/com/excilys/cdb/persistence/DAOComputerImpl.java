@@ -16,7 +16,7 @@ import com.excilys.cdb.model.Computer;
 
 public class DAOComputerImpl{
 		
-	private static DAOFactory daoFactory;
+	
 	private static DataSource dataSource;
 	
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
@@ -27,6 +27,8 @@ public class DAOComputerImpl{
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
 	private static final String SQL_MAX_ID ="SELECT MAX(id) AS LastID FROM computer";
+	private static final String SQL_FIND_ID ="SELECT id FROM computer WHERE name= ?, introduced = ?, discontinued = ?, company_id=?";
+	
 
 
 	private static Computer mapComputer( ResultSet resultSet ) throws SQLException, ParseException {
@@ -42,9 +44,6 @@ public class DAOComputerImpl{
 		dtoComputer.setCompanyId(strValue1);
 	    return MapperComputer.DTOToModel(dtoComputer);}
 	    
-	public DAOComputerImpl( DAOFactory daoFactory ) {
-        this.daoFactory = daoFactory;
-    }
     /* Impl�mentation de la m�thode listCompany() d�finie dans l'interface DAOCompany */
     public List<Computer> listComputer(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
@@ -80,7 +79,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_INSERT, true, computer.getName(), new Date(computer.getIntroduced().getTime() + 3600*1000), new Date(computer.getDiscontinued().getTime() + 3600*1000), computer.getCompanyId() );
 	        int statut = preparedStatement.executeUpdate();
 	        /* Analyse du statut retourn� par la requ�te d'insertion */
@@ -103,11 +102,11 @@ public class DAOComputerImpl{
 	}
 
 	public void updateComputer(Computer computer) throws DAOException {
-		// TODO Auto-generated method stub
+		
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    try {
-	        connexion = daoFactory.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId(),computer.getId());
 	        int statut = preparedStatement.executeUpdate();
 	        if ( statut == 0 ) {
@@ -129,7 +128,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_PAR_ID, false, id );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -150,7 +149,7 @@ public class DAOComputerImpl{
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    try {
-	        connexion = daoFactory.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_DELETE, true, id);
 	        int statut = preparedStatement.executeUpdate();
 	        if ( statut == 0 ) {
@@ -170,7 +169,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_COUNT, false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -193,7 +192,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_MAX_ID, false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -208,4 +207,27 @@ public class DAOComputerImpl{
 
 	    return nb;
 	}
+	public long findId(Computer computer) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    long nb = 0;
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = dataSource.getConnection();
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_ID, false, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId());
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            nb = resultSet.getLong("count");
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return nb;
+    }
 }

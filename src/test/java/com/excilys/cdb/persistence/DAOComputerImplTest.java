@@ -74,7 +74,7 @@ public class DAOComputerImplTest {
     @Test
     public void testCreateWithNoExceptions() throws SQLException {
 
-        DAOComputerImpl instance = new DAOComputerImpl(DAOFactory.getInstance());
+        DAOComputerImpl instance = new DAOComputerImpl();
         Computer computer = null;
 		try {
 			computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","1"));
@@ -98,7 +98,7 @@ public class DAOComputerImplTest {
     }
     @Test
     public void testDeleteComputer() {
-    	DAOComputerImpl instance = new DAOComputerImpl(DAOFactory.getInstance());
+    	DAOComputerImpl instance = new DAOComputerImpl();
         Computer computer = null;
 		try {
 			computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","1"));
@@ -118,7 +118,7 @@ public class DAOComputerImplTest {
     
     @Test
     public void testUpdateComputer() {
-    	DAOComputerImpl instance = new DAOComputerImpl(DAOFactory.getInstance());
+    	DAOComputerImpl instance = new DAOComputerImpl();
         Computer computer = null;
 		try {
 			computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","1"));
