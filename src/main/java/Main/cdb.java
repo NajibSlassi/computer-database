@@ -21,13 +21,11 @@ public class cdb{
 	  }
 
 	public static void main(String[] args) throws ParseException {
-		/*
-		DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
+		
 		doSomething();
 		final CLI cli = new CLI();
         cli.run();
-        */
-		DAOComputerImpl dao = new DAOComputerImpl(DAOFactory.getInstance());
-		System.out.print(dao.maxId());
+        
+		
 	}}
 		

@@ -1,0 +1,4 @@
+224  [main] INFO  com.excilys.cdb.vue.CLI - Lancement du programme
+3770 [main] INFO  com.excilys.cdb.vue.CLI - Action choisie par l'utilisateur: 1
+8420 [main] INFO  com.excilys.cdb.vue.CLI - Page demandé par l'utilisateur: 3
+10608 [main] INFO  com.excilys.cdb.vue.CLI - Elements par page deemandés par l'utilisateur: 100

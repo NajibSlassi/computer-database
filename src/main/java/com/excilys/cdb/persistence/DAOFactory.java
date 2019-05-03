@@ -26,8 +26,8 @@ public class DAOFactory {
     }
     
     /*
-     * Méthode chargée de r�cupérer les informations de connexion à la base de
-     * données, charger le driver JDBC et retourner une instance de la Factory
+     * M�thode charg�e de r�cup�rer les informations de connexion � la base de
+     * donn�es, charger le driver JDBC et retourner une instance de la Factory
      */
     public static DAOFactory getInstance() throws DAOConfigurationException {
         Properties properties = new Properties();
@@ -69,8 +69,7 @@ public class DAOFactory {
     }
 
     /*
-     * Méthodes de récupération de l'implémentation des différents DAO (un seul
-     * pour le moment)
+     * Méthodes de récupération de l'implémentation des différents DAO 
      */
     
     public DAOCompanyImpl getDAOCompany() {

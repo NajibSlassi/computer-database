@@ -1,0 +1,5 @@
+202  [main] INFO  com.excilys.cdb.vue.CLI - Lancement du programme
+5551 [main] INFO  com.excilys.cdb.vue.CLI - Action choisie par l'utilisateur: 3
+9622 [main] INFO  com.excilys.cdb.vue.CLI - id de l'ordinateur choisi par l'utilisateur: 5
+10384 [main] DEBUG com.excilys.cdb.vue.CLI - Affichage des détails d'un ordinateur...: 
+25072 [main] INFO  com.excilys.cdb.vue.CLI - Fermeture de l'application

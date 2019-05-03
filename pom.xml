@@ -64,6 +64,36 @@
     		<version>1.8</version>
 		</dependency>
 		
+		<dependency>
+    		<groupId>com.zaxxer</groupId>
+    		<artifactId>HikariCP</artifactId>
+    		<version>2.6.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.codahale.metrics/metrics-core -->
+		<dependency>
+		    <groupId>com.codahale.metrics</groupId>
+		    <artifactId>metrics-core</artifactId>
+		    <version>3.0.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.codahale.metrics/metrics-healthchecks -->
+		<dependency>
+		    <groupId>com.codahale.metrics</groupId>
+		    <artifactId>metrics-healthchecks</artifactId>
+		    <version>3.0.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.typesafe/config -->
+		<dependency>
+		    <groupId>com.typesafe</groupId>
+		    <artifactId>config</artifactId>
+		    <version>1.2.1</version>
+		</dependency>
+		
+		
+		
+		
+		
 	</dependencies>
 
 	<build>
