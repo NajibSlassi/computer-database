@@ -52,6 +52,7 @@ public class DataSource {
             throw new DAOConfigurationException( "Impossible de charger le fichier properties " + FICHIER_PROPERTIES, e );
         }
         config = new HikariConfig( properties );
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds = new HikariDataSource( config );
     }
  

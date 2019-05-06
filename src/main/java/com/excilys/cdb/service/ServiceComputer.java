@@ -11,7 +11,6 @@ import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOComputerImpl;
 import com.excilys.cdb.persistence.DAOException;
-import com.excilys.cdb.persistence.DAOFactory;
 import com.excilys.cdb.persistence.MySQLLimit;
 import com.excilys.cdb.persistence.MySQLOffset;
 import com.excilys.cdb.persistence.MySQLPage;
@@ -118,6 +117,7 @@ public class ServiceComputer {
 
 	public long findId(DTOComputer dtoComputer) {
         try {
+        	LOGGER.info(dtoComputer.toString());
             return dao.findId(MapperComputer.DTOToModel(dtoComputer));
         } catch (DAOException | ParseException e) {
             LOGGER.warn("une erreur est survenu lors de la recherche du computer", e);

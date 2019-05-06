@@ -72,10 +72,12 @@
                 <tr>
                     <td class="editMode"><input type="checkbox" name="cb"
                                                 class="cb" value="${computer.getId()}"></td>
-                    <td><a href="editcomputer" onclick="">${computer.getName()}</a></td>
-                    <td>${computer.getIntroduced()}</td>
-                    <td>${computer.getDiscontinued()}</td>
-                    <td>${computer.getCompanyId()}</td>
+                    <td>
+                    <a href="editComputer?id=${computer.getId()}" onclick="">${computer.getName()}</a>
+                    </td>
+                    <td class ="introduced">${computer.getIntroduced()}</td>
+                    <td class = discontinued>${computer.getDiscontinued()}</td>
+                    <td class = companyId>${computer.getCompanyId()}</td>
 
                 </tr>
             </c:forEach>
@@ -115,12 +117,30 @@
             <button type="button" class="btn btn-default"
                     onclick="window.location.href='dashboard?page='+${current}+'&size=100'">100
             </button>
+            
+            <form action="editComputer" method="POST">
+				<input type="hidden" name="computerName" id='computerName' value="" />
+			</form>
+            
         </div>
     </div>
 </footer>
 <script src="ressources/js/jquery.min.js"></script>
 <script src="ressources/js/bootstrap.min.js"></script>
 <script src="ressources/js/dashboard.js"></script>
+<script>
+$(".use-address").click(function f1() {
+    var $row = $(this).closest("tr");    // Find the row
+    var $computerName = $row.find(".computerName").text(); // Find the text
+    document.getElementById('computerName').value = $row.find(".computerName").text();
+    var $introduced = $row.find(".introduced").text(); // Find the text
+    var $discontinued = $row.find(".discontinued").text(); // Find the text
+    //var $companyId = $row.find(".companyId").text(); // Find the text
+    // Let's test it out
+    alert($computerName);
+});
+
+</script>
 
 </body>
 </html>

@@ -58,8 +58,19 @@ public class Dashboard extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	DTOComputer dtoComputer = new DTOComputer(
+				request.getParameter("computerName"),
+				request.getParameter("introduced"),
+				request.getParameter("discontinued"),
+				request.getParameter("companyId"));
+    	final long computerId = computerService.findId(dtoComputer);
+      setComputerId(request,computerId);
+      
         doGet(request, response);
+        
+     
     }
+    
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -164,6 +175,10 @@ public class Dashboard extends HttpServlet {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+    
+    private void setComputerId(HttpServletRequest request, long computerId) {
+        request.setAttribute("computerId", computerId);
     }
 
     private long getPageSize(HttpServletRequest request) {

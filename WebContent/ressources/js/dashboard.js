@@ -114,7 +114,7 @@ jQuery.extend(jQuery.validator.messages, {
     url: "votre message",
     date: "votre message",
     dateISO: "votre message",
-    number: "yawld l97ba",
+    number: "non",
     digits: "Seulement les chiffres sont autorisés",
     creditcard: "votre message",
     equalTo: "votre message",

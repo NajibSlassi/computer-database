@@ -22,13 +22,14 @@ import com.excilys.cdb.vue.CLI;
 /**
  * Servlet implementation class EditComputer
  */
-@WebServlet("/EditComputer")
+@WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
 	private static final long serialVersionUID = 29042019L;
 	private static final String NAME_ERROR = "nom requis";
     private static final String INTRO_ERROR = "date introduction requise";
     private static final String DISC_ERROR = "date sortie requise";
     private static final String INTRO_UNDER_DISC ="date introduction supérieur à date de sortie";
+    public ServiceComputer computerService = ServiceComputer.getInstance();
     
     private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
 	Validator validator=new Validator();
@@ -36,14 +37,13 @@ public class EditComputer extends HttpServlet {
 
 	@Override
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-		try {
-			this.setCompanyIdList(request);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		request.setAttribute("id", id);
 		
 		this.getServletContext().getRequestDispatcher("/ressources/views/editComputer.jsp").forward( request, response );
 	}
+	
 	
 	@Override
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class EditComputer extends HttpServlet {
 		
 		
 		dtoComputer = new DTOComputer(
-				
+				request.getParameter("computerId"),
 				request.getParameter("computerName"),
 				request.getParameter("introduced"),
 				request.getParameter("discontinued"),
@@ -72,12 +72,10 @@ public class EditComputer extends HttpServlet {
 			doGet(request, response);
 		}
 		
-		
-		
-		
-		
 	}
-	
+	private void setComputerId(HttpServletRequest request, long computerId) {
+        request.setAttribute("computerId", computerId);
+    }
 	private void setCompanyIdList(HttpServletRequest request) throws Exception {
 		request.setAttribute("companyList", ServiceCompany.getInstance().list(1,100));
 	}
