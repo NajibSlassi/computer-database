@@ -7,16 +7,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.slf4j.LoggerFactory;
+
+import com.excilys.cdb.servlet.Dashboard;
+
+import ch.qos.logback.classic.Logger;
+
 public class UtilitaireDAO {
 	 /*
      * Initialise la requête préparée basée sur la connexion passée en argument,
      * avec la requête SQL et les objets donnés.
      */
+	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(Dashboard.class);
+	
     public static PreparedStatement initialisationRequetePreparee( Connection connexion, String sql, boolean returnGeneratedKeys, Object... objets ) throws SQLException {
         PreparedStatement preparedStatement = connexion.prepareStatement( sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );
         for ( int i = 0; i < objets.length; i++ ) {
+        	LOGGER.info(objets[i].toString());
             preparedStatement.setObject( i + 1, objets[i] );
         }
+        LOGGER.info(preparedStatement.toString());
         return preparedStatement;
     }
     

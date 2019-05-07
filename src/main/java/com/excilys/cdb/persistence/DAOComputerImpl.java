@@ -28,6 +28,12 @@ public class DAOComputerImpl{
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
 	private static final String SQL_SELECT_COMPUTER_BY_NAME = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE name = ? ";
+	private static final String SQL_SELECT_ALL_ORDER_BY_NAME_ASC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name ASC ";
+	private static final String SQL_SELECT_ALL_ORDER_BY_NAME_DESC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name DESC ";
+	private static final String SQL_SELECT_ALL_ORDER_BY_INTRO_ASC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY introduced ASC ";
+	private static final String SQL_SELECT_ALL_ORDER_BY_INTRO_DESC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY introduced DESC ";
+	private static final String SQL_SELECT_ALL_ORDER_BY_DISC_ASC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY discontinued ASC ";
+	private static final String SQL_SELECT_ALL_ORDER_BY_DISC_DESC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY discontinued DESC ";
 	private static final String SQL_SELECT_PAR_ID = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?";
 	private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
@@ -90,6 +96,60 @@ public class DAOComputerImpl{
 	        //connexion = daoFactory.getConnection();
 	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_COMPUTER_BY_NAME+pagination.getPagination(), false, name);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            computer = mapComputer( resultSet );
+	            listComputers.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listComputers;
+    }
+    
+    public List<Computer> listComputerOrdASC(Page pagination) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    List<Computer> listComputers= new LinkedList<Computer>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        //connexion = daoFactory.getConnection();
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_ASC +pagination.getPagination(), false );
+	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_ASC );
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            computer = mapComputer( resultSet );
+	            listComputers.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listComputers;
+    }
+    public List<Computer> listComputerOrdDESC(Page pagination) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    List<Computer> listComputers= new LinkedList<Computer>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        //connexion = daoFactory.getConnection();
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_DESC +pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {

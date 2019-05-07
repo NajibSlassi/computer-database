@@ -10,6 +10,10 @@
           media="screen">
     <link href="ressources/css/font-awesome.css" rel="stylesheet" media="screen">
     <link href="ressources/css/main.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    
+    
+    
 </head>
 <body>
 <header class="navbar navbar-inverse navbar-fixed-top">
@@ -42,9 +46,11 @@
     <form id="deleteForm" action="#" method="POST">
         <input type="hidden" name="selection" value="">
     </form>
+    
+    
 
     <div class="container" style="margin-top: 10px;">
-        <table class="table table-striped table-bordered">
+        <table id="myTable" class="table table-striped table-bordered">
             <thead>
             <tr>
                 <!-- Variable declarations for passing labels as parameters -->
@@ -57,10 +63,16 @@
                         class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-                <th>Computer name</th>
-                <th>Introduced date</th>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=1'">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=2'">DESC</button>
+                Computer Name</th>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=3'">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=4'">DESC</button>
+                Introduced date</th>
                 <!-- Table header for Discontinued Date -->
-                <th>Discontinued date</th>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=5'">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=6'">DESC</button>
+                Discontinued date</th>
                 <!-- Table header for Company -->
                 <th>Company</th>
 
@@ -128,17 +140,9 @@
 <script src="ressources/js/jquery.min.js"></script>
 <script src="ressources/js/bootstrap.min.js"></script>
 <script src="ressources/js/dashboard.js"></script>
+
+
 <script>
-$(".use-address").click(function f1() {
-    var $row = $(this).closest("tr");    // Find the row
-    var $computerName = $row.find(".computerName").text(); // Find the text
-    document.getElementById('computerName').value = $row.find(".computerName").text();
-    var $introduced = $row.find(".introduced").text(); // Find the text
-    var $discontinued = $row.find(".discontinued").text(); // Find the text
-    //var $companyId = $row.find(".companyId").text(); // Find the text
-    // Let's test it out
-    alert($computerName);
-});
 
 </script>
 

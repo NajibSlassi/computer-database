@@ -15,9 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceComputer;
+
+import ch.qos.logback.classic.Logger;
 
 /**
  * Servlet implementation class Dashboard
@@ -28,6 +32,7 @@ public class Dashboard extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(Dashboard.class);
 	
 	public static final int DEFAULT_PAGE_SIZE = 50;
     public ServiceComputer computerService = ServiceComputer.getInstance();
@@ -59,8 +64,8 @@ public class Dashboard extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	
-    	String[] idComputers = request.getParameterValues("selection");
-		for(String id:idComputers) {
+    	String[] checkedComputers = request.getParameterValues("selection");
+		for(String id:checkedComputers) {
 			
 			computerService.delete(Long.parseLong(id));
 			
@@ -71,7 +76,7 @@ public class Dashboard extends HttpServlet {
      
     }
     
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         long pageIndex = getPageIndex(request);
@@ -91,7 +96,66 @@ public class Dashboard extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		LOGGER.info(request.getParameter("ord"));
 		
+		if (Integer.toString(1).equals(request.getParameter("ord"))) {
+			LOGGER.info("in if 1");
+				try {
+					
+					computers = computerService.listOrderASC((int)(pageIndex), (int)pageSize);
+					LOGGER.info(computers.get(5).toString());
+				} catch (DAOException | ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		
+		else if (Integer.toString(2).equals(request.getParameter("ord"))) {
+			try {
+				
+				computers = computerService.listOrderDESC((int)(pageIndex), (int)pageSize);
+				LOGGER.info("i'm here :"+ (Object)"name");
+			} catch (DAOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (Integer.toString(3).equals(request.getParameter("ord"))) {
+			try {
+				computers = computerService.listOrderASC((int)(pageIndex), (int)pageSize);
+			} catch (DAOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (Integer.toString(4).equals(request.getParameter("ord"))) {
+			try {
+				computers = computerService.listOrderDESC((int)(pageIndex), (int)pageSize);
+			} catch (DAOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (Integer.toString(5).equals(request.getParameter("ord"))) {
+			try {
+				computers = computerService.listOrderASC((int)(pageIndex), (int)pageSize);
+			} catch (DAOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (Integer.toString(6).equals(request.getParameter("ord"))) {
+			try {
+				computers = computerService.listOrderDESC((int)(pageIndex), (int)pageSize);
+				LOGGER.info(computers.get(4).toString());
+			} catch (DAOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+	
 		if (request.getParameter("search")!=null) {
 			try {
 				computers = computerService.listByName((int)(pageIndex), (int)pageSize,request.getParameter("search"));
@@ -100,11 +164,14 @@ public class Dashboard extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		
 
         setNumberOfComputers(request, numberOfComputers);
         setComputers(request, computers);
         setPaggingParameters(request, pageIndex, numberOfComputers, pageSize);
 
+        
         setPageSize(request, pageSize);
         setCurrentPageIndex(request, pageIndex);
 
@@ -190,6 +257,10 @@ public class Dashboard extends HttpServlet {
     
     private void setComputerId(HttpServletRequest request, long computerId) {
         request.setAttribute("computerId", computerId);
+    }
+    
+    private void setOrd(HttpServletRequest request, long computerId) {
+    	request.setAttribute("ord", 0);
     }
 
     private long getPageSize(HttpServletRequest request) {
