@@ -23,16 +23,11 @@ public class cdb{
 	  }
 
 	public static void main(String[] args) throws ParseException {
-		/*
+		
 		doSomething();
 		final CLI cli = new CLI();
         cli.run();
-        */
-		DAOComputerImpl dao = new DAOComputerImpl();
-		DTOComputer dtoComputer = new DTOComputer("HikariCP","1995-12-12","1996-12-12","4");
-		Computer computer = MapperComputer.DTOToModel(dtoComputer);
-				
-		System.out.print(dao.findId(computer));		
+        
 		
 	}}
 		

@@ -9,15 +9,21 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.service.ServiceComputer;
+
+import ch.qos.logback.classic.Logger;
 
 
 public class DAOComputerImpl{
 		
 	
 	private static DataSource dataSource;
+	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputerImpl.class);
 	
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
@@ -109,6 +115,7 @@ public class DAOComputerImpl{
 	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId(),computer.getId());
 	        int statut = preparedStatement.executeUpdate();
+	        LOGGER.info("Computer mis à jour au niveau de la DAO: "+computer.toString());
 	        if ( statut == 0 ) {
 	            throw new DAOException( "échec du changement de statut." );
 	        }

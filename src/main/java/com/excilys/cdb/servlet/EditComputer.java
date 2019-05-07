@@ -31,7 +31,7 @@ public class EditComputer extends HttpServlet {
     private static final String INTRO_UNDER_DISC ="date introduction supérieur à date de sortie";
     public ServiceComputer computerService = ServiceComputer.getInstance();
     
-    private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(EditComputer.class);
 	Validator validator=new Validator();
 	
 
@@ -48,10 +48,8 @@ public class EditComputer extends HttpServlet {
 	@Override
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
 		DTOComputer dtoComputer= new DTOComputer();
-		
-		
 		dtoComputer = new DTOComputer(
-				request.getParameter("computerId"),
+				request.getParameter("id"),
 				request.getParameter("computerName"),
 				request.getParameter("introduced"),
 				request.getParameter("discontinued"),

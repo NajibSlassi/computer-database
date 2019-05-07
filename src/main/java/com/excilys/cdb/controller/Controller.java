@@ -85,7 +85,7 @@ public class Controller {
 		case 5:
 			DTOComputer ucomputer= cli.updateComputer();
 			if(new Validator().validateDTOComputer(ucomputer).size()==0) {
-				serviceComputer.update(cli.updateComputer());
+				serviceComputer.update(ucomputer);
 			}
 			break;
 		case 6:
