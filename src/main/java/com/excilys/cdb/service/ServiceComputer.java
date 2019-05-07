@@ -106,6 +106,16 @@ public class ServiceComputer {
 		}
 		return dtoComputers;
 	}
+	
+	public List<DTOComputer> listByName(int offset, int limit,String name) throws DAOException, ParseException{
+		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+		List<Computer> computers = dao.listComputerByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name);
+		for(Computer computer:computers) {
+			dtoComputers.add(MapperComputer.modelToDTO(computer));
+		}
+		return dtoComputers;
+	}
+	
 	public long count() {
         try {
             return dao.count();

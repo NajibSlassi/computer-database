@@ -27,7 +27,7 @@ public class DAOComputerImpl{
 	
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
-	
+	private static final String SQL_SELECT_COMPUTER_BY_NAME = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE name = ? ";
 	private static final String SQL_SELECT_PAR_ID = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?";
 	private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
@@ -63,6 +63,33 @@ public class DAOComputerImpl{
 	        //connexion = daoFactory.getConnection();
 	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPUTERS+pagination.getPagination(), false);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            computer = mapComputer( resultSet );
+	            listComputers.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listComputers;
+    }
+    
+    public List<Computer> listComputerByName(Page pagination,String name) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    List<Computer> listComputers= new LinkedList<Computer>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        //connexion = daoFactory.getConnection();
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_COMPUTER_BY_NAME+pagination.getPagination(), false, name);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
