@@ -58,13 +58,13 @@ public class Dashboard extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	DTOComputer dtoComputer = new DTOComputer(
-				request.getParameter("computerName"),
-				request.getParameter("introduced"),
-				request.getParameter("discontinued"),
-				request.getParameter("companyId"));
-    	final long computerId = computerService.findId(dtoComputer);
-      setComputerId(request,computerId);
+    	
+    	String[] idComputers = request.getParameterValues("selection");
+		for(String id:idComputers) {
+			
+			computerService.delete(Long.parseLong(id));
+			
+		}  
       
         doGet(request, response);
         
