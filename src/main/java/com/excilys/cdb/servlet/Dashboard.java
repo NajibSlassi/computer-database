@@ -64,9 +64,10 @@ public class Dashboard extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	
-    	String[] checkedComputers = request.getParameterValues("selection");
-		for(String id:checkedComputers) {
-			
+    	String checkedComputers = request.getParameter("selection");
+    	String[] arrayId = checkedComputers.split(",");
+		for(String id:arrayId) {
+			LOGGER.info("Le string actuel est :" + id);
 			computerService.delete(Long.parseLong(id));
 			
 		}  
@@ -165,8 +166,6 @@ public class Dashboard extends HttpServlet {
 			}
 		}
 		
-		
-
         setNumberOfComputers(request, numberOfComputers);
         setComputers(request, computers);
         setPaggingParameters(request, pageIndex, numberOfComputers, pageSize);
@@ -260,8 +259,6 @@ public class Dashboard extends HttpServlet {
         }
     }
     
-    
-
     private long getPageSize(HttpServletRequest request) {
         final Long pageSize = getParameterAsLong(request, "size");
         return Objects.nonNull(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
