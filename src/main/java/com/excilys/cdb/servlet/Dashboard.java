@@ -260,13 +260,7 @@ public class Dashboard extends HttpServlet {
         }
     }
     
-    private void setComputerId(HttpServletRequest request, long computerId) {
-        request.setAttribute("computerId", computerId);
-    }
     
-    private void setOrd(HttpServletRequest request, long computerId) {
-    	request.setAttribute("ord", 0);
-    }
 
     private long getPageSize(HttpServletRequest request) {
         final Long pageSize = getParameterAsLong(request, "size");
