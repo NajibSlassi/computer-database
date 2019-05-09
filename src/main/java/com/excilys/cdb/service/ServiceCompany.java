@@ -1,11 +1,8 @@
 package com.excilys.cdb.service;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.cdb.mapper.DTOCompany;
-import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOCompanyImpl;
 import com.excilys.cdb.persistence.DAOException;
@@ -38,18 +35,15 @@ public class ServiceCompany {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public List<DTOCompany> list(int page, int limit) throws DAOException, ParseException{
-		List<DTOCompany> dtoCompanies = new ArrayList<DTOCompany>();
-		List<Company> companies = dao.listCompany(new MySQLPage(new MySQLLimit(new MySQLOffset((page-1)*limit), limit),(page-1)*limit));
-		for(Company company:companies) {
-			dtoCompanies.add(MapperCompany.modelToDTO(company));
-		}
+	public List<Company> list(int page, int limit) throws DAOException, ParseException{
 		
-		return dtoCompanies;
+		List<Company> companies = dao.listCompany(new MySQLPage(new MySQLLimit(new MySQLOffset((page-1)*limit), limit),(page-1)*limit));
+		
+		return companies;
 	}
 	
-	public DTOCompany find(int id) throws DAOException, ParseException {
-		return (MapperCompany.modelToDTO(dao.showCompany(id)));
+	public Company find(int id) throws DAOException, ParseException {
+		return (dao.showCompany(id));
 	}
 
 }

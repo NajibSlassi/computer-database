@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.mapper.DTOComputer;
+import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
@@ -58,7 +60,8 @@ public class AddComputer extends HttpServlet {
 		LOGGER.info(dtoComputer.toString());
 		if (validator.validateDTOComputer(dtoComputer).size()==0) {
 			try {
-				ServiceComputer.getInstance().insert(dtoComputer);
+				Computer computer = MapperComputer.DTOToModel(dtoComputer);
+				ServiceComputer.getInstance().insert(computer);
 			} catch (IllegalArgumentException | DAOException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

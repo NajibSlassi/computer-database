@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.mapper.DTOComputer;
+import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
@@ -47,6 +49,7 @@ public class EditComputer extends HttpServlet {
 	
 	@Override
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+		Computer computer = new Computer();
 		DTOComputer dtoComputer= new DTOComputer();
 		dtoComputer = new DTOComputer(
 				request.getParameter("id"),
@@ -55,9 +58,15 @@ public class EditComputer extends HttpServlet {
 				request.getParameter("discontinued"),
 				request.getParameter("companyId"));
 		LOGGER.info(dtoComputer.toString());
+		try {
+			computer = MapperComputer.DTOToModel(dtoComputer);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (validator.validateDTOComputer(dtoComputer).size()==0) {
 			try {
-				ServiceComputer.getInstance().update(dtoComputer);
+				ServiceComputer.getInstance().update(computer);
 			} catch (IllegalArgumentException | DAOException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -70,11 +79,5 @@ public class EditComputer extends HttpServlet {
 			doGet(request, response);
 		}
 		
-	}
-	private void setComputerId(HttpServletRequest request, long computerId) {
-        request.setAttribute("computerId", computerId);
-    }
-	private void setCompanyIdList(HttpServletRequest request) throws Exception {
-		request.setAttribute("companyList", ServiceCompany.getInstance().list(1,100));
 	}
 }

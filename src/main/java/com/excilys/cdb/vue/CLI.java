@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.controller.Controller;
+import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOException;
@@ -242,16 +243,16 @@ public class CLI {
 
 	}
 
-	public void showCompanies(List<Company> lc) {
+	public void showCompanies(List<DTOCompany> c) {
 
 		LOGGER.debug("Affichage de la liste des sociétés...");
 
 		CommandLineTable st = new CommandLineTable();
 
-		for (Company x : lc) {
+		for (DTOCompany x : c) {
 			st.setShowVerticalLines(true);
 			st.setHeaders("id", "CompanyName");
-			st.addRow(Long.toString(x.getId()), x.getName());
+			st.addRow(x.getId(), x.getName());
 
 		}
 		st.print();

@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperCompany;
+import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
@@ -55,37 +57,40 @@ public class Controller {
 			int i = cli.readPage();
 			int j = cli.readLimit();
 			List<DTOComputer> l =new LinkedList<DTOComputer>();
-			for (DTOComputer x:serviceComputer.list(i,j)) {
-				l.add(x);
+			List<Computer> computers = serviceComputer.list(i,j);
+			for (Computer x: computers) {
+				l.add(MapperComputer.modelToDTO(x));
 			}
 			cli.showComputers(l);
 			break;
 		case 2:
 			int p = cli.readPage();
 			int q = cli.readLimit();
-			List<Company> c =new LinkedList<Company>();
-			for (DTOCompany x:serviceCompany.list(p,q)) {
-				c.add(MapperCompany.DTOToModel(x));
+			List<DTOCompany> c =new LinkedList<DTOCompany>();
+			for (Company x:serviceCompany.list(p,q)) {
+				c.add(MapperCompany.modelToDTO(x));
 			}
 			cli.showCompanies(c);
 			break;
 		case 3:
 			int consulter =cli.readInt("Entrez l'id de l'ordinateur à consulter");
 			LOGGER.info("id de l'ordinateur choisi par l'utilisateur: "+consulter);
-			cli.showComputerDetails(serviceComputer.find(consulter));
+			cli.showComputerDetails(MapperComputer.modelToDTO(serviceComputer.find(consulter)));
 			break;
 		case 4:
-			DTOComputer computer = cli.createComputer();
-			if(new Validator().validateDTOComputer(computer).size()==0) {
+			DTOComputer dtoComputer = cli.createComputer();
+			if(new Validator().validateDTOComputer(dtoComputer).size()==0) {
+				Computer computer = MapperComputer.DTOToModel(dtoComputer);
 				serviceComputer.insert(computer);
 				
 			}else LOGGER.warn("Les données entrées sont incorrectes");
 			break;
 			
 		case 5:
-			DTOComputer ucomputer= cli.updateComputer();
-			if(new Validator().validateDTOComputer(ucomputer).size()==0) {
-				serviceComputer.update(ucomputer);
+			DTOComputer dtoUComputer= cli.updateComputer();
+			if(new Validator().validateDTOComputer(dtoUComputer).size()==0) {
+				Computer computer = MapperComputer.DTOToModel(dtoUComputer);
+				serviceComputer.update(computer);
 			}
 			break;
 		case 6:

@@ -1,13 +1,10 @@
 package com.excilys.cdb.service;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
 
-import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOComputerImpl;
 import com.excilys.cdb.persistence.DAOException;
@@ -47,9 +44,9 @@ public class ServiceComputer {
 	 * @throws DAOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public void insert(DTOComputer computer) throws IllegalArgumentException, DAOException, ParseException{
-		dao.createComputer(MapperComputer.DTOToModel(computer));
-		LOGGER.info("ordinateur créé : " +MapperComputer.DTOToModel(computer).toString());
+	public void insert(Computer computer) throws IllegalArgumentException, DAOException, ParseException{
+		dao.createComputer(computer);
+		LOGGER.info("ordinateur créé : " +computer.toString());
 	}
 	
 	/**
@@ -67,8 +64,8 @@ public class ServiceComputer {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public void update(DTOComputer computer) throws DAOException, ParseException {
-		dao.updateComputer(MapperComputer.DTOToModel(computer));
+	public void update(Computer computer) throws DAOException, ParseException {
+		dao.updateComputer(computer);
 	}
 	
 	/**
@@ -79,17 +76,14 @@ public class ServiceComputer {
 	 * @throws DAOException 
 	 * @throws ComputerNotFoundException if not found
 	 */
-	public DTOComputer find(int id) throws DAOException, ParseException {
+	public Computer find(int id) throws DAOException, ParseException {
 		Computer computer = null;
-		DTOComputer dtoComputer = null;
-		computer =dao.showComputer(id);
 		try {
-			dtoComputer = MapperComputer.modelToDTO(computer);
+			computer =dao.showComputer(id);
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
 			LOGGER.warn("L'id de l'ordinateur cherché par l'utilisateur ("+id+") n'existe pas dans la base de données "+ e);
 		}
-		return (dtoComputer);
+		return (computer);
 	}
 	
 	/**
@@ -98,78 +92,58 @@ public class ServiceComputer {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public List<DTOComputer> list(int offset, int limit) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> list(int offset, int limit) throws DAOException, ParseException{
+		
 		List<Computer> computers = dao.listComputer(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+		
+		return computers;
 	}
 	
-	public List<DTOComputer> listOrderByNameASC(int offset, int limit) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> listOrderByNameASC(int offset, int limit) throws DAOException, ParseException{
+		
 		List<Computer> computers = dao.listComputerOrderByNameASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+
+		return computers;
 	}
-	public List<DTOComputer> listOrderByNameDESC(int offset, int limit) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> listOrderByNameDESC(int offset, int limit) throws DAOException, ParseException{
+		
 		List<Computer> computers = dao.listComputerOrderByNameDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
 		LOGGER.info("i'm also here");
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+		
+		return computers;
 	}
 	
-	public List<DTOComputer> listOrderByIntroASC(int offset, int limit) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> listOrderByIntroASC(int offset, int limit) throws DAOException, ParseException{
 		List<Computer> computers = dao.listComputerOrderByIntroASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+		return computers;
 	}
 	
-	public List<DTOComputer> listOrderByIntroDESC(int offset, int limit) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> listOrderByIntroDESC(int offset, int limit) throws DAOException, ParseException{
+		
 		List<Computer> computers = dao.listComputerOrderByIntroDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		LOGGER.info("i'm also here");
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+
+		return computers;
 	}
 	
-	public List<DTOComputer> listOrderByDiscASC(int offset, int limit) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> listOrderByDiscASC(int offset, int limit) throws DAOException, ParseException{
+		
 		List<Computer> computers = dao.listComputerOrderByDiscASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+		
+		return computers;
 	}
-	public List<DTOComputer> listOrderByDiscDESC(int offset, int limit) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> listOrderByDiscDESC(int offset, int limit) throws DAOException, ParseException{
+		
 		List<Computer> computers = dao.listComputerOrderByDiscDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
 		
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+		return computers;
 	}
 	
 	
-	public List<DTOComputer> listByName(int offset, int limit,String name) throws DAOException, ParseException{
-		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+	public List<Computer> listByName(int offset, int limit,String name) throws DAOException, ParseException{
+		
 		List<Computer> computers = dao.listComputerByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name);
-		for(Computer computer:computers) {
-			dtoComputers.add(MapperComputer.modelToDTO(computer));
-		}
-		return dtoComputers;
+		
+		return computers;
 	}
 	
 	public long count() {
@@ -181,11 +155,11 @@ public class ServiceComputer {
         return 0;
     }
 
-	public long findId(DTOComputer dtoComputer) {
+	public long findId(Computer computer) {
         try {
-        	LOGGER.info(dtoComputer.toString());
-            return dao.findId(MapperComputer.DTOToModel(dtoComputer));
-        } catch (DAOException | ParseException e) {
+        	LOGGER.info(computer.toString());
+            return dao.findId(computer);
+        } catch (DAOException e) {
             LOGGER.warn("une erreur est survenu lors de la recherche du computer", e);
         }
         return -1;

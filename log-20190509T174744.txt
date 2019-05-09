@@ -1,0 +1,1 @@
+416  [main] INFO  com.excilys.cdb.vue.CLI - Lancement du programme

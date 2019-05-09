@@ -30,7 +30,7 @@ public class DAOComputerImpl{
 	
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
-	private static final String SQL_SELECT_COMPUTER_BY_NAME = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE name = ? ";
+	private static final String SQL_SELECT_COMPUTER_BY_NAME = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE name LIKE ? ";
 	private static final String SQL_SELECT_ALL_ORDER_BY_NAME_ASC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name ASC ";
 	private static final String SQL_SELECT_ALL_ORDER_BY_NAME_DESC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name DESC ";
 	private static final String SQL_SELECT_ALL_ORDER_BY_INTRO_ASC = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY introduced ASC ";
