@@ -107,23 +107,61 @@ public class ServiceComputer {
 		return dtoComputers;
 	}
 	
-	public List<DTOComputer> listOrderASC(int offset, int limit) throws DAOException, ParseException{
+	public List<DTOComputer> listOrderByNameASC(int offset, int limit) throws DAOException, ParseException{
 		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
-		List<Computer> computers = dao.listComputerOrdASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
+		List<Computer> computers = dao.listComputerOrderByNameASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
 		for(Computer computer:computers) {
 			dtoComputers.add(MapperComputer.modelToDTO(computer));
 		}
 		return dtoComputers;
 	}
-	public List<DTOComputer> listOrderDESC(int offset, int limit) throws DAOException, ParseException{
+	public List<DTOComputer> listOrderByNameDESC(int offset, int limit) throws DAOException, ParseException{
 		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
-		List<Computer> computers = dao.listComputerOrdDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
+		List<Computer> computers = dao.listComputerOrderByNameDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
 		LOGGER.info("i'm also here");
 		for(Computer computer:computers) {
 			dtoComputers.add(MapperComputer.modelToDTO(computer));
 		}
 		return dtoComputers;
 	}
+	
+	public List<DTOComputer> listOrderByIntroASC(int offset, int limit) throws DAOException, ParseException{
+		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+		List<Computer> computers = dao.listComputerOrderByIntroASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
+		for(Computer computer:computers) {
+			dtoComputers.add(MapperComputer.modelToDTO(computer));
+		}
+		return dtoComputers;
+	}
+	
+	public List<DTOComputer> listOrderByIntroDESC(int offset, int limit) throws DAOException, ParseException{
+		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+		List<Computer> computers = dao.listComputerOrderByIntroDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
+		LOGGER.info("i'm also here");
+		for(Computer computer:computers) {
+			dtoComputers.add(MapperComputer.modelToDTO(computer));
+		}
+		return dtoComputers;
+	}
+	
+	public List<DTOComputer> listOrderByDiscASC(int offset, int limit) throws DAOException, ParseException{
+		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+		List<Computer> computers = dao.listComputerOrderByDiscASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
+		for(Computer computer:computers) {
+			dtoComputers.add(MapperComputer.modelToDTO(computer));
+		}
+		return dtoComputers;
+	}
+	public List<DTOComputer> listOrderByDiscDESC(int offset, int limit) throws DAOException, ParseException{
+		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
+		List<Computer> computers = dao.listComputerOrderByDiscDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
+		
+		for(Computer computer:computers) {
+			dtoComputers.add(MapperComputer.modelToDTO(computer));
+		}
+		return dtoComputers;
+	}
+	
 	
 	public List<DTOComputer> listByName(int offset, int limit,String name) throws DAOException, ParseException{
 		List<DTOComputer> dtoComputers = new ArrayList<DTOComputer>();
@@ -152,5 +190,10 @@ public class ServiceComputer {
         }
         return -1;
     }
+
+	public void deleteCompany(Long id) {
+		dao.deleteCompany(id);
+		
+	}
 
 }

@@ -68,6 +68,7 @@ public class CLI {
 		System.out.println("4 - Créer un ordinateur");
 		System.out.println("5 - Mettre à jour un ordinateur");
 		System.out.println("6 - Supprimer un ordinateur");
+		System.out.println("7 - Supprimer une société");
 	}
 
 	public void quit() throws DAOException, ParseException {
@@ -268,6 +269,14 @@ public class CLI {
 		System.out.println("Entrez le nombre d'éléments par page");
 		int id = sc.nextInt();
 		LOGGER.info("Elements par page deemandés par l'utilisateur: " + id);
+		return id;
+	}
+	
+	public Long deletCompany() {
+		LOGGER.debug("Suppression d'une company...: ");
+		System.out.println("Entrez l'id de la company que vous voulez supprimer:");
+		Long id = sc.nextLong();
+		LOGGER.info("id de la company choisi par l'utilisateur: " + id);
 		return id;
 	}
 

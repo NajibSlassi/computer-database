@@ -40,6 +40,8 @@ public class DAOComputerImpl{
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
 	private static final String SQL_MAX_ID ="SELECT MAX(id) AS LastID FROM computer";
 	private static final String SQL_FIND_ID ="SELECT id FROM computer WHERE name= ? AND introduced = ? AND discontinued = ? AND company_id = ?";
+	private static final String SQL_DELETE_COMPANY = "DELETE FROM company WHERE id = ?";
+	private static final String SQL_DELETE_COMPUTERS_BY_COMPANY_ID = "DELETE FROM computer WHERE company_id = ?";
 	
 
 
@@ -111,7 +113,7 @@ public class DAOComputerImpl{
 	    return listComputers;
     }
     
-    public List<Computer> listComputerOrdASC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByNameASC(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -122,8 +124,8 @@ public class DAOComputerImpl{
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
 	    	connexion = dataSource.getConnection();
-	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_ASC +pagination.getPagination(), false );
-	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_ASC );
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_NAME_ASC +pagination.getPagination(), false );
+	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_NAME_ASC );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
@@ -138,7 +140,7 @@ public class DAOComputerImpl{
 
 	    return listComputers;
     }
-    public List<Computer> listComputerOrdDESC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByNameDESC(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -149,7 +151,116 @@ public class DAOComputerImpl{
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
 	    	connexion = dataSource.getConnection();
-	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_DESC +pagination.getPagination(), false);
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_NAME_DESC +pagination.getPagination(), false);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            computer = mapComputer( resultSet );
+	            listComputers.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listComputers;
+    }
+    
+    public List<Computer> listComputerOrderByIntroASC(Page pagination) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    List<Computer> listComputers= new LinkedList<Computer>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        //connexion = daoFactory.getConnection();
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_INTRO_ASC +pagination.getPagination(), false );
+	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_INTRO_ASC );
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            computer = mapComputer( resultSet );
+	            listComputers.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listComputers;
+    }
+    
+    public List<Computer> listComputerOrderByIntroDESC(Page pagination) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    List<Computer> listComputers= new LinkedList<Computer>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        //connexion = daoFactory.getConnection();
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_INTRO_DESC +pagination.getPagination(), false);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            computer = mapComputer( resultSet );
+	            listComputers.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listComputers;
+    }
+    public List<Computer> listComputerOrderByDiscASC(Page pagination) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    List<Computer> listComputers= new LinkedList<Computer>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        //connexion = daoFactory.getConnection();
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_DISC_ASC +pagination.getPagination(), false );
+	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_DISC_ASC );
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            computer = mapComputer( resultSet );
+	            listComputers.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listComputers;
+    }
+    
+    public List<Computer> listComputerOrderByDiscDESC(Page pagination) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    List<Computer> listComputers= new LinkedList<Computer>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        //connexion = daoFactory.getConnection();
+	    	connexion = dataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_DISC_DESC +pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
@@ -324,4 +435,36 @@ public class DAOComputerImpl{
 
 	    return nb;
     }
+
+	public void deleteCompany(Long id) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    try {
+	        connexion = dataSource.getConnection();
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_DELETE_COMPUTERS_BY_COMPANY_ID, true, id);
+	        int statut = preparedStatement.executeUpdate();
+	        if ( statut == 0 ) {
+	            throw new DAOException( "Echec du changement de statut." );
+		        }
+		    } catch ( SQLException e ) {
+		        throw new DAOException( e );
+		    } finally {
+		        UtilitaireDAO.fermeturesSilencieuses( preparedStatement, connexion );
+		    }
+	    
+	    
+	    try {
+	        connexion = dataSource.getConnection();
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_DELETE_COMPANY, true, id);
+	        int statut = preparedStatement.executeUpdate();
+	        if ( statut == 0 ) {
+	            throw new DAOException( "Echec du changement de statut." );
+		        }
+		    } catch ( SQLException e ) {
+		        throw new DAOException( e );
+		    } finally {
+		        UtilitaireDAO.fermeturesSilencieuses( preparedStatement, connexion );
+		    }
+		
+	}
 }

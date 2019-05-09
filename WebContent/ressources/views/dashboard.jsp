@@ -63,15 +63,15 @@
                         class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=1'">ASC</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=2'">DESC</button>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=1&page='+${current}+'&size='+${currentSize}">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=2&page='+${current}+'&size='+${currentSize}">DESC</button>
                 Computer Name</th>
-                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=3'">ASC</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=4'">DESC</button>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=3&page='+${current}+'&size='+${currentSize}">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=4&page='+${current}+'&size='+${currentSize}">DESC</button>
                 Introduced date</th>
                 <!-- Table header for Discontinued Date -->
-                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=5'">ASC</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=6'">DESC</button>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=5&page='+${current}+'&size='+${currentSize}">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=6&page='+${current}+'&size='+${currentSize}">DESC</button>
                 Discontinued date</th>
                 <!-- Table header for Company -->
                 <th>Company</th>

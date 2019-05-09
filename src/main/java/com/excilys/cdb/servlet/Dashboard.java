@@ -102,7 +102,7 @@ public class Dashboard extends HttpServlet {
 			LOGGER.info("in if 1");
 				try {
 					
-					computers = computerService.listOrderASC((int)(pageIndex), (int)pageSize);
+					computers = computerService.listOrderByNameASC((int)(pageIndex), (int)pageSize);
 					LOGGER.info(computers.get(5).toString());
 				} catch (DAOException | ParseException e) {
 					// TODO Auto-generated catch block
@@ -113,7 +113,7 @@ public class Dashboard extends HttpServlet {
 		else if (Integer.toString(2).equals(request.getParameter("ord"))) {
 			try {
 				
-				computers = computerService.listOrderDESC((int)(pageIndex), (int)pageSize);
+				computers = computerService.listOrderByNameDESC((int)(pageIndex), (int)pageSize);
 				LOGGER.info("i'm here :"+ (Object)"name");
 			} catch (DAOException | ParseException e) {
 				// TODO Auto-generated catch block
@@ -122,7 +122,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(3).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderASC((int)(pageIndex), (int)pageSize);
+				computers = computerService.listOrderByIntroASC((int)(pageIndex), (int)pageSize);
 			} catch (DAOException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -130,7 +130,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(4).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderDESC((int)(pageIndex), (int)pageSize);
+				computers = computerService.listOrderByIntroDESC((int)(pageIndex), (int)pageSize);
 			} catch (DAOException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -138,7 +138,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(5).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderASC((int)(pageIndex), (int)pageSize);
+				computers = computerService.listOrderByDiscASC((int)(pageIndex), (int)pageSize);
 			} catch (DAOException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -146,7 +146,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(6).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderDESC((int)(pageIndex), (int)pageSize);
+				computers = computerService.listOrderByDiscDESC((int)(pageIndex), (int)pageSize);
 				LOGGER.info(computers.get(4).toString());
 			} catch (DAOException | ParseException e) {
 				// TODO Auto-generated catch block
@@ -174,6 +174,7 @@ public class Dashboard extends HttpServlet {
         
         setPageSize(request, pageSize);
         setCurrentPageIndex(request, pageIndex);
+        setCurrentPageSize(request,pageSize);
 
         getServletContext().getRequestDispatcher("/ressources/views/dashboard.jsp").forward(request, response);
     }
@@ -215,6 +216,10 @@ public class Dashboard extends HttpServlet {
 
     private void setCurrentPageIndex(HttpServletRequest request, long pageCurrent) {
         request.setAttribute("current", pageCurrent);
+    }
+    
+    private void setCurrentPageSize(HttpServletRequest request, long currentSize) {
+        request.setAttribute("currentSize", currentSize);
     }
 
     private void setPageSize(HttpServletRequest request, long pageSize) {

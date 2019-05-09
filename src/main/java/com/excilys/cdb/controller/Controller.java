@@ -91,6 +91,9 @@ public class Controller {
 		case 6:
 			serviceComputer.delete(cli.deleteComputer());
 			break;
+		case 7:
+			serviceComputer.deleteCompany(cli.deletCompany());
+			break;
 		}
 	}
 	
