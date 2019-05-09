@@ -14,8 +14,10 @@ import com.excilys.cdb.model.Company;
 
 public class DAOCompanyImpl {
 	private DAOFactory daoFactory;
+	private static DataSource dataSource;
 	
 	private static final String SQL_SELECT_ALL_COMPANY = "SELECT id, name FROM company ";
+	private static final String SQL_FIND_COMPANY_BY_ID ="SELECT id, name FROM company WHERE id = ?";
 	
 	private static Company mapCompany( ResultSet resultSet ) throws SQLException, ParseException {
 		DTOCompany dtoCompany = new DTOCompany();
@@ -46,7 +48,7 @@ public class DAOCompanyImpl {
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPANY+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -62,5 +64,29 @@ public class DAOCompanyImpl {
 
 	    return listCompany;
     }
+    
+    public Company showCompany(int id) throws DAOException, ParseException {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Company company = null;
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = dataSource.getConnection();
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_COMPANY_BY_ID, false, id );
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	            company = mapCompany( resultSet );
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return company;
+	}
 
 }

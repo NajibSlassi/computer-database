@@ -11,8 +11,11 @@ import java.util.List;
 
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
+import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.ServiceComputer;
 
@@ -42,6 +45,7 @@ public class DAOComputerImpl{
 	private static final String SQL_FIND_ID ="SELECT id FROM computer WHERE name= ? AND introduced = ? AND discontinued = ? AND company_id = ?";
 	private static final String SQL_DELETE_COMPANY = "DELETE FROM company WHERE id = ?";
 	private static final String SQL_DELETE_COMPUTERS_BY_COMPANY_ID = "DELETE FROM computer WHERE company_id = ?";
+	private static final String SQL_FIND_COMPANY_BY_ID ="SELECT name FROM company WHERE id= ?";
 	
 
 
@@ -57,7 +61,14 @@ public class DAOComputerImpl{
 
 		dtoComputer.setCompanyId(strValue1);
 	    return MapperComputer.DTOToModel(dtoComputer);}
-	    
+	
+	private Company mapCompany(ResultSet resultSet) throws SQLException {
+		DTOCompany dtoCompany = new DTOCompany();
+		dtoCompany.setId( Long.toString(resultSet.getLong( "id" )));
+		dtoCompany.setName( resultSet.getString( "name" ));
+	    return MapperCompany.DTOToModel(dtoCompany);}
+	
+	
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
     public List<Computer> listComputer(Page pagination) throws DAOException, ParseException {
     	Connection connexion = null;
@@ -348,6 +359,8 @@ public class DAOComputerImpl{
 
 	    return computer;
 	}
+	
+	
 
 	public void deleteComputer(Long id) {
 		// TODO Auto-generated method stub
@@ -467,4 +480,5 @@ public class DAOComputerImpl{
 		    }
 		
 	}
-}
+	
+	}

@@ -17,8 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
+import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
 
 import ch.qos.logback.classic.Logger;
@@ -36,6 +39,7 @@ public class Dashboard extends HttpServlet {
 	
 	public static final int DEFAULT_PAGE_SIZE = 50;
     public ServiceComputer computerService = ServiceComputer.getInstance();
+    public ServiceCompany companyService = ServiceCompany.getInstance();
 
     private List<Long> indexOfPages(long pageCurrent, long pageSize, long numberOfEntities) {
         final Set<Long> pages = new TreeSet<>();
@@ -88,8 +92,18 @@ public class Dashboard extends HttpServlet {
             return;
         }
         List<DTOComputer> computers = null;
+        List<DTOCompany> companies = null;
 		try {
 			computers = computerService.list((int)(pageIndex), (int)pageSize);
+			for (DTOComputer computer: computers) {
+				try{
+					computer.setCompanyId(companyService.find((int)Integer.parseInt(computer.getCompanyId())).getName());
+				}
+				catch(NumberFormatException e) {
+					
+				}
+			}
+			companies= companyService.list((int)(pageIndex), (int)pageSize);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,6 +182,7 @@ public class Dashboard extends HttpServlet {
 		
         setNumberOfComputers(request, numberOfComputers);
         setComputers(request, computers);
+        setCompanies(request, companies);
         setPaggingParameters(request, pageIndex, numberOfComputers, pageSize);
 
         
@@ -178,7 +193,12 @@ public class Dashboard extends HttpServlet {
         getServletContext().getRequestDispatcher("/ressources/views/dashboard.jsp").forward(request, response);
     }
 
-    private boolean redirectIfPageOutOfRange(HttpServletResponse response, long pageIndex, double numberOfComputers,
+    private void setCompanies(HttpServletRequest request, List<DTOCompany> companies) {
+    	request.setAttribute("companies", companies);
+		
+	}
+
+	private boolean redirectIfPageOutOfRange(HttpServletResponse response, long pageIndex, double numberOfComputers,
                                              long pageSize) throws IOException {
         long indexLastPage = indexLastPage(numberOfComputers, pageSize);
         if (pageIndex < 1) {

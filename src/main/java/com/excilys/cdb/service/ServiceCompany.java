@@ -47,5 +47,9 @@ public class ServiceCompany {
 		
 		return dtoCompanies;
 	}
+	
+	public DTOCompany find(int id) throws DAOException, ParseException {
+		return (MapperCompany.modelToDTO(dao.showCompany(id)));
+	}
 
 }
