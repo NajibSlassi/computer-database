@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.LoggerFactory;
 
-import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
@@ -124,7 +124,7 @@ public class Dashboard extends HttpServlet {
 					setNameCompanyToDTOComputer(dtoComputers);
 					
 				} catch (DAOException | ParseException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}
@@ -140,7 +140,7 @@ public class Dashboard extends HttpServlet {
 				setNameCompanyToDTOComputer(dtoComputers);
 				
 			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -154,7 +154,7 @@ public class Dashboard extends HttpServlet {
 				setNameCompanyToDTOComputer(dtoComputers);
 				
 			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -167,7 +167,7 @@ public class Dashboard extends HttpServlet {
 				}
 				setNameCompanyToDTOComputer(dtoComputers);
 			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -180,7 +180,7 @@ public class Dashboard extends HttpServlet {
 				}
 				setNameCompanyToDTOComputer(dtoComputers);
 			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -194,7 +194,7 @@ public class Dashboard extends HttpServlet {
 				setNameCompanyToDTOComputer(dtoComputers);
 				
 			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -203,16 +203,23 @@ public class Dashboard extends HttpServlet {
 	
 		if (request.getParameter("search")!=null) {
 			try {
-				computers = computerService.listByName((int)(pageIndex), (int)pageSize,request.getParameter("search"));
+				String word = request.getParameter("search");
+				computers = computerService.listByName((int)(pageIndex), (int)pageSize,word);
+				List<Company> companies = companyService.listByName((int)(pageIndex), (int)pageSize,word);
 				dtoComputers = new LinkedList<DTOComputer>();
+				for (Company company:companies) {
+					if (company.getName().contains(word)){
+						dtoComputers.add(MapperComputer.modelToDTO(computerService.findComputerByCompanyId(company.getId())));
+					}
+				}
+				
 				for (Computer computer: computers) {
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
 				}
 				setNameCompanyToDTOComputer(dtoComputers);
 				
 			} catch (DAOException | ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOGGER.warn("Erreur survenu lors de l'execution de la fontion search: " + e.toString());;
 			}
 		}
 		

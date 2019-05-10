@@ -12,12 +12,12 @@ import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 
+
 public class DAOCompanyImpl {
-	private DAOFactory daoFactory;
-	private static DataSource dataSource;
 	
 	private static final String SQL_SELECT_ALL_COMPANY = "SELECT id, name FROM company ";
 	private static final String SQL_FIND_COMPANY_BY_ID ="SELECT id, name FROM company WHERE id = ?";
+	private static final String SQL_FIND_COMPANY_BY_NAME ="SELECT id, name FROM company WHERE name LIKE ? ";
 	
 	private static Company mapCompany( ResultSet resultSet ) throws SQLException, ParseException {
 		DTOCompany dtoCompany = new DTOCompany();
@@ -27,11 +27,9 @@ public class DAOCompanyImpl {
 		
 	    return MapperCompany.DTOToModel(dtoCompany);}
 
-	public DAOCompanyImpl( DAOFactory daoFactory ) {
-        this.daoFactory = daoFactory;
-    }
+	
 
-    /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
+    /* Impl�mentation de la méthode listCompany() définie dans l'interface DAOCompany */
 	/**
 	 * 
 	 * @param pagination
@@ -48,7 +46,7 @@ public class DAOCompanyImpl {
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = dataSource.getConnection();
+	        connexion = DataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPANY+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -73,7 +71,7 @@ public class DAOCompanyImpl {
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = dataSource.getConnection();
+	        connexion = DataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_COMPANY_BY_ID, false, id );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -88,5 +86,31 @@ public class DAOCompanyImpl {
 
 	    return company;
 	}
+    
+    public List<Company> listCompanyByName(Page pagination,String name) throws DAOException, ParseException {
+    	Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Company company = null;
+	    List<Company> listCompanies= new LinkedList<Company>();
+
+	    try {
+	       
+	    	connexion = DataSource.getConnection();
+	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_COMPANY_BY_NAME+pagination.getPagination(), false, '%'+name+'%');
+	        resultSet = preparedStatement.executeQuery();
+	       
+	        while ( resultSet.next() ) {
+	            company = mapCompany( resultSet );
+	            listCompanies.add(company);
+	        }
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listCompanies;
+    }
 
 }
