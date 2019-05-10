@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 
@@ -206,11 +206,16 @@ public class Dashboard extends HttpServlet {
 				String word = request.getParameter("search");
 				computers = computerService.listByName((int)(pageIndex), (int)pageSize,word);
 				List<Company> companies = companyService.listByName((int)(pageIndex), (int)pageSize,word);
+				
 				dtoComputers = new LinkedList<DTOComputer>();
 				for (Company company:companies) {
-					if (company.getName().contains(word)){
-						dtoComputers.add(MapperComputer.modelToDTO(computerService.findComputerByCompanyId(company.getId())));
+					List<Computer> computersByCompany = computerService.findComputerByCompanyId(company.getId());
+					for (Computer computer:computersByCompany) {
+						if (Pattern.compile(Pattern.quote(word), Pattern.CASE_INSENSITIVE).matcher(company.getName()).find()){
+							dtoComputers.add(MapperComputer.modelToDTO(computer));
+						}
 					}
+					
 				}
 				
 				for (Computer computer: computers) {

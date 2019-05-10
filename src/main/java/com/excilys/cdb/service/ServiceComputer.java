@@ -86,14 +86,14 @@ public class ServiceComputer {
 		return (computer);
 	}
 	
-	public Computer findComputerByCompanyId(Long long1) throws DAOException, ParseException {
-		Computer computer = null;
+	public List<Computer> findComputerByCompanyId(Long long1) throws DAOException, ParseException {
+		List<Computer> computers = null;
 		try {
-			computer =dao.showComputerByCompanyId(long1);
+			computers =dao.showComputerByCompanyId(long1);
 		} catch (NullPointerException e) {
 			LOGGER.warn("L'id de l'ordinateur cherché par l'utilisateur ("+long1+") n'existe pas dans la base de données "+ e);
 		}
-		return (computer);
+		return (computers);
 	}
 	
 	/**

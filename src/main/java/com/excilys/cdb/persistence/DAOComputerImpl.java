@@ -350,11 +350,12 @@ public class DAOComputerImpl{
 
 	    return computer;
 	}
-	public Computer showComputerByCompanyId(Long long1) throws DAOException, ParseException {
+	public List<Computer> showComputerByCompanyId(Long long1) throws DAOException, ParseException {
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
 	    Computer computer = null;
+	    List <Computer> computers = new LinkedList<Computer>();
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
@@ -362,8 +363,9 @@ public class DAOComputerImpl{
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_COMPUTER_BY_COMPANY_ID, false, long1 );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
-	        if ( resultSet.next() ) {
+	        while ( resultSet.next() ) {
 	            computer = mapComputer( resultSet );
+	            computers.add(computer);
 	        }
 	    } catch ( SQLException e ) {
 	        throw new DAOException( e );
@@ -371,7 +373,7 @@ public class DAOComputerImpl{
 	        UtilitaireDAO.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
 	    }
 
-	    return computer;
+	    return computers;
 	}
 	
 
