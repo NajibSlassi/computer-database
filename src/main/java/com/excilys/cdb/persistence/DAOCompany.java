@@ -17,9 +17,9 @@ import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 
 @Component
-public class DAOCompanyImpl {
+public class DAOCompany {
 	
-	public DAOCompanyImpl(DataSource dataSource) {
+	public DAOCompany(DataSource dataSource) {
 		super();
 		this.dataSource = dataSource;
 	}

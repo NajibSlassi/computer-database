@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.persistence.DAOCompanyImpl;
+import com.excilys.cdb.persistence.DAOCompany;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.persistence.MySQLLimit;
 import com.excilys.cdb.persistence.MySQLOffset;
@@ -18,11 +18,11 @@ public class ServiceCompany {
 	
 	
 	
-	public ServiceCompany(DAOCompanyImpl dao) {
+	public ServiceCompany(DAOCompany dao) {
 		super();
 		this.dao = dao;
 	}
-	private final DAOCompanyImpl dao;
+	private final DAOCompany dao;
 		
 	/**
 	 * List all the company with pagination

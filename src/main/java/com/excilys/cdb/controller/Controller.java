@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
@@ -20,26 +21,63 @@ import com.excilys.cdb.validator.Validator;
 import com.excilys.cdb.vue.CLI;
 
 
-
+@Component()
 public class Controller {
 	
-	private Controller() {}
-	
-	private static Controller INSTANCE = null;
-	
-	public static Controller getInstance()
-    {           
-        if (INSTANCE == null){   
-        	INSTANCE = new Controller(); 
-        }
-        return INSTANCE;
-    }
-	
-	private ServiceCompany serviceCompany = ServiceCompany.getInstance();
-	private ServiceComputer serviceComputer = ServiceComputer.getInstance();
-	CLI cli = CLI.getInstance();
+	private ServiceCompany serviceCompany;
+	private ServiceComputer serviceComputer;
 	private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
-			     
+	
+	public Controller(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
+		super();
+		this.serviceComputer = serviceComputer;
+		this.serviceCompany=serviceCompany;
+	}
+	
+	public List<DTOComputer> listComputers(int readPage, int readLimit) throws DAOException, ParseException {
+		List<DTOComputer> l =new LinkedList<DTOComputer>();
+		LOGGER.info("readPage :"+ readPage+" readLimit: "+readLimit);
+		List<Computer> computers = serviceComputer.list(readPage,readLimit);
+		for (Computer x: computers) {
+			l.add(MapperComputer.modelToDTO(x));
+		}
+		return l;
+	}
+	
+	public List<DTOCompany> listCompanies(int readPage, int readLimit) throws DAOException, ParseException {
+		List<DTOCompany> companies =new LinkedList<DTOCompany>();
+		for (Company x:serviceCompany.list(readPage,readLimit)) {
+			companies.add(MapperCompany.modelToDTO(x));
+		}
+		return companies;
+	}
+	public DTOComputer showComputer(int id) throws DAOException, ParseException {
+		return MapperComputer.modelToDTO(serviceComputer.find(id));
+	}
+	public void addComputer(DTOComputer dtoComputer) throws IllegalArgumentException, DAOException, ParseException {
+		if(new Validator().validateDTOComputer(dtoComputer).size()==0) {
+			Computer computer = MapperComputer.DTOToModel(dtoComputer);
+			serviceComputer.insert(computer);
+			
+		}else LOGGER.warn("Les données entrées sont incorrectes");
+	}
+	public void updateComputer(DTOComputer dtoComputer) throws IllegalArgumentException, DAOException, ParseException {
+		
+		if(new Validator().validateDTOComputer(dtoComputer).size()==0) {
+			Computer computer = MapperComputer.DTOToModel(dtoComputer);
+			serviceComputer.update(computer);
+		}
+	}
+	
+	public void deleteComputer(long id) {
+		serviceComputer.delete(id);
+	}
+	
+	public void deleteCompany(long id) {
+		serviceComputer.deleteCompany(id);
+	}
+	
+	
 	
 	/**
 	 * reçoit le choix de l'utilisateur et communique avec le service adéquat pour répondre au besoin
@@ -47,60 +85,7 @@ public class Controller {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public void sendToService(int choice) throws DAOException, ParseException {
-		switch(choice) {
-		case 0:
-			
-			cli.quit();
-			break;
-		case 1:
-			int i = cli.readPage();
-			int j = cli.readLimit();
-			List<DTOComputer> l =new LinkedList<DTOComputer>();
-			List<Computer> computers = serviceComputer.list(i,j);
-			for (Computer x: computers) {
-				l.add(MapperComputer.modelToDTO(x));
-			}
-			cli.showComputers(l);
-			break;
-		case 2:
-			int p = cli.readPage();
-			int q = cli.readLimit();
-			List<DTOCompany> c =new LinkedList<DTOCompany>();
-			for (Company x:serviceCompany.list(p,q)) {
-				c.add(MapperCompany.modelToDTO(x));
-			}
-			cli.showCompanies(c);
-			break;
-		case 3:
-			int consulter =cli.readInt("Entrez l'id de l'ordinateur à consulter");
-			LOGGER.info("id de l'ordinateur choisi par l'utilisateur: "+consulter);
-			cli.showComputerDetails(MapperComputer.modelToDTO(serviceComputer.find(consulter)));
-			break;
-		case 4:
-			DTOComputer dtoComputer = cli.createComputer();
-			if(new Validator().validateDTOComputer(dtoComputer).size()==0) {
-				Computer computer = MapperComputer.DTOToModel(dtoComputer);
-				serviceComputer.insert(computer);
-				
-			}else LOGGER.warn("Les données entrées sont incorrectes");
-			break;
-			
-		case 5:
-			DTOComputer dtoUComputer= cli.updateComputer();
-			if(new Validator().validateDTOComputer(dtoUComputer).size()==0) {
-				Computer computer = MapperComputer.DTOToModel(dtoUComputer);
-				serviceComputer.update(computer);
-			}
-			break;
-		case 6:
-			serviceComputer.delete(cli.deleteComputer());
-			break;
-		case 7:
-			serviceComputer.deleteCompany(cli.deletCompany());
-			break;
-		}
-	}
+	
 	
 	
 

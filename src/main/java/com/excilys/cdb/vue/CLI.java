@@ -3,34 +3,42 @@ package com.excilys.cdb.vue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.controller.Controller;
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
+import com.excilys.cdb.mapper.MapperCompany;
+import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
+import com.excilys.cdb.service.ServiceComputer;
+import com.excilys.cdb.validator.Validator;
 
 import Main.CommandLineTable;
 
+@Component()
 public class CLI {
 
-	private static CLI INSTANCE = null;
+	
 	private Scanner sc = new Scanner(System.in);
-	private static Controller controller = Controller.getInstance();
+	private final Controller controller;
 	private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
 
-	public static CLI getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new CLI();
-		}
-		return INSTANCE;
-	}
 
 	static boolean quit = false;
+	
+	public CLI(Controller controller) {
+		super();
+		this.controller=controller;
+	}
 
 	public void run() throws DAOException, ParseException {
 		while (!quit) {
@@ -57,7 +65,7 @@ public class CLI {
 		} while (!wenttocatch);
 
 		LOGGER.info("Action choisie par l'utilisateur: " + m);
-		controller.sendToService(m);
+		sendToService(m);
 	}
 
 	private void printMenu() {
@@ -71,9 +79,45 @@ public class CLI {
 		System.out.println("6 - Supprimer un ordinateur");
 		System.out.println("7 - Supprimer une société");
 	}
-
+	public void sendToService(int choice) throws DAOException, ParseException {
+		switch(choice) {
+		case 0:
+			quit();
+			break;
+		case 1:
+			int i = readPage();
+			int j = readLimit();
+			showComputers(controller.listComputers(i,j));
+			break;
+		case 2:
+			int p = readPage();
+			int q = readLimit();
+			showCompanies(controller.listCompanies(p,q));
+			break;
+		case 3:
+			int consulter =readInt("Entrez l'id de l'ordinateur à consulter");
+			LOGGER.info("id de l'ordinateur choisi par l'utilisateur: "+consulter);
+			showComputerDetails(controller.showComputer(consulter));
+			break;
+		case 4:
+			DTOComputer dtoComputer = createComputer();
+			controller.addComputer(dtoComputer);
+			break;
+			
+		case 5:
+			DTOComputer dtoUComputer= updateComputer();
+			controller.updateComputer(dtoUComputer);
+			break;
+		case 6:
+			controller.deleteComputer(deleteComputer());
+			break;
+		case 7:
+			controller.deleteCompany(deletCompany());
+			break;
+		}
+	}
 	public void quit() throws DAOException, ParseException {
-		LOGGER.info("Fermeture de l'application");
+		LOGGER.info("Fermeture de l'application"); 
 		quit = true;
 		System.out.println("n'oublie pas de revenir nous voir <3");
 
