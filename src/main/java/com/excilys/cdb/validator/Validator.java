@@ -5,9 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.mapper.DTOComputer;
 
+
+@Component
 public class Validator {
+	
 
 	public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	

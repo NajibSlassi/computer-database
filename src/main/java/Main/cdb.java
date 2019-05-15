@@ -2,17 +2,11 @@ package Main;
 
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.mapper.MapperComputer;
-import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.DAOComputerImpl;
-import com.excilys.cdb.persistence.DAOFactory;
-import com.excilys.cdb.service.ServiceComputer;
+
 import com.excilys.cdb.vue.CLI;
 
 public class cdb{
@@ -29,5 +23,7 @@ public class cdb{
         cli.run();
         
 		
-	}}
+	}
+	
+}
 		

@@ -8,16 +8,27 @@ import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 
-
+@Component
 public class DAOCompanyImpl {
 	
+	public DAOCompanyImpl(DataSource dataSource) {
+		super();
+		this.dataSource = dataSource;
+	}
+
 	private static final String SQL_SELECT_ALL_COMPANY = "SELECT id, name FROM company ";
 	private static final String SQL_FIND_COMPANY_BY_ID ="SELECT id, name FROM company WHERE id = ?";
 	private static final String SQL_FIND_COMPANY_BY_NAME ="SELECT id, name FROM company WHERE name LIKE ? ";
+	
+	private final DataSource dataSource;
 	
 	private static Company mapCompany( ResultSet resultSet ) throws SQLException, ParseException {
 		DTOCompany dtoCompany = new DTOCompany();
@@ -46,7 +57,7 @@ public class DAOCompanyImpl {
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPANY+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -71,7 +82,7 @@ public class DAOCompanyImpl {
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_COMPANY_BY_ID, false, id );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -96,7 +107,7 @@ public class DAOCompanyImpl {
 
 	    try {
 	       
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_COMPANY_BY_NAME+pagination.getPagination(), false, '%'+name+'%');
 	        resultSet = preparedStatement.executeQuery();
 	       

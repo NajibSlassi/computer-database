@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
@@ -27,14 +31,23 @@ import com.excilys.cdb.vue.CLI;
 @WebServlet("/AddComputer")
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 29042019L;
-	private static final String NAME_ERROR = "nom requis";
-    private static final String INTRO_ERROR = "date introduction requise";
-    private static final String DISC_ERROR = "date sortie requise";
-    private static final String INTRO_UNDER_DISC ="date introduction supérieur à date de sortie";
     
     private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
-	Validator validator=new Validator();
+	private Validator validator;
 	
+	
+	private ServiceComputer serviceComputer;
+	private ServiceCompany serviceCompany;
+	
+	
+	@Override
+	public void init() throws ServletException {
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+		this.serviceComputer = wac.getBean(ServiceComputer.class);
+		
+		this.validator = wac.getBean(Validator.class);
+		this.serviceCompany=wac.getBean(ServiceCompany.class);
+	}
 
 	@Override
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
@@ -61,7 +74,7 @@ public class AddComputer extends HttpServlet {
 		if (validator.validateDTOComputer(dtoComputer).size()==0) {
 			try {
 				Computer computer = MapperComputer.DTOToModel(dtoComputer);
-				ServiceComputer.getInstance().insert(computer);
+				serviceComputer.insert(computer);
 			} catch (IllegalArgumentException | DAOException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -81,6 +94,6 @@ public class AddComputer extends HttpServlet {
 	}
 	
 	private void setCompanyIdList(HttpServletRequest request) throws Exception {
-		request.setAttribute("companyList", ServiceCompany.getInstance().list(1,100));
+		request.setAttribute("companyList", serviceCompany.list(1,100));
 	}
 }

@@ -13,4 +13,8 @@ public class MySQLPage implements Page {
     public String getPagination() {
         return limit.getLimit();
     }
+
+	public int getOffset() {
+		return offset;
+	}
 }

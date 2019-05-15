@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperCompany;
@@ -26,6 +28,7 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
+import com.excilys.cdb.validator.Validator;
 
 import ch.qos.logback.classic.Logger;
 
@@ -41,8 +44,15 @@ public class Dashboard extends HttpServlet {
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(Dashboard.class);
 	
 	public static final int DEFAULT_PAGE_SIZE = 50;
-    public ServiceComputer computerService = ServiceComputer.getInstance();
-    public ServiceCompany companyService = ServiceCompany.getInstance();
+    public ServiceComputer serviceComputer;
+    public ServiceCompany serviceCompany;
+    
+    @Override
+	public void init() throws ServletException {
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+		this.serviceComputer = wac.getBean(ServiceComputer.class);
+		this.serviceCompany=wac.getBean(ServiceCompany.class);
+	}
 
     private List<Long> indexOfPages(long pageCurrent, long pageSize, long numberOfEntities) {
         final Set<Long> pages = new TreeSet<>();
@@ -75,7 +85,7 @@ public class Dashboard extends HttpServlet {
     	String[] arrayId = checkedComputers.split(",");
 		for(String id:arrayId) {
 			LOGGER.info("Le string actuel est :" + id);
-			computerService.delete(Long.parseLong(id));
+			serviceComputer.delete(Long.parseLong(id));
 			
 		}  
       
@@ -90,7 +100,7 @@ public class Dashboard extends HttpServlet {
         long pageIndex = getPageIndex(request);
         long pageSize = getPageSize(request);
 
-        final long numberOfComputers = computerService.count();
+        final long numberOfComputers = serviceComputer.count();
         if (redirectIfPageOutOfRange(response, pageIndex, numberOfComputers, pageSize)) {
             return;
         }
@@ -98,7 +108,7 @@ public class Dashboard extends HttpServlet {
         List<DTOComputer> dtoComputers = new LinkedList<DTOComputer>();
        
 		try {
-			computers = computerService.list((int)(pageIndex), (int)pageSize);
+			computers = serviceComputer.list((int)(pageIndex), (int)pageSize);
 			for (Computer computer: computers) {
 				dtoComputers.add(MapperComputer.modelToDTO(computer));
 			}
@@ -116,7 +126,7 @@ public class Dashboard extends HttpServlet {
 		if (Integer.toString(1).equals(request.getParameter("ord"))) {
 				try {
 					
-					computers = computerService.listOrderByNameASC((int)(pageIndex), (int)pageSize);
+					computers = serviceComputer.listOrderByNameASC((int)(pageIndex), (int)pageSize);
 					dtoComputers = new LinkedList<DTOComputer>();
 					for (Computer computer: computers) {
 						dtoComputers.add(MapperComputer.modelToDTO(computer));
@@ -132,7 +142,7 @@ public class Dashboard extends HttpServlet {
 		else if (Integer.toString(2).equals(request.getParameter("ord"))) {
 			try {
 				
-				computers = computerService.listOrderByNameDESC((int)(pageIndex), (int)pageSize);
+				computers = serviceComputer.listOrderByNameDESC((int)(pageIndex), (int)pageSize);
 				dtoComputers = new LinkedList<DTOComputer>();
 				for (Computer computer: computers) {
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
@@ -146,7 +156,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(3).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderByIntroASC((int)(pageIndex), (int)pageSize);
+				computers = serviceComputer.listOrderByIntroASC((int)(pageIndex), (int)pageSize);
 				dtoComputers = new LinkedList<DTOComputer>();
 				for (Computer computer: computers) {
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
@@ -160,7 +170,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(4).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderByIntroDESC((int)(pageIndex), (int)pageSize);
+				computers = serviceComputer.listOrderByIntroDESC((int)(pageIndex), (int)pageSize);
 				dtoComputers = new LinkedList<DTOComputer>();
 				for (Computer computer: computers) {
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
@@ -173,7 +183,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(5).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderByDiscASC((int)(pageIndex), (int)pageSize);
+				computers = serviceComputer.listOrderByDiscASC((int)(pageIndex), (int)pageSize);
 				dtoComputers = new LinkedList<DTOComputer>();
 				for (Computer computer: computers) {
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
@@ -186,7 +196,7 @@ public class Dashboard extends HttpServlet {
 		}
 		else if (Integer.toString(6).equals(request.getParameter("ord"))) {
 			try {
-				computers = computerService.listOrderByDiscDESC((int)(pageIndex), (int)pageSize);
+				computers = serviceComputer.listOrderByDiscDESC((int)(pageIndex), (int)pageSize);
 				dtoComputers = new LinkedList<DTOComputer>();
 				for (Computer computer: computers) {
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
@@ -204,12 +214,12 @@ public class Dashboard extends HttpServlet {
 		if (request.getParameter("search")!=null) {
 			try {
 				String word = request.getParameter("search");
-				computers = computerService.listByName((int)(pageIndex), (int)pageSize,word);
-				List<Company> companies = companyService.listByName((int)(pageIndex), (int)pageSize,word);
+				computers = serviceComputer.listByName((int)(pageIndex), (int)pageSize,word);
+				List<Company> companies = serviceCompany.listByName((int)(pageIndex), (int)pageSize,word);
 				
 				dtoComputers = new LinkedList<DTOComputer>();
 				for (Company company:companies) {
-					List<Computer> computersByCompany = computerService.findComputerByCompanyId(company.getId());
+					List<Computer> computersByCompany = serviceComputer.findComputerByCompanyId(company.getId());
 					for (Computer computer:computersByCompany) {
 						if (Pattern.compile(Pattern.quote(word), Pattern.CASE_INSENSITIVE).matcher(company.getName()).find()){
 							dtoComputers.add(MapperComputer.modelToDTO(computer));
@@ -323,7 +333,7 @@ public class Dashboard extends HttpServlet {
     private List<DTOComputer> setNameCompanyToDTOComputer(List<DTOComputer> dtoComputers) throws DAOException, ParseException{
     	for (DTOComputer dtoComputer: dtoComputers) {
 			try{
-				dtoComputer.setCompanyId(MapperCompany.modelToDTO(companyService.find((int)Long.parseLong(dtoComputer.getCompanyId()))).getName());
+				dtoComputer.setCompanyId(MapperCompany.modelToDTO(serviceCompany.find((int)Long.parseLong(dtoComputer.getCompanyId()))).getName());
 			}
 			catch(NumberFormatException e) {
 				LOGGER.warn(e.toString());

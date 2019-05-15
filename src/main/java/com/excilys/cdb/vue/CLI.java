@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import com.excilys.cdb.controller.Controller;
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOException;
 
 import Main.CommandLineTable;
@@ -44,6 +43,7 @@ public class CLI {
 	private void showMenu() throws DAOException, ParseException {
 		printMenu();
 		boolean wenttocatch = false;
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		int m = 0;
 		do {
@@ -143,6 +143,7 @@ public class CLI {
 
 	public void quitProgram() {
 		boolean wenttocatch = false;
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		int m = 0;
 		do {

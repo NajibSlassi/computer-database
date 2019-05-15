@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOComputerImpl;
@@ -15,25 +16,17 @@ import com.excilys.cdb.persistence.MySQLPage;
 
 import ch.qos.logback.classic.Logger;
 
+@Component()
 public class ServiceComputer {
 	
-	private ServiceComputer() {}
 	
 	
-		
-	private static ServiceComputer INSTANCE = null;
-	
-	
-	
-	public static ServiceComputer getInstance()
-    {           
-        if (INSTANCE == null){   
-        	INSTANCE = new ServiceComputer(); 
-        }
-        return INSTANCE;
-    }
-	
-	DAOComputerImpl dao = new DAOComputerImpl();
+	public ServiceComputer(DAOComputerImpl dao) {
+		super();
+		this.dao = dao;
+	}
+
+	private final DAOComputerImpl dao;
 	
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(ServiceComputer.class);
 

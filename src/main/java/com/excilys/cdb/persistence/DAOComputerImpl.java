@@ -9,7 +9,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperComputer;
@@ -17,12 +20,19 @@ import com.excilys.cdb.model.Computer;
 
 import ch.qos.logback.classic.Logger;
 
-
+@Component
 public class DAOComputerImpl{
 		
 	
 	
+	public DAOComputerImpl(DataSource dataSource) {
+		super();
+		this.dataSource = dataSource;
+	}
+
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputerImpl.class);
+	
+	private final DataSource dataSource;
 	
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
@@ -71,7 +81,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_COMPUTERS+pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -98,7 +108,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_COMPUTER_BY_NAME+pagination.getPagination(), false, '%'+name+'%');
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -125,7 +135,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_NAME_ASC +pagination.getPagination(), false );
 	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_NAME_ASC );
 	        resultSet = preparedStatement.executeQuery();
@@ -152,7 +162,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_NAME_DESC +pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -179,7 +189,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_INTRO_ASC +pagination.getPagination(), false );
 	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_INTRO_ASC );
 	        resultSet = preparedStatement.executeQuery();
@@ -207,7 +217,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_INTRO_DESC +pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -233,7 +243,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_DISC_ASC +pagination.getPagination(), false );
 	    	LOGGER.info("requete executé: "+SQL_SELECT_ALL_ORDER_BY_DISC_ASC );
 	        resultSet = preparedStatement.executeQuery();
@@ -261,7 +271,7 @@ public class DAOComputerImpl{
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
 	        //connexion = daoFactory.getConnection();
-	    	connexion = DataSource.getConnection();
+	    	connexion = dataSource.getConnection();
 	    	preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_ALL_ORDER_BY_DISC_DESC +pagination.getPagination(), false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -285,7 +295,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* RÃ©cupÃ©ration d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_INSERT, true, computer.getName(), new Date(computer.getIntroduced().getTime() + 3600*1000), new Date(computer.getDiscontinued().getTime() + 3600*1000), computer.getCompanyId() );
 	        int statut = preparedStatement.executeUpdate();
 	        /* Analyse du statut retourné par la requète d'insertion */
@@ -312,7 +322,7 @@ public class DAOComputerImpl{
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    try {
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId(),computer.getId());
 	        int statut = preparedStatement.executeUpdate();
 	        LOGGER.info("Computer mis à jour au niveau de la DAO: "+computer.toString());
@@ -335,7 +345,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* RÃ©cupÃ©ration d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_PAR_ID, false, id );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de donnÃ©es de l'Ã©ventuel ResulSet retournÃ© */
@@ -359,7 +369,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* RÃ©cupÃ©ration d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_SELECT_COMPUTER_BY_COMPANY_ID, false, long1 );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de donnÃ©es de l'Ã©ventuel ResulSet retournÃ© */
@@ -382,7 +392,7 @@ public class DAOComputerImpl{
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    try {
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_DELETE, true, id);
 	        int statut = preparedStatement.executeUpdate();
 	        if ( statut == 0 ) {
@@ -402,7 +412,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* RÃ©cupÃ©ration d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_COUNT, false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de donnÃ©es de l'Ã©ventuel ResulSet retournÃ© */
@@ -425,7 +435,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* RÃ©cupÃ©ration d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_MAX_ID, false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de donnÃ©es de l'Ã©ventuel ResulSet retournÃ© */
@@ -448,7 +458,7 @@ public class DAOComputerImpl{
 
 	    try {
 	        /* RÃ©cupÃ©ration d'une connexion depuis la Factory */
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_FIND_ID, false, computer.getName(),new Date(computer.getIntroduced().getTime() + 3600*1000), new Date(computer.getDiscontinued().getTime() + 3600*1000),computer.getCompanyId());
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de donnÃ©es de l'Ã©ventuel ResulSet retournÃ© */
@@ -468,7 +478,7 @@ public class DAOComputerImpl{
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    try {
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_DELETE_COMPUTERS_BY_COMPANY_ID, true, id);
 	        int statut = preparedStatement.executeUpdate();
 	        if ( statut == 0 ) {
@@ -477,12 +487,12 @@ public class DAOComputerImpl{
 		    } catch ( SQLException e ) {
 		        throw new DAOException( e );
 		    } finally {
-		        UtilitaireDAO.fermeturesSilencieuses( preparedStatement, connexion );
+		        UtilitaireDAO.fermeturesSilencieuses(preparedStatement, connexion );
 		    }
 	    
 	    
 	    try {
-	        connexion = DataSource.getConnection();
+	        connexion = dataSource.getConnection();
 	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_DELETE_COMPANY, true, id);
 	        int statut = preparedStatement.executeUpdate();
 	        if ( statut == 0 ) {

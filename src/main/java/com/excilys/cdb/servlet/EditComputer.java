@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperComputer;
@@ -19,7 +21,6 @@ import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
 import com.excilys.cdb.validator.Validator;
-import com.excilys.cdb.vue.CLI;
 
 /**
  * Servlet implementation class EditComputer
@@ -27,14 +28,18 @@ import com.excilys.cdb.vue.CLI;
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
 	private static final long serialVersionUID = 29042019L;
-	private static final String NAME_ERROR = "nom requis";
-    private static final String INTRO_ERROR = "date introduction requise";
-    private static final String DISC_ERROR = "date sortie requise";
-    private static final String INTRO_UNDER_DISC ="date introduction supérieur à date de sortie";
-    public ServiceComputer computerService = ServiceComputer.getInstance();
+    public ServiceComputer serviceComputer;
     
     private static Logger LOGGER = LoggerFactory.getLogger(EditComputer.class);
-	Validator validator=new Validator();
+	Validator validator;
+	
+	@Override
+	public void init() throws ServletException {
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+		this.serviceComputer = wac.getBean(ServiceComputer.class);
+		this.validator = wac.getBean(Validator.class);
+		
+	}
 	
 
 	@Override
@@ -61,14 +66,14 @@ public class EditComputer extends HttpServlet {
 		try {
 			computer = MapperComputer.DTOToModel(dtoComputer);
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		if (validator.validateDTOComputer(dtoComputer).size()==0) {
 			try {
-				ServiceComputer.getInstance().update(computer);
+				serviceComputer.update(computer);
 			} catch (IllegalArgumentException | DAOException | ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			response.sendRedirect("dashboard?page=1&size=10");

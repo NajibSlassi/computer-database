@@ -1,17 +1,21 @@
-package com.excilys.cdb.persistence;
+package com.excilys.cdb.springconfig;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Properties;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+import com.excilys.cdb.persistence.DAOConfigurationException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class DataSource {
-	 
-    private static HikariConfig config = new HikariConfig();
+@Configuration
+@ComponentScan(basePackages = "com.excilys.cdb")
+public class SpringConfig {
+	private static HikariConfig config;
     private static HikariDataSource ds;
     
     private static final String FICHIER_PROPERTIES       = "com/excilys/cdb/persistence/datasource.properties";
@@ -22,9 +26,9 @@ public class DataSource {
     private static final String PROPERTY_PS_CACHE_SIZE="dataSource.prepStmtCacheSize";
     private static final String PROPERTY_PS_CACHE_SQL_LIMITE="dataSource.prepStmtCacheSqlLimit";
 
-    static {
-    	
-    	Properties properties = new Properties();
+	@Bean
+	public HikariConfig hikariConfig() {
+		Properties properties = new Properties();
         String url;
         String nomUtilisateur;
         String motDePasse;
@@ -53,12 +57,13 @@ public class DataSource {
         }
         config = new HikariConfig( properties );
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds = new HikariDataSource( config );
+        return config;
     }
- 
-    private DataSource() {}
- 
-    public static Connection getConnection() throws SQLException {
-        return ds.getConnection();
-    }
+	
+
+	@Bean
+	public HikariDataSource hikariDataSource(HikariConfig hikariConfig) {
+		return new HikariDataSource(hikariConfig);
+	}
+
 }

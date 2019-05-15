@@ -3,29 +3,26 @@ package com.excilys.cdb.service;
 import java.text.ParseException;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOCompanyImpl;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.persistence.MySQLLimit;
 import com.excilys.cdb.persistence.MySQLOffset;
 import com.excilys.cdb.persistence.MySQLPage;
 
+
+@Component
 public class ServiceCompany {
 	
-	private ServiceCompany() {}
 	
-	private static ServiceCompany INSTANCE = null;
 	
-	public static ServiceCompany getInstance()
-    {           
-        if (INSTANCE == null){   
-        	INSTANCE = new ServiceCompany(); 
-        }
-        return INSTANCE;
-    }
-	
-	DAOCompanyImpl dao = new DAOCompanyImpl();
+	public ServiceCompany(DAOCompanyImpl dao) {
+		super();
+		this.dao = dao;
+	}
+	private final DAOCompanyImpl dao;
 		
 	/**
 	 * List all the company with pagination
