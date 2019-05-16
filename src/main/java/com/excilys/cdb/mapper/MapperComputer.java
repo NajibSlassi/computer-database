@@ -51,17 +51,23 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	 * @return Le model qui est un objet Computer
 	 * @throws ParseException 
 	 */
-	public static Computer DTOToModel(DTOComputer dtoComputer) throws ParseException {
+	public static Computer DTOToModel(DTOComputer dtoComputer)  {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
-		return new Computer(
-				Long.valueOf(Optional.ofNullable(dtoComputer.getId()).orElseGet(() -> "-1")),
-				dtoComputer.getName(),
-				dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15")),
-				dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15")),
-				Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1"))
-				);
+		Computer computer = new Computer();
+		try {
+			computer =  new Computer(
+					Long.valueOf(Optional.ofNullable(dtoComputer.getId()).orElseGet(() -> "-1")),
+					dtoComputer.getName(),
+					dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15")),
+					dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15")),
+					Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1"))
+					);
+		} catch (NumberFormatException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return computer;
 	}
 
 }

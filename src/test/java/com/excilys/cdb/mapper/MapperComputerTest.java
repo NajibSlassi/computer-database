@@ -36,12 +36,9 @@ public class MapperComputerTest {
 		} catch (ParseException e) {
 			
 		}
-		try {
-			assertEquals("Les informations sont incorrectes", computer, MapperComputer.DTOToModel(dtoComputer));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			
-		}
+		
+		assertEquals("Les informations sont incorrectes", computer, MapperComputer.DTOToModel(dtoComputer));
+
 		
 	}
 

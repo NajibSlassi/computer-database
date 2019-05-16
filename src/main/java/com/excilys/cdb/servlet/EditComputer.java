@@ -63,12 +63,9 @@ public class EditComputer extends HttpServlet {
 				request.getParameter("discontinued"),
 				request.getParameter("companyId"));
 		LOGGER.info(dtoComputer.toString());
-		try {
-			computer = MapperComputer.DTOToModel(dtoComputer);
-		} catch (ParseException e1) {
-			
-			e1.printStackTrace();
-		}
+		
+		computer = MapperComputer.DTOToModel(dtoComputer);
+		
 		if (validator.validateDTOComputer(dtoComputer).size()==0) {
 			try {
 				serviceComputer.update(computer);
