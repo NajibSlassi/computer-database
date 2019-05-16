@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.DAOComputerImpl;
+import com.excilys.cdb.persistence.DAOComputer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.persistence.MySQLLimit;
 import com.excilys.cdb.persistence.MySQLOffset;
@@ -21,12 +21,12 @@ public class ServiceComputer {
 	
 	
 	
-	public ServiceComputer(DAOComputerImpl dao) {
+	public ServiceComputer(DAOComputer dao) {
 		super();
 		this.dao = dao;
 	}
 
-	private final DAOComputerImpl dao;
+	private final DAOComputer dao;
 	
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(ServiceComputer.class);
 
@@ -108,6 +108,7 @@ public class ServiceComputer {
 
 		return computers;
 	}
+	
 	public List<Computer> listOrderByNameDESC(int offset, int limit) throws DAOException, ParseException{
 		
 		List<Computer> computers = dao.listComputerOrderByNameDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));

@@ -1,6 +1,6 @@
 package com.excilys.cdb.persistence;
 
-public class MySQLPage implements Page {
+public class MySQLPage {
 
     private final MySQLLimit limit;
     private final int offset;

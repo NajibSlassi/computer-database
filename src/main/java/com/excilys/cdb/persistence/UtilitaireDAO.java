@@ -15,8 +15,8 @@ import ch.qos.logback.classic.Logger;
 
 public class UtilitaireDAO {
 	 /*
-     * Initialise la requÃªte prÃ©parÃ©e basÃ©e sur la connexion passÃ©e en argument,
-     * avec la requÃªte SQL et les objets donnÃ©s.
+     * Initialise la requète préparé basé sur la connexion passé en argument,
+     * avec la requète SQL et les objets donnÃ©s.
      */
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(Dashboard.class);
 	

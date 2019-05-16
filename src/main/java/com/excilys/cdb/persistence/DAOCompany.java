@@ -48,7 +48,7 @@ public class DAOCompany {
 	 * @throws DAOException
 	 * @throws ParseException
 	 */
-    public List<Company> listCompany(Page pagination) throws DAOException, ParseException {
+    public List<Company> listCompany(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -98,7 +98,7 @@ public class DAOCompany {
 	    return company;
 	}
     
-    public List<Company> listCompanyByName(Page pagination,String name) throws DAOException, ParseException {
+    public List<Company> listCompanyByName(MySQLPage pagination,String name) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;

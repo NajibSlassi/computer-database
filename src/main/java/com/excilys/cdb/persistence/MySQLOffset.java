@@ -1,7 +1,7 @@
  package com.excilys.cdb.persistence;
 
 
-public class MySQLOffset implements Offset {
+public class MySQLOffset {
 
     private final int offset;
 
@@ -9,7 +9,7 @@ public class MySQLOffset implements Offset {
         this.offset = offset;
     }
 
-    @Override
+  
     public String getOffset() {
         if (offset < 0) {
             throw new IllegalArgumentException("Offset couldn't be a negative number.");

@@ -1,6 +1,6 @@
 package com.excilys.cdb.persistence;
 
-public class MySQLLimit implements Limit {
+public class MySQLLimit {
 
     private final MySQLOffset offset;
     private final int limit;
@@ -10,7 +10,6 @@ public class MySQLLimit implements Limit {
         this.limit = limit;
     }
 
-    @Override
     public String getLimit() {
         if (limit <= 0) {
             throw new IllegalArgumentException("Limit should be a strictly positive number.");

@@ -21,16 +21,16 @@ import com.excilys.cdb.model.Computer;
 import ch.qos.logback.classic.Logger;
 
 @Component
-public class DAOComputerImpl{
+public class DAOComputer{
 		
 	
 	
-	public DAOComputerImpl(DataSource dataSource) {
+	public DAOComputer(DataSource dataSource) {
 		super();
 		this.dataSource = dataSource;
 	}
 
-	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputerImpl.class);
+	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputer.class);
 	
 	private final DataSource dataSource;
 	
@@ -71,7 +71,7 @@ public class DAOComputerImpl{
 	
 	
     /* Implémentation de la méthode listCompany() définie dans l'interface DAOCompany */
-    public List<Computer> listComputer(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputer(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -98,7 +98,7 @@ public class DAOComputerImpl{
 	    return listComputers;
     }
     
-    public List<Computer> listComputerByName(Page pagination,String name) throws DAOException, ParseException {
+    public List<Computer> listComputerByName(MySQLPage pagination,String name) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -125,7 +125,7 @@ public class DAOComputerImpl{
 	    return listComputers;
     }
     
-    public List<Computer> listComputerOrderByNameASC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByNameASC(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -152,7 +152,7 @@ public class DAOComputerImpl{
 
 	    return listComputers;
     }
-    public List<Computer> listComputerOrderByNameDESC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByNameDESC(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -179,7 +179,7 @@ public class DAOComputerImpl{
 	    return listComputers;
     }
     
-    public List<Computer> listComputerOrderByIntroASC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByIntroASC(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -207,7 +207,7 @@ public class DAOComputerImpl{
 	    return listComputers;
     }
     
-    public List<Computer> listComputerOrderByIntroDESC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByIntroDESC(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -233,7 +233,7 @@ public class DAOComputerImpl{
 
 	    return listComputers;
     }
-    public List<Computer> listComputerOrderByDiscASC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByDiscASC(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -261,7 +261,7 @@ public class DAOComputerImpl{
 	    return listComputers;
     }
     
-    public List<Computer> listComputerOrderByDiscDESC(Page pagination) throws DAOException, ParseException {
+    public List<Computer> listComputerOrderByDiscDESC(MySQLPage pagination) throws DAOException, ParseException {
     	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;

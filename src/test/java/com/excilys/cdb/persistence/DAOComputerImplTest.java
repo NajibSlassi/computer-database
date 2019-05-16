@@ -33,7 +33,7 @@ public class DAOComputerImplTest {
 	public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
 	@Autowired
-	private DAOComputerImpl dao;
+	private DAOComputer dao;
     
 
     @BeforeClass
