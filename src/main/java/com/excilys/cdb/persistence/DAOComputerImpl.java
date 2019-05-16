@@ -323,7 +323,7 @@ public class DAOComputerImpl{
 	    PreparedStatement preparedStatement = null;
 	    try {
 	        connexion = dataSource.getConnection();
-	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),computer.getCompanyId(),computer.getId());
+	        preparedStatement = UtilitaireDAO.initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(),new Date(computer.getIntroduced().getTime() + 3600*1000), new Date(computer.getDiscontinued().getTime() + 3600*1000),computer.getCompanyId(),computer.getId());
 	        int statut = preparedStatement.executeUpdate();
 	        LOGGER.info("Computer mis à jour au niveau de la DAO: "+computer.toString());
 	        if ( statut == 0 ) {

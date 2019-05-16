@@ -3,7 +3,6 @@ package com.excilys.cdb.vue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,13 +13,7 @@ import org.springframework.stereotype.Component;
 import com.excilys.cdb.controller.Controller;
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.mapper.MapperCompany;
-import com.excilys.cdb.mapper.MapperComputer;
-import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
-import com.excilys.cdb.service.ServiceComputer;
-import com.excilys.cdb.validator.Validator;
 
 import Main.CommandLineTable;
 

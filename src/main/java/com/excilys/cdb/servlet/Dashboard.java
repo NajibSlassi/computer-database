@@ -28,7 +28,7 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
-import com.excilys.cdb.validator.Validator;
+
 
 import ch.qos.logback.classic.Logger;
 

@@ -16,7 +16,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @ComponentScan(basePackages = "com.excilys.cdb")
 public class SpringConfig {
 	private static HikariConfig config;
-    private static HikariDataSource ds;
+    
     
     private static final String FICHIER_PROPERTIES       = "com/excilys/cdb/persistence/datasource.properties";
     private static final String PROPERTY_URL             = "jdbcUrl";
@@ -26,6 +26,7 @@ public class SpringConfig {
     private static final String PROPERTY_PS_CACHE_SIZE="dataSource.prepStmtCacheSize";
     private static final String PROPERTY_PS_CACHE_SQL_LIMITE="dataSource.prepStmtCacheSqlLimit";
 
+	@SuppressWarnings("unused")
 	@Bean
 	public HikariConfig hikariConfig() {
 		Properties properties = new Properties();

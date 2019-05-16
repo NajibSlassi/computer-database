@@ -1,94 +1,56 @@
 package com.excilys.cdb.persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import javax.sql.DataSource;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
+
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import org.mockito.Mock;
 
-
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
 import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.springconfig.SpringConfig;
 
-@RunWith(MockitoJUnitRunner.class)
+import junitparams.JUnitParamsRunner;
+
+@RunWith(JUnitParamsRunner.class)
+@ContextConfiguration(classes = SpringConfig.class)
 public class DAOComputerImplTest {
+	
+	@ClassRule
+	public static final SpringClassRule springClassRule = new SpringClassRule();
+	@Rule
+	public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
-    @Mock
-    DataSource mockDataSource;
-    @Mock
-    Connection mockConn;
-    @Mock
-    PreparedStatement mockPreparedStmnt;
-    @Mock
-    ResultSet mockResultSet;
-    int userId = 100;
-
-    public DAOComputerImplTest() {
-    }
+	@Autowired
+	private DAOComputerImpl dao;
+    
 
     @BeforeClass
     public static void setUpClass() throws Exception {
     }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() throws SQLException {
-        when(mockDataSource.getConnection()).thenReturn(mockConn);
-        when(mockDataSource.getConnection(anyString(), anyString())).thenReturn(mockConn);
-        doNothing().when(mockConn).commit();
-        when(mockConn.prepareStatement(anyString(), anyInt())).thenReturn(mockPreparedStmnt);
-        doNothing().when(mockPreparedStmnt).setString(anyInt(), anyString());
-        when(mockPreparedStmnt.execute()).thenReturn(Boolean.TRUE);
-        when(mockPreparedStmnt.getGeneratedKeys()).thenReturn(mockResultSet);
-        when(mockResultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
-        
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     @Test
-    public void testCreateWithNoExceptions() throws SQLException {
-
-        DAOComputerImpl instance = null;
+    public void testCreateWithNoExceptions() throws SQLException, ParseException {
+    	
         Computer computer = null;
-		try {
-			computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","1"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        instance.createComputer(computer);
-        long id= instance.maxId();
+		computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","5"));
+        dao.createComputer(computer);
+        long id= dao.maxId();
         Computer actual = null;
 		try {
-			actual = instance.showComputer((int)(id));
+			actual = dao.showComputer((int)(id));
 		} catch (DAOException | ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
         assertEquals("Les informations sont incorrectes", computer.getName(), actual.getName());
@@ -96,44 +58,43 @@ public class DAOComputerImplTest {
         assertEquals("Les informations sont incorrectes", computer.getDiscontinued(), actual.getDiscontinued());
         assertEquals("Les informations sont incorrectes", computer.getCompanyId(), actual.getCompanyId());
     }
+    
     @Test
-    public void testDeleteComputer() {
-    	DAOComputerImpl instance = null;
+    public void testUpdateComputer() throws ParseException {
         Computer computer = null;
-		try {
-			computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","1"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		instance.createComputer(computer);
-		long id= instance.maxId();
-        instance.deleteComputer(id);
+		
+		computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2016-01-01","2017-01-02","6"));
+	
+		long id= dao.maxId();
+		computer.setId(id);
+		dao.updateComputer(computer);
+		Computer actual = null;
+		
+		actual = dao.showComputer((int)(id));
+		
+        assertEquals("Les informations sont incorrectes", computer.getName(), actual.getName());
+        assertEquals("Les informations sont incorrectes", computer.getIntroduced(), actual.getIntroduced());
+        assertEquals("Les informations sont incorrectes", computer.getDiscontinued(), actual.getDiscontinued());
+        assertEquals("Les informations sont incorrectes", computer.getCompanyId(), actual.getCompanyId());
+    }
+    
+    @Test
+    public void testDeleteComputer() throws ParseException {
+        Computer computer = null;
+		
+		computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","5"));
+		
+		dao.createComputer(computer);
+		long id= dao.maxId();
+        dao.deleteComputer(id);
         long expected= id-1;
-        long actual = instance.maxId();
+        long actual = dao.maxId();
         
         assertEquals("L'élément n'est pas supprimé", expected, actual);
         
     }
     
-    @Test
-    public void testUpdateComputer() {
-    	DAOComputerImpl instance = null;
-        Computer computer = null;
-		try {
-			computer = MapperComputer.DTOToModel(new DTOComputer("-1","Excilys","2015-01-01","2016-01-02","1"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		instance.updateComputer(computer);
-		long id= instance.maxId();
-        instance.deleteComputer(id);
-        long expected= id-1;
-        long actual = instance.maxId();
-        
-        assertEquals("L'élément n'est pas supprimé", expected, actual);
-    }
+    
     
     
 }

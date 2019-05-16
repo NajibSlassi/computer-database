@@ -79,14 +79,6 @@ public class Controller {
 	
 	
 	
-	/**
-	 * reçoit le choix de l'utilisateur et communique avec le service adéquat pour répondre au besoin
-	 * @param choix de l'utilisateur dans le CLI
-	 * @throws ParseException 
-	 * @throws DAOException 
-	 */
-	
-	
 	
 
 }

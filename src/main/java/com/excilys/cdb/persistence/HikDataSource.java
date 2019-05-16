@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+@SuppressWarnings("unused")
 @Component
 public class HikDataSource {
 	 
