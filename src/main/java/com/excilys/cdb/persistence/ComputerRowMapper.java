@@ -29,6 +29,7 @@ public class ComputerRowMapper implements RowMapper {
 
     		dtoComputer.setCompanyId(strValue1);
     	    return MapperComputer.DTOToModel(dtoComputer);}
+        
         public static List<Computer> mapComputersMapper(List<Map<String, Object>> rows){
         	List<Computer> computers = new ArrayList<Computer>();
             for (Map row : rows) {

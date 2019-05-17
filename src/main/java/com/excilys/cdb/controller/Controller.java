@@ -26,7 +26,7 @@ public class Controller {
 	
 	private ServiceCompany serviceCompany;
 	private ServiceComputer serviceComputer;
-	private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 	
 	public Controller(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
 		super();
@@ -59,7 +59,7 @@ public class Controller {
 			Computer computer = MapperComputer.DTOToModel(dtoComputer);
 			serviceComputer.insert(computer);
 			
-		}else LOGGER.warn("Les données entrées sont incorrectes");
+		}else LOGGER.warn("Les donnï¿½es entrï¿½es sont incorrectes");
 	}
 	public void updateComputer(DTOComputer dtoComputer) throws IllegalArgumentException, DAOException, ParseException {
 		
@@ -74,7 +74,7 @@ public class Controller {
 	}
 	
 	public void deleteCompany(long id) {
-		serviceComputer.deleteCompany(id);
+		serviceCompany.deleteCompany(id);
 	}
 	
 	

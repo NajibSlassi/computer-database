@@ -3,8 +3,11 @@ package com.excilys.cdb.service;
 import java.text.ParseException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.excilys.cdb.controller.Controller;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOCompany;
 import com.excilys.cdb.persistence.DAOException;
@@ -23,6 +26,7 @@ public class ServiceCompany {
 		this.dao = dao;
 	}
 	private final DAOCompany dao;
+	private static Logger LOGGER = LoggerFactory.getLogger(ServiceCompany.class);
 		
 	/**
 	 * List all the company with pagination
@@ -35,6 +39,7 @@ public class ServiceCompany {
 	public List<Company> list(int page, int limit) throws DAOException, ParseException{
 		
 		List<Company> companies = dao.listCompany(new MySQLPage(new MySQLLimit(new MySQLOffset((page-1)*limit), limit),(page-1)*limit));
+		LOGGER.info(companies.size() +" companies found");
 		
 		return companies;
 	}
@@ -48,6 +53,11 @@ public class ServiceCompany {
 			
 			return companies;
 		}
+	
+	public void deleteCompany(Long id) {
+		dao.deleteCompany(id);
+		
+	}
 	
 	
 	

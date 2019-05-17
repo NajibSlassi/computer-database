@@ -39,7 +39,7 @@ public class ServiceComputer {
 	 */
 	public void insert(Computer computer) throws IllegalArgumentException, DAOException, ParseException{
 		dao.createComputer(computer);
-		LOGGER.info("ordinateur créé : " +computer.toString());
+		LOGGER.info("ordinateur crï¿½ï¿½ : " +computer.toString());
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class ServiceComputer {
 		try {
 			computer =dao.showComputer(id);
 		} catch (NullPointerException e) {
-			LOGGER.warn("L'id de l'ordinateur cherché par l'utilisateur ("+id+") n'existe pas dans la base de données "+ e);
+			LOGGER.warn("L'id de l'ordinateur cherchï¿½ par l'utilisateur ("+id+") n'existe pas dans la base de donnï¿½es "+ e);
 		}
 		return (computer);
 	}
@@ -84,7 +84,7 @@ public class ServiceComputer {
 		try {
 			computers =dao.showComputerByCompanyId(long1);
 		} catch (NullPointerException e) {
-			LOGGER.warn("L'id de l'ordinateur cherché par l'utilisateur ("+long1+") n'existe pas dans la base de données "+ e);
+			LOGGER.warn("L'id de l'ordinateur cherchï¿½ par l'utilisateur ("+long1+") n'existe pas dans la base de donnï¿½es "+ e);
 		}
 		return (computers);
 	}
@@ -158,20 +158,5 @@ public class ServiceComputer {
         }
         return 0;
     }
-
-	public long findId(Computer computer) {
-        try {
-        	LOGGER.info(computer.toString());
-            return dao.findId(computer);
-        } catch (DAOException e) {
-            LOGGER.warn("une erreur est survenu lors de la recherche du computer", e);
-        }
-        return -1;
-    }
-
-	public void deleteCompany(Long id) {
-		dao.deleteCompany(id);
-		
-	}
 
 }

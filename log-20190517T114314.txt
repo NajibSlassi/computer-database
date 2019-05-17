@@ -1,0 +1,94 @@
+593  [main] DEBUG o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@6fb554cc
+618  [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+759  [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\najib\git\computer-database\target\classes\com\excilys\cdb\controller\Controller.class]
+759  [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\najib\git\computer-database\target\classes\com\excilys\cdb\persistence\DAOCompany.class]
+915  [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\najib\git\computer-database\target\classes\com\excilys\cdb\persistence\DAOComputer.class]
+915  [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\najib\git\computer-database\target\classes\com\excilys\cdb\service\ServiceCompany.class]
+915  [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\najib\git\computer-database\target\classes\com\excilys\cdb\service\ServiceComputer.class]
+931  [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\najib\git\computer-database\target\classes\com\excilys\cdb\validator\Validator.class]
+931  [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\najib\git\computer-database\target\classes\com\excilys\cdb\vue\CLI.class]
+1118 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerProcessor'
+1118 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerFactory'
+1118 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+1118 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor'
+1134 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'springConfig'
+1134 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'controller'
+1149 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'serviceComputer'
+1165 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'DAOComputer'
+1165 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'hikariDataSource'
+1165 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'hikariConfig'
+1259 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'hikariDataSource' via factory method to bean named 'hikariConfig'
+1259 [main] DEBUG com.zaxxer.hikari.HikariConfig - HikariPool-1 - configuration:
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - allowPoolSuspension.............false
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - autoCommit......................true
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - catalog.........................none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - connectionInitSql...............none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - connectionTestQuery.............none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - connectionTimeout...............30000
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - dataSource......................none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - dataSourceClassName.............none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - dataSourceJNDI..................none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - dataSourceProperties............{user=root, password=<masked>, prepStmtCacheSqlLimit=2048, cachePrepStmts=true, prepStmtCacheSize=250}
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - driverClassName................."com.mysql.cj.jdbc.Driver"
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - healthCheckProperties...........{}
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - healthCheckRegistry.............none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - idleTimeout.....................600000
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - initializationFailFast..........true
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - initializationFailTimeout.......1
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - isolateInternalQueries..........false
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - jdbc4ConnectionTest.............false
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - jdbcUrl........................."jdbc:mysql://localhost:3306/computer-database-db?serverTimezone=UTC"
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - leakDetectionThreshold..........0
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - maxLifetime.....................1800000
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - maximumPoolSize.................10
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - metricRegistry..................none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - metricsTrackerFactory...........none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - minimumIdle.....................10
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - password........................<masked>
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - poolName........................"HikariPool-1"
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - readOnly........................false
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - registerMbeans..................false
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - scheduledExecutor...............none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - scheduledExecutorService........internal
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - threadFactory...................internal
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - transactionIsolation............default
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - username........................none
+1274 [main] DEBUG com.zaxxer.hikari.HikariConfig - validationTimeout...............5000
+1274 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2274 [main] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7b50df34
+2290 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'DAOComputer' via constructor to bean named 'hikariDataSource'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'serviceComputer' via constructor to bean named 'DAOComputer'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'serviceCompany'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'DAOCompany'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'DAOCompany' via constructor to bean named 'hikariDataSource'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'serviceCompany' via constructor to bean named 'DAOCompany'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'controller' via constructor to bean named 'serviceComputer'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'controller' via constructor to bean named 'serviceCompany'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'validator'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'CLI'
+2290 [main] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Autowiring by type from bean name 'CLI' via constructor to bean named 'controller'
+2400 [HikariPool-1 housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=1, active=0, idle=1, waiting=0)
+2415 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4fa35e84
+2431 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@e9e54bf
+2447 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3fdabb6d
+2447 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6eb1abf0
+2462 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2a5235bc
+2478 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6aff31f8
+2478 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@49ba68eb
+2494 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@461e2bca
+2509 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2602927
+2509 [HikariPool-1 connection adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=10, active=0, idle=10, waiting=0)
+9789 [main] INFO  com.excilys.cdb.vue.CLI - Action choisie par l'utilisateur: 2
+11615 [main] INFO  com.excilys.cdb.vue.CLI - Page demand� par l'utilisateur: 1
+12653 [main] INFO  com.excilys.cdb.vue.CLI - Elements par page deemand�s par l'utilisateur: 10
+12670 [main] DEBUG o.s.jdbc.core.JdbcTemplate - Executing SQL query [SELECT id, name FROM company LIMIT 0, 10]
+12670 [main] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+12717 [main] INFO  c.e.cdb.service.ServiceCompany - 0 companies found
+12717 [main] DEBUG com.excilys.cdb.vue.CLI - Affichage de la liste des soci�t�s...
+32414 [HikariPool-1 housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=10, active=0, idle=10, waiting=0)
+62419 [HikariPool-1 housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=10, active=0, idle=10, waiting=0)
+92427 [HikariPool-1 housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=10, active=0, idle=10, waiting=0)
+122436 [HikariPool-1 housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=10, active=0, idle=10, waiting=0)
+152451 [HikariPool-1 housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=10, active=0, idle=10, waiting=0)
+182466 [HikariPool-1 housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=10, active=0, idle=10, waiting=0)
