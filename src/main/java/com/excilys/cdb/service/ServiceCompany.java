@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.excilys.cdb.controller.Controller;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOCompany;
 import com.excilys.cdb.persistence.DAOException;
@@ -16,7 +15,7 @@ import com.excilys.cdb.persistence.MySQLOffset;
 import com.excilys.cdb.persistence.MySQLPage;
 
 
-@Component
+@Component()
 public class ServiceCompany {
 	
 	
@@ -58,8 +57,4 @@ public class ServiceCompany {
 		dao.deleteCompany(id);
 		
 	}
-	
-	
-	
-
 }

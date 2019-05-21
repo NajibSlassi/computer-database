@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.excilys.cdb.mapper.DTOComputer;
 
 
-@Component
+@Component()
 public class Validator {
 	
 
@@ -38,7 +38,7 @@ public class Validator {
 		}
 		
 		if (introduced.after(discontinued)){ 
-			al.add("date introduction supérieur à date de sortie");
+			al.add("date introduction supï¿½rieur ï¿½ date de sortie");
 			}
 		
 		return al;

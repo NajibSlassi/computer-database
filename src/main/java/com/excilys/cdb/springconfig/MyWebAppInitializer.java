@@ -5,18 +5,22 @@ import javax.servlet.ServletContext;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class MyWebAppInitializer implements WebApplicationInitializer {
+public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-	@Override
-	public void onStartup(ServletContext container) {
-		// Create the 'root' Spring application context
-		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(SpringConfig.class);
+	   @Override
+	   protected Class<?>[] getRootConfigClasses() {
+	      return new Class[] { SpringConfig.class };
+	   }
 
-		// Manage the lifecycle of the root application context
-		container.addListener(new ContextLoaderListener(rootContext));
+	   @Override
+	   protected Class<?>[] getServletConfigClasses() {
+	      return new Class[] { WebConfig.class };
+	   }
 
-
+	   @Override
+	   protected String[] getServletMappings() {
+	      return new String[] { "/" };
+	   }
 	}
-}
