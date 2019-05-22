@@ -51,9 +51,8 @@ public class ComputerRowMapper implements RowMapper {
                 
                 if (row.get("company_id")!=null) {
                 	dtoComputer.setCompanyId(String.valueOf(row.get("company_id")));
-              
-                computers.add(MapperComputer.DTOToModel(dtoComputer));
             }
+                computers.add(MapperComputer.DTOToModel(dtoComputer));
                 }
             return computers;
         }

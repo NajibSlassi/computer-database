@@ -1,5 +1,8 @@
 package com.excilys.cdb.controller;
 
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,7 +43,6 @@ public class DashboardController{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DashboardController.class);
 	
 	public static final String DEFAULT_PAGE_SIZE = "50";
@@ -49,8 +51,9 @@ public class DashboardController{
    
     public ServiceCompany serviceCompany;
     
-    public DashboardController(ServiceComputer computerService,ServiceCompany companyService
-    	    ) {
+    public DashboardController(ServiceComputer computerService,
+    		                   ServiceCompany companyService
+    	                       ) {
   
     	this.serviceComputer = computerService;
     	this.serviceCompany=companyService;
@@ -87,7 +90,7 @@ public class DashboardController{
 					    		@RequestParam(value="page",defaultValue = "1") long pageIndex, 
 					            @RequestParam(value="size",defaultValue = DEFAULT_PAGE_SIZE) long pageSize,
 					            @RequestParam(value="ord",required = false) long orderBy,
-					            @RequestParam(value="search",required = false) String search){
+					            @RequestParam(value="search",defaultValue = "%") String search){
     	
     	String[] arrayId = checkedComputers.split(",");
 		for(String id:arrayId) {
@@ -101,15 +104,21 @@ public class DashboardController{
      
     }
     
-    @GetMapping(value={"/dashboard"})
+    @GetMapping(value={"/dashboard","/"})
     public ModelAndView doGet(@RequestParam(value="page",defaultValue = "1") long pageIndex, 
-    		            @RequestParam(value="size",defaultValue = "50") long pageSize,
+    		            @RequestParam(value="size",defaultValue = DEFAULT_PAGE_SIZE) long pageSize,
     		            @RequestParam(value="ord",required = false) String orderBy,
-    		            @RequestParam(value="search",required = false) String search
+    		            @RequestParam(value="search",defaultValue = "%") String search
     		            )
             {
 
         final long numberOfComputers = serviceComputer.count();
+        long indexLastPage = indexLastPage(numberOfComputers, pageSize);
+        if (redirectIfPageOutOfRange(pageIndex, numberOfComputers, pageSize)==0) {
+        	return new ModelAndView(redirectToPageNumber(1, pageSize));
+        }else if (redirectIfPageOutOfRange(pageIndex, numberOfComputers, pageSize)==1) {
+        	return new ModelAndView(redirectToPageNumber(indexLastPage, pageSize));
+        }
         
         List<Computer> computers = null;
         List<DTOComputer> dtoComputers = new LinkedList<DTOComputer>();
@@ -218,7 +227,7 @@ public class DashboardController{
 		
 		
 	
-		if (search!=null) {
+		if (!search.equals("%")) {
 			try {
 				String word = search;
 				computers = serviceComputer.listByName((int)(pageIndex), (int)pageSize,word);
@@ -245,9 +254,9 @@ public class DashboardController{
 			}
 		}
 		final ModelAndView modelAndView = new ModelAndView("dashboard");
-		
+		modelAndView.addObject("search", search);
 		modelAndView.addObject("numberOfComputers", numberOfComputers);
-        modelAndView.addObject("computers", computers);
+        modelAndView.addObject("computers", dtoComputers);
         /*
          * setPaggingParameters
          */
@@ -279,6 +288,30 @@ public class DashboardController{
 		}
     	return dtoComputers;
     }
+    private int redirectIfPageOutOfRange( long pageIndex, double numberOfComputers,
+            long pageSize) {
+		long indexLastPage = indexLastPage(numberOfComputers, pageSize);
+		if (pageIndex < 1) {
+		
+		return 0;
+		}
+		if (pageIndex > indexLastPage) {
+		
+		return 1;
+		}
+		return 2;
+		}
+    private long indexLastPage(double numberOfEntities, long pageSize) {
+        return (long) Math.ceil(numberOfEntities / pageSize);
+    }
+    
+    private String encode(String s) throws UnsupportedEncodingException {
+    	return URLEncoder.encode(s, "UTF-8");
+        }
+    
+    
+    
+    
     
 
 }

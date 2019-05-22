@@ -51,7 +51,7 @@ public class DAOComputer{
     	jdbcTemplate = new JdbcTemplate(dataSource);
 
     	List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_ALL_COMPUTERS+pagination.getPagination());
-       
+        LOGGER.info("Longueure de la liste des computers reçu: "+ Integer.toString(rows.size()));
         return ComputerRowMapper.mapComputersMapper(rows);
     }
       

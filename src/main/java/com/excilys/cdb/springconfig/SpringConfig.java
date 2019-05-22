@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan(basePackages = "com.excilys.cdb")
+@ComponentScan(basePackages = {"Main","com.excilys.cdb"})
 public class SpringConfig {
 	private static HikariConfig config;
     

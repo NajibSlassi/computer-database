@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.excilys.cdb.springconfig.SpringConfig;
 import com.excilys.cdb.vue.CLI;
 
-@Component
+@Component()
 public class cdb{
 
 	private final CLI cli;
