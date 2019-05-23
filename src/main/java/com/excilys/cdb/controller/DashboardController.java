@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.regex.Pattern;
 
 import org.slf4j.LoggerFactory;
 
@@ -19,14 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.mapper.MapperComputer;
-import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
 
 import org.springframework.stereotype.Controller;
-
 
 import ch.qos.logback.classic.Logger;
 
@@ -40,12 +37,12 @@ public class DashboardController{
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DashboardController.class);
 	
 	public static final String DEFAULT_PAGE_SIZE = "50";
-	private static final String ORDER_BY_NAME_ASC= "ORDER BY name ASC";
-	private static final String ORDER_BY_NAME_DESC= "ORDER BY name DESC";
-	private static final String ORDER_BY_INTRO_ASC= "ORDER BY name ASC";
-	private static final String ORDER_BY_INTRO_DESC= "ORDER BY name DESC";
-	private static final String ORDER_BY_DISC_ASC= "ORDER BY name ASC";
-	private static final String ORDER_BY_DISC_DESC= "ORDER BY name DESC";
+	private static final String ORDER_BY_NAME_ASC= "ORDER BY computer.name ASC";
+	private static final String ORDER_BY_NAME_DESC= "ORDER BY computer.name DESC";
+	private static final String ORDER_BY_INTRO_ASC= "ORDER BY computer.introduced ASC";
+	private static final String ORDER_BY_INTRO_DESC= "ORDER BY computer.introduced DESC";
+	private static final String ORDER_BY_DISC_ASC= "ORDER BY computer.discontinued ASC";
+	private static final String ORDER_BY_DISC_DESC= "ORDER BY computer.discontinued DESC";
 	
     public ServiceComputer serviceComputer;
    
@@ -108,7 +105,7 @@ public class DashboardController{
     		            ) throws DAOException, ParseException
             {
 
-        final long numberOfComputers = serviceComputer.count();
+        long numberOfComputers = serviceComputer.count();
         long indexLastPage = indexLastPage(numberOfComputers, pageSize);
         if (redirectIfPageOutOfRange(pageIndex, numberOfComputers, pageSize)==0) {
         	return new ModelAndView(redirectToPageNumber(1, pageSize));
@@ -155,27 +152,18 @@ public class DashboardController{
 		
 		if (!search.equals("%")) {
 				String word = search;
-				computers = serviceComputer.listByName((int)(pageIndex), (int)pageSize,word);
-				List<Company> companies = serviceCompany.listByName((int)(pageIndex), (int)pageSize,word);
-				
+				computers = serviceComputer.listByName((int)(pageIndex), (int)pageSize,word,orderByString);
+				LOGGER.info("avec le mot cherché "+ computers.size()+"ordinateurs trouvés" );
 				dtoComputers = new LinkedList<DTOComputer>();
-				for (Company company:companies) {
-					List<Computer> computersByCompany = serviceComputer.findComputerByCompanyId(company.getId());
-					for (Computer computer:computersByCompany) {
-						if (Pattern.compile(Pattern.quote(word), Pattern.CASE_INSENSITIVE).matcher(company.getName()).find()){
-							dtoComputers.add(MapperComputer.modelToDTO(computer));
-						}
-					}
-					
-				}
-				
 				for (Computer computer: computers) {
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
 				}
+				
 				setNameCompanyToDTOComputer(dtoComputers);
 		}
 		final ModelAndView modelAndView = new ModelAndView("dashboard");
 		modelAndView.addObject("search", search);
+		modelAndView.addObject("numberOfComputersDisplayed", dtoComputers.size());
 		modelAndView.addObject("numberOfComputers", numberOfComputers);
         modelAndView.addObject("computers", dtoComputers);
         /*
@@ -183,7 +171,8 @@ public class DashboardController{
          */
         modelAndView.addObject("previous", pageIndex - 1);
         modelAndView.addObject("next", pageIndex + 1);
-        final List<Long> pages = indexOfPages(pageIndex, pageSize, numberOfComputers);
+        //final List<Long> pages = indexOfPages(pageIndex, pageSize, numberOfComputers);
+        final List<Long> pages = indexOfPages(pageIndex, pageSize, dtoComputers.size());
         modelAndView.addObject("pages", pages);
         
         modelAndView.addObject("size", pageSize);

@@ -30,7 +30,6 @@ import com.excilys.cdb.validator.Validator;
 @Controller
 @RequestMapping({ "/editcomputer"})
 public class EditComputerController {
-	private static final long serialVersionUID = 29042019L;
     public ServiceComputer serviceComputer;
     
     private static Logger LOGGER = LoggerFactory.getLogger(EditComputerController.class);

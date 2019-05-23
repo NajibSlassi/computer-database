@@ -31,7 +31,7 @@ public class DAOComputer{
 	
 	private static final String SQL_COUNT = "SELECT COUNT(id) AS count FROM computer";
 	private static final String SQL_SELECT_ALL_COMPUTERS = "SELECT id, name, introduced, discontinued, company_id FROM computer ";
-	private static final String SQL_SELECT_COMPUTER_BY_NAME = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE name LIKE ? ";
+	private static final String SQL_SELECT_ALL_SEARCH = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer left join company on (computer.company_id=company.id) WHERE computer.name LIKE ? OR company.name LIKE ? "; 
 	private static final String SQL_SELECT_COMPUTER_BY_COMPANY_ID = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE company_id = ? ";
 	private static final String SQL_SELECT_PAR_ID = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?";
 	private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES (?, ?, ?, ?)";
@@ -61,16 +61,16 @@ public class DAOComputer{
     	
     	jdbcTemplate = new JdbcTemplate(dataSource);
         
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_COMPUTER_BY_NAME+orderBy+" "+pagination.getPagination(),new Object[] { '%'+name+'%' });
-        
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_ALL_SEARCH+orderBy+" "+pagination.getPagination(),new Object[] { '%'+name+'%','%'+name+'%' });
+        LOGGER.info("1 after executing the requests :" + rows.size()+" lignes trouvés ");
         return ComputerRowMapper.mapComputersMapper(rows);
     }
     public List<Computer> listComputerByName(MySQLPage pagination,String name) throws DAOException, ParseException {
     	
     	jdbcTemplate = new JdbcTemplate(dataSource);
         
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_COMPUTER_BY_NAME+pagination.getPagination(),new Object[] { '%'+name+'%' });
-        
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_ALL_SEARCH+pagination.getPagination(),new Object[] { '%'+name+'%','%'+name+'%' });
+        LOGGER.info("2 after executing the requests :" + rows.size()+" lignes trouvés ");
         return ComputerRowMapper.mapComputersMapper(rows);
     }
     

@@ -4,11 +4,9 @@ import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.junit.Test;
 
-import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 public class MapperComputerTest {

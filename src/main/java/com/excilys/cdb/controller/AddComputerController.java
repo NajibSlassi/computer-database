@@ -1,13 +1,7 @@
 package com.excilys.cdb.controller;
 
-import java.io.IOException;
-import java.text.ParseException;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.cdb.mapper.DTOComputer;
@@ -36,20 +28,15 @@ import com.excilys.cdb.vue.CLI;
 @Controller
 @RequestMapping({ "/addcomputer"})
 public class AddComputerController {
-	private static final long serialVersionUID = 29042019L;
     
     private static Logger LOGGER = LoggerFactory.getLogger(CLI.class);
 	private Validator validator;
-	
-	
 	private ServiceComputer serviceComputer;
-	private ServiceCompany serviceCompany;
-	
-	
+
 	public AddComputerController(ServiceComputer computerService,ServiceCompany companyService,Validator validator) {
   
     	this.serviceComputer = computerService;
-    	this.serviceCompany=companyService;
+    	
     	this.validator=validator;    	
         }
 	
@@ -59,8 +46,6 @@ public class AddComputerController {
 		return "addComputer";
 	}
             
-	
-	
 	@PostMapping		
 	public ModelAndView doPost( @RequestParam(value="computerName") String computerName,
 			@RequestParam(value="introduced") String introduced,
@@ -89,17 +74,7 @@ public class AddComputerController {
 			modelAndView.addObject("al", validator.validateDTOComputer(dtoComputer));
 			return modelAndView;
 		}
-		
-		
-	
-		
-		
 	}
-	private String redirectToPageNumber(long pageNumber, long pageSize){
-    	return "redirect:"+"dashboard?page=" + pageNumber + "&size=" + pageSize;
-    }	
 	
-	private void setCompanyIdList(HttpServletRequest request) throws Exception {
-		request.setAttribute("companyList", serviceCompany.list(1,100));
-	}
+
 }

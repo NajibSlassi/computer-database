@@ -27,7 +27,7 @@
 
 <section id="main">
     <div class="container">
-        <h1 id="homeTitle">${numberOfComputers} <spring:message code="dashboard.Computersfound"/></h1>
+        <h1 id="homeTitle">${numberOfComputers} <spring:message code="dashboard.ComputersfoundTotal"/> ${numberOfComputersDisplayed} <spring:message code="dashboard.Computersfound"/></h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
                 <form id="searchForm" action="#" method="GET" class="form-inline">
@@ -72,15 +72,15 @@
                         class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=1&page='+${current}+'&size='+${currentSize}">ASC</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=2&page='+${current}+'&size='+${currentSize}">DESC</button>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?search='+'${search}'+'&ord=1&page='+${current}+'&size='+${currentSize}">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?search='+'${search}'+'&ord=2&page='+${current}+'&size='+${currentSize}">DESC</button>
                 <spring:message code="dashboard.computerName"/></th>
-                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=3&page='+${current}+'&size='+${currentSize}">ASC</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=4&page='+${current}+'&size='+${currentSize}">DESC</button>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?search='+'${search}'+'&ord=3&page='+${current}+'&size='+${currentSize}">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?search='+'${search}'+'&ord=4&page='+${current}+'&size='+${currentSize}">DESC</button>
                 <spring:message code="dashboard.introduced"/></th>
                 <!-- Table header for Discontinued Date -->
-                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=5&page='+${current}+'&size='+${currentSize}">ASC</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=6&page='+${current}+'&size='+${currentSize}">DESC</button>
+                <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?search='+'${search}'+'&ord=5&page='+${current}+'&size='+${currentSize}">ASC</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?search='+'${search}'+'&ord=6&page='+${current}+'&size='+${currentSize}">DESC</button>
                 <spring:message code="dashboard.discontinued"/></th>
                 <!-- Table header for Company -->
                 <th><spring:message code="dashboard.company"/></th>

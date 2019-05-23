@@ -1,0 +1,2 @@
+608  [main] DEBUG o.s.t.c.j.rules.SpringClassRule - Applying SpringClassRule to test class [com.excilys.cdb.persistence.DAOComputerImplTest]
+829  [main] DEBUG o.s.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
