@@ -42,10 +42,17 @@ public class Dashboard extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(Dashboard.class);
+	private static final String ORDER_BY_NAME_ASC= "ORDER BY name ASC";
+	private static final String ORDER_BY_NAME_DESC= "ORDER BY name DESC";
+	private static final String ORDER_BY_INTRO_ASC= "ORDER BY name ASC";
+	private static final String ORDER_BY_INTRO_DESC= "ORDER BY name DESC";
+	private static final String ORDER_BY_DISC_ASC= "ORDER BY name ASC";
+	private static final String ORDER_BY_DISC_DESC= "ORDER BY name DESC";
 	
 	public static final int DEFAULT_PAGE_SIZE = 50;
     public ServiceComputer serviceComputer;
     public ServiceCompany serviceCompany;
+    
     
     @Override
 	public void init() throws ServletException {
@@ -99,6 +106,7 @@ public class Dashboard extends HttpServlet {
             throws ServletException, IOException {
         long pageIndex = getPageIndex(request);
         long pageSize = getPageSize(request);
+        String orderBy=getOrderParam(request);
 
         final long numberOfComputers = serviceComputer.count();
         if (redirectIfPageOutOfRange(response, pageIndex, numberOfComputers, pageSize)) {
@@ -122,95 +130,37 @@ public class Dashboard extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
-		if (Integer.toString(1).equals(request.getParameter("ord"))) {
-				try {
-					
-					computers = serviceComputer.listOrderByNameASC((int)(pageIndex), (int)pageSize);
-					dtoComputers = new LinkedList<DTOComputer>();
-					for (Computer computer: computers) {
-						dtoComputers.add(MapperComputer.modelToDTO(computer));
-					}
-					setNameCompanyToDTOComputer(dtoComputers);
-					
-				} catch (DAOException | ParseException e) {
-					
-					e.printStackTrace();
-				}
-			}
-		
-		else if (Integer.toString(2).equals(request.getParameter("ord"))) {
-			try {
-				
-				computers = serviceComputer.listOrderByNameDESC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-				
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+		String orderByString=new String();
+		if (Integer.toString(1).equals(orderBy)) {
+			orderByString=ORDER_BY_NAME_ASC;
 		}
-		else if (Integer.toString(3).equals(request.getParameter("ord"))) {
-			try {
-				computers = serviceComputer.listOrderByIntroASC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
+		else if (Integer.toString(2).equals(orderBy)) {
 				
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+			orderByString=ORDER_BY_NAME_DESC;
 		}
-		else if (Integer.toString(4).equals(request.getParameter("ord"))) {
-			try {
-				computers = serviceComputer.listOrderByIntroDESC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+		else if (Integer.toString(3).equals(orderBy)) {
+			orderByString=ORDER_BY_INTRO_ASC;
 		}
-		else if (Integer.toString(5).equals(request.getParameter("ord"))) {
-			try {
-				computers = serviceComputer.listOrderByDiscASC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+		else if (Integer.toString(4).equals(orderBy)) {
+			orderByString=ORDER_BY_INTRO_DESC;
 		}
-		else if (Integer.toString(6).equals(request.getParameter("ord"))) {
-			try {
-				computers = serviceComputer.listOrderByDiscDESC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-				
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
+		else if (Integer.toString(5).equals(orderBy)) {
+			orderByString=ORDER_BY_DISC_ASC;
+			} 
+		else if (Integer.toString(6).equals(orderBy)) {
+			orderByString=ORDER_BY_DISC_DESC;
+		}	
+		try {
+			computers = serviceComputer.list((int)(pageIndex), (int)pageSize,orderByString);
+			dtoComputers = new LinkedList<DTOComputer>();
+			for (Computer computer: computers) {
+				dtoComputers.add(MapperComputer.modelToDTO(computer));
 			}
+			setNameCompanyToDTOComputer(dtoComputers);
+		} catch (DAOException | ParseException e1) {
+			LOGGER.warn("probleme lors du listing des ordinateurs");
 		}
 		
-		
-	
 		if (request.getParameter("search")!=null) {
 			try {
 				String word = request.getParameter("search");
@@ -224,8 +174,7 @@ public class Dashboard extends HttpServlet {
 						if (Pattern.compile(Pattern.quote(word), Pattern.CASE_INSENSITIVE).matcher(company.getName()).find()){
 							dtoComputers.add(MapperComputer.modelToDTO(computer));
 						}
-					}
-					
+					}	
 				}
 				
 				for (Computer computer: computers) {
@@ -242,7 +191,6 @@ public class Dashboard extends HttpServlet {
         setComputers(request, dtoComputers);
         
         setPaggingParameters(request, pageIndex, numberOfComputers, pageSize);
-
         
         setPageSize(request, pageSize);
         setCurrentPageIndex(request, pageIndex);
@@ -320,7 +268,11 @@ public class Dashboard extends HttpServlet {
         final Long pageIndex = getParameterAsLong(request, "page");
         return Objects.nonNull(pageIndex) ? pageIndex : 1;
     }
-
+    
+    private String getOrderParam(HttpServletRequest request) {
+        final String orderParam = request.getParameter("ord");
+        return Objects.nonNull(orderParam) ? orderParam : "7";
+    }
     private Long getParameterAsLong(HttpServletRequest request, String nameParameter) {
         final String parameter = request.getParameter(nameParameter);
         try {

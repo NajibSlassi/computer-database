@@ -39,7 +39,7 @@ public class ServiceComputer {
 	 */
 	public void insert(Computer computer) throws IllegalArgumentException, DAOException, ParseException{
 		dao.createComputer(computer);
-		LOGGER.info("ordinateur cr�� : " +computer.toString());
+		LOGGER.info("ordinateur cree : " +computer.toString());
 	}
 	
 	/**
@@ -101,51 +101,22 @@ public class ServiceComputer {
 		
 		return computers;
 	}
-	
-	public List<Computer> listOrderByNameASC(int offset, int limit) throws DAOException, ParseException{
-		
-		List<Computer> computers = dao.listComputerOrderByNameASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-
-		return computers;
-	}
-	
-	public List<Computer> listOrderByNameDESC(int offset, int limit) throws DAOException, ParseException{
-		
-		List<Computer> computers = dao.listComputerOrderByNameDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		LOGGER.info("i'm also here");
+	public List<Computer> list(int offset, int limit,String orderBy) throws DAOException, ParseException{
+			
+		List<Computer> computers = dao.listComputer(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),orderBy);
 		
 		return computers;
 	}
-	
-	public List<Computer> listOrderByIntroASC(int offset, int limit) throws DAOException, ParseException{
-		List<Computer> computers = dao.listComputerOrderByIntroASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		return computers;
-	}
-	
-	public List<Computer> listOrderByIntroDESC(int offset, int limit) throws DAOException, ParseException{
-		
-		List<Computer> computers = dao.listComputerOrderByIntroDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-
-		return computers;
-	}
-	
-	public List<Computer> listOrderByDiscASC(int offset, int limit) throws DAOException, ParseException{
-		
-		List<Computer> computers = dao.listComputerOrderByDiscASC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		
-		return computers;
-	}
-	public List<Computer> listOrderByDiscDESC(int offset, int limit) throws DAOException, ParseException{
-		
-		List<Computer> computers = dao.listComputerOrderByDiscDESC(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
-		
-		return computers;
-	}
-	
 	
 	public List<Computer> listByName(int offset, int limit,String name) throws DAOException, ParseException{
 		
 		List<Computer> computers = dao.listComputerByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name);
+		
+		return computers;
+	}
+	public List<Computer> listByName(int offset, int limit,String name,String orderBy) throws DAOException, ParseException{
+		
+		List<Computer> computers = dao.listComputerByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name,orderBy);
 		
 		return computers;
 	}

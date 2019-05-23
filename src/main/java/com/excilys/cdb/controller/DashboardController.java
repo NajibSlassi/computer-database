@@ -40,6 +40,12 @@ public class DashboardController{
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DashboardController.class);
 	
 	public static final String DEFAULT_PAGE_SIZE = "50";
+	private static final String ORDER_BY_NAME_ASC= "ORDER BY name ASC";
+	private static final String ORDER_BY_NAME_DESC= "ORDER BY name DESC";
+	private static final String ORDER_BY_INTRO_ASC= "ORDER BY name ASC";
+	private static final String ORDER_BY_INTRO_DESC= "ORDER BY name DESC";
+	private static final String ORDER_BY_DISC_ASC= "ORDER BY name ASC";
+	private static final String ORDER_BY_DISC_DESC= "ORDER BY name DESC";
 	
     public ServiceComputer serviceComputer;
    
@@ -54,7 +60,6 @@ public class DashboardController{
     	
         }
     
-
     private List<Long> indexOfPages(long pageCurrent, long pageSize, long numberOfEntities) {
         final Set<Long> pages = new TreeSet<>();
         int shift = 0;
@@ -92,10 +97,7 @@ public class DashboardController{
 			serviceComputer.delete(Long.parseLong(id));
 			
 		}  
-      
 		return redirectToPageNumber(pageIndex, pageSize);
-          
-     
     }
     
     @GetMapping(value={"/","/dashboard"})
@@ -103,7 +105,7 @@ public class DashboardController{
     		            @RequestParam(value="size",defaultValue = DEFAULT_PAGE_SIZE) long pageSize,
     		            @RequestParam(value="ord",required = false) String orderBy,
     		            @RequestParam(value="search",defaultValue = "%") String search
-    		            )
+    		            ) throws DAOException, ParseException
             {
 
         final long numberOfComputers = serviceComputer.count();
@@ -117,112 +119,41 @@ public class DashboardController{
         List<Computer> computers = null;
         List<DTOComputer> dtoComputers = new LinkedList<DTOComputer>();
        
-		try {
+		
 			computers = serviceComputer.list((int)(pageIndex), (int)pageSize);
 			for (Computer computer: computers) {
 				dtoComputers.add(MapperComputer.modelToDTO(computer));
 			}
 			setNameCompanyToDTOComputer(dtoComputers);
-			
-		} catch (DAOException e) {
-			
-			e.printStackTrace();
-		} catch (ParseException e) {
 		
-			e.printStackTrace();
-		}
-		
-		
+		String orderByString=new String();
 		if (Integer.toString(1).equals(orderBy)) {
-				try {
-					
-					computers = serviceComputer.listOrderByNameASC((int)(pageIndex), (int)pageSize);
-					dtoComputers = new LinkedList<DTOComputer>();
-					for (Computer computer: computers) {
-						dtoComputers.add(MapperComputer.modelToDTO(computer));
-					}
-					setNameCompanyToDTOComputer(dtoComputers);
-					
-				} catch (DAOException | ParseException e) {
-					
-					e.printStackTrace();
-				}
-			}
-		
+			orderByString=ORDER_BY_NAME_ASC;
+		}
 		else if (Integer.toString(2).equals(orderBy)) {
-			try {
 				
-				computers = serviceComputer.listOrderByNameDESC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-				
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+			orderByString=ORDER_BY_NAME_DESC;
 		}
 		else if (Integer.toString(3).equals(orderBy)) {
-			try {
-				computers = serviceComputer.listOrderByIntroASC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-				
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+			orderByString=ORDER_BY_INTRO_ASC;
 		}
 		else if (Integer.toString(4).equals(orderBy)) {
-			try {
-				computers = serviceComputer.listOrderByIntroDESC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+			orderByString=ORDER_BY_INTRO_DESC;
 		}
 		else if (Integer.toString(5).equals(orderBy)) {
-			try {
-				computers = serviceComputer.listOrderByDiscASC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
-		}
+			orderByString=ORDER_BY_DISC_ASC;
+			} 
 		else if (Integer.toString(6).equals(orderBy)) {
-			try {
-				computers = serviceComputer.listOrderByDiscDESC((int)(pageIndex), (int)pageSize);
-				dtoComputers = new LinkedList<DTOComputer>();
-				for (Computer computer: computers) {
-					dtoComputers.add(MapperComputer.modelToDTO(computer));
-				}
-				setNameCompanyToDTOComputer(dtoComputers);
-				
-			} catch (DAOException | ParseException e) {
-				
-				e.printStackTrace();
-			}
+			orderByString=ORDER_BY_DISC_DESC;
+		}	
+		computers = serviceComputer.list((int)(pageIndex), (int)pageSize,orderByString);
+		dtoComputers = new LinkedList<DTOComputer>();
+		for (Computer computer: computers) {
+			dtoComputers.add(MapperComputer.modelToDTO(computer));
 		}
+		setNameCompanyToDTOComputer(dtoComputers);
 		
-		
-	
 		if (!search.equals("%")) {
-			try {
 				String word = search;
 				computers = serviceComputer.listByName((int)(pageIndex), (int)pageSize,word);
 				List<Company> companies = serviceCompany.listByName((int)(pageIndex), (int)pageSize,word);
@@ -242,10 +173,6 @@ public class DashboardController{
 					dtoComputers.add(MapperComputer.modelToDTO(computer));
 				}
 				setNameCompanyToDTOComputer(dtoComputers);
-				
-			} catch (DAOException | ParseException e) {
-				LOGGER.warn("Erreur survenu lors de l'execution de la fontion search: " + e.toString());;
-			}
 		}
 		final ModelAndView modelAndView = new ModelAndView("dashboard");
 		modelAndView.addObject("search", search);
