@@ -1,8 +1,5 @@
 package com.excilys.cdb.controller;
 
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -36,13 +33,10 @@ import ch.qos.logback.classic.Logger;
 /**
  * Servlet implementation class Dashboard
  */
-
+@RequestMapping({"/" , "/dashboard"})
 @Controller
-@RequestMapping({ "/dashboard", "/" })
 public class DashboardController{
-	/**
-	 * 
-	 */
+	
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DashboardController.class);
 	
 	public static final String DEFAULT_PAGE_SIZE = "50";
@@ -100,11 +94,11 @@ public class DashboardController{
 		}  
       
 		return redirectToPageNumber(pageIndex, pageSize);
-        
+          
      
     }
     
-    @GetMapping(value={"/dashboard","/"})
+    @GetMapping(value={"/","/dashboard"})
     public ModelAndView doGet(@RequestParam(value="page",defaultValue = "1") long pageIndex, 
     		            @RequestParam(value="size",defaultValue = DEFAULT_PAGE_SIZE) long pageSize,
     		            @RequestParam(value="ord",required = false) String orderBy,
@@ -305,9 +299,7 @@ public class DashboardController{
         return (long) Math.ceil(numberOfEntities / pageSize);
     }
     
-    private String encode(String s) throws UnsupportedEncodingException {
-    	return URLEncoder.encode(s, "UTF-8");
-        }
+
     
     
     

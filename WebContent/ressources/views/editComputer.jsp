@@ -1,4 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<spring:message code=""/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +21,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard"> <spring:message code="application.name"/> </a>
         </div>
     </header>
     <section id="main">
@@ -28,32 +31,32 @@
                     <div class="label label-default pull-right">
                         id: ${id}
                     </div>
-                    <h1>Edit Computer</h1>
+                    <h1><spring:message code="editcomputer"/></h1>
 
                     <form action="editComputer" method="POST">
                         <input type="hidden" name = "id" value='${id}' id="id"/> <!-- TODO: Change this value with the computer id -->
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
+                                <label for="computerName"><spring:message code="dashboard.computerName"/></label>
                                 <input type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name">
                             </div>
                             <div class="form-group">
-                                <label for="introduced">Introduced date</label>
+                                <label for="introduced"><spring:message code="dashboard.introduced"/></label>
                                 <input type="date" name="introduced" class="form-control" id="introduced" placeholder="Introduced date">
                             </div>
                             <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
+                                <label for="discontinued"><spring:message code="dashboard.discontinued"/></label>
                                 <input type="date" name="discontinued" class="form-control" id="discontinued" placeholder="Discontinued date">
                             </div>
                             <div class="form-group">
-                                <label for="companyId">Company</label>
+                                <label for="companyId"><spring:message code="dashboard.company"/></label>
                                 <input type="text" name="companyId" class="form-control" id="companyId" placeholder="Company ID" required>
                             </div>               
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Edit" class="btn btn-primary">
-                            or
-                            <a href="dashboard.html" class="btn btn-default">Cancel</a>
+                            <input type="submit" value=<spring:message code="dashboard.edit"/> class="btn btn-primary">
+                            <spring:message code="addcomputer.or"/>
+                            <a href="dashboard.html" class="btn btn-default"><spring:message code="addcomputer.cancel"/></a>
                         </div>
                     </form>
                     

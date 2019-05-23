@@ -1,4 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<spring:message code=""/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,27 +21,33 @@
 <body>
 <header class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="dashboard"> Application - Computer
-            Database </a>
+        <a class="navbar-brand" href="dashboard"> <spring:message code="application.name"/></a>
     </div>
 </header>
 
 <section id="main">
     <div class="container">
-        <h1 id="homeTitle">${numberOfComputers} Computersfound</h1>
+        <h1 id="homeTitle">${numberOfComputers} <spring:message code="dashboard.Computersfound"/></h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
                 <form id="searchForm" action="#" method="GET" class="form-inline">
                     <input type="search" id="searchbox" name="search"
                            class="form-control" placeholder="Search name"/> <input
-                        type="submit" id="searchsubmit" value="Filter by name"
+                        type="submit" id="searchsubmit" value=<spring:message code="dashboard.filter"/>
                         class="btn btn-primary"/>
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="addcomputer">Add
-                    Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-                                    onclick="$.fn.toggleEditMode();">Edit</a>
+		        <div class="dropdown" style="display: inline-block;">
+		            <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton"
+		               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><spring:message code="app.lang.title"/></button>
+		            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		               <a class="dropdown-item" href="?lang=en"><spring:message code="app.lang.english"/></a> 
+		               <a class="dropdown-item" href="?lang=fr"><spring:message code="app.lang.french"/></a>
+		            </div>
+		         </div>
+                <a class="btn btn-success" id="addComputer" href="addcomputer"><spring:message code="dashboard.addComputer"/></a> <a class="btn btn-default" id="editComputer" href="#"
+                                    onclick="$.fn.toggleEditMode();"><spring:message code="dashboard.edit"/></a>
             </div>
         </div>
     </div>
@@ -65,16 +74,16 @@
 						</span></th>
                 <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=1&page='+${current}+'&size='+${currentSize}">ASC</button>
                 <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=2&page='+${current}+'&size='+${currentSize}">DESC</button>
-                Computer Name</th>
+                <spring:message code="dashboard.computerName"/></th>
                 <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=3&page='+${current}+'&size='+${currentSize}">ASC</button>
                 <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=4&page='+${current}+'&size='+${currentSize}">DESC</button>
-                Introduced date</th>
+                <spring:message code="dashboard.introduced"/></th>
                 <!-- Table header for Discontinued Date -->
                 <th><button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=5&page='+${current}+'&size='+${currentSize}">ASC</button>
                 <button type="button" class="btn btn-default" onclick="window.location.href='dashboard?ord=6&page='+${current}+'&size='+${currentSize}">DESC</button>
-                Discontinued date</th>
+                <spring:message code="dashboard.discontinued"/></th>
                 <!-- Table header for Company -->
-                <th>Company</th>
+                <th><spring:message code="dashboard.company"/></th>
 
             </tr>
             </thead>
@@ -137,14 +146,11 @@
         </div>
     </div>
 </footer>
+
 <script src="ressources/js/jquery.min.js"></script>
 <script src="ressources/js/bootstrap.min.js"></script>
 <script src="ressources/js/dashboard.js"></script>
-
-
-<script>
-
-</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </body>
 </html>
