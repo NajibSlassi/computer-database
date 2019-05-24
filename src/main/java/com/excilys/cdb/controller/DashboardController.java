@@ -149,9 +149,10 @@ public class DashboardController{
 			dtoComputers.add(MapperComputer.modelToDTO(computer));
 		}
 		setNameCompanyToDTOComputer(dtoComputers);
-		
+		long numberOfComputersSearched = 0;
 		if (!search.equals("%")) {
 				String word = search;
+				numberOfComputersSearched=serviceComputer.count(search);
 				computers = serviceComputer.listByName((int)(pageIndex), (int)pageSize,word,orderByString);
 				LOGGER.info("avec le mot cherché "+ computers.size()+"ordinateurs trouvés" );
 				dtoComputers = new LinkedList<DTOComputer>();
@@ -163,7 +164,7 @@ public class DashboardController{
 		}
 		final ModelAndView modelAndView = new ModelAndView("dashboard");
 		modelAndView.addObject("search", search);
-		modelAndView.addObject("numberOfComputersDisplayed", dtoComputers.size());
+		modelAndView.addObject("numberOfComputersDisplayed", numberOfComputersSearched);
 		modelAndView.addObject("numberOfComputers", numberOfComputers);
         modelAndView.addObject("computers", dtoComputers);
         /*
@@ -171,8 +172,11 @@ public class DashboardController{
          */
         modelAndView.addObject("previous", pageIndex - 1);
         modelAndView.addObject("next", pageIndex + 1);
-        //final List<Long> pages = indexOfPages(pageIndex, pageSize, numberOfComputers);
-        final List<Long> pages = indexOfPages(pageIndex, pageSize, dtoComputers.size());
+        
+        List<Long> pages = indexOfPages(pageIndex, pageSize, numberOfComputers);
+        if (!search.equals("%")) {
+        	pages = indexOfPages(pageIndex, pageSize, numberOfComputersSearched);
+        }
         modelAndView.addObject("pages", pages);
         
         modelAndView.addObject("size", pageSize);

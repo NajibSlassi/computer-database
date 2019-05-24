@@ -38,6 +38,8 @@ public class DAOComputer{
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued= ?, company_id = ?  WHERE id = ?";
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
 	private static final String SQL_MAX_ID ="SELECT MAX(id) AS LastID FROM computer";
+
+	private static final String SQL_COUNT_SEARCH = "SELECT COUNT(id) AS count FROM (SELECT computer.id FROM computer left join company on (computer.company_id=company.id) WHERE computer.name LIKE ? OR company.name LIKE ?) AS derived";
 	
 
     public List<Computer> listComputer(MySQLPage pagination,String orderBy) throws DAOException, ParseException {
@@ -131,6 +133,13 @@ public class DAOComputer{
         Long id = jdbcTemplate.queryForObject(
         		SQL_MAX_ID, Long.class);
         
+	    return id;
+	}
+	public long count(String search) {
+		jdbcTemplate = new JdbcTemplate(dataSource);
+        Long id = jdbcTemplate.queryForObject(
+        		SQL_COUNT_SEARCH,new Object[] { "%"+search+"%","%"+search+"%" }, Long.class);
+        LOGGER.info("number of computers searched: "+id);
 	    return id;
 	}
 	

@@ -129,4 +129,13 @@ public class ServiceComputer {
         }
         return 0;
     }
+
+	public long count(String search) {
+		try {
+            return dao.count(search);
+        } catch (DAOException e) {
+            LOGGER.warn("count()", e);
+        }
+        return 0;
+}
 }

@@ -110,22 +110,48 @@
 <footer class="navbar-fixed-bottom">
     <div class="container text-center">
         <ul class="pagination">
-            <c:if test="${not empty previous}">
-                <li><a aria-label="Previous"
-                       onclick="window.location.href='dashboard?page='+${previous}+'&size='+${size}"> <span
-                        aria-hidden="true">&laquo;</span>
-                </a></li>
-            </c:if>
-
-            <c:forEach var="page" items="${pages}">
-                <li><a onclick="window.location.href='dashboard?page='+${page}+'&size='+${size}">${page}</a></li>
-            </c:forEach>
-
-            <c:if test="${not empty next}">
-                <li><a aria-label="Next" onclick="window.location.href='dashboard?page='+${next}+'&size='+${size}">
-                    <span aria-hidden="true">&raquo;</span>
-                </a></li>
-            </c:if>
+        <c:choose>
+		    <c:when test="${search=='%'}">
+		        <c:if test="${not empty previous}">
+		                <li><a aria-label="Previous"
+		                       onclick="window.location.href='dashboard?page='+${previous}+'&size='+${size}"> <span
+		                        aria-hidden="true">&laquo;</span>
+		                </a></li>
+		            </c:if>
+		            <c:forEach var="page" items="${pages}">
+		                <li><a onclick="window.location.href='dashboard?page='+${page}+'&size='+${size}">${page}</a></li>
+		            </c:forEach>
+		            
+		            
+		
+		            <c:if test="${not empty next}">
+		                <li><a aria-label="Next" onclick="window.location.href='dashboard?page='+${next}+'&size='+${size}">
+		                    <span aria-hidden="true">&raquo;</span>
+		                </a></li>
+		            </c:if> 
+		        
+		    </c:when>    
+    	<c:otherwise>
+	        <c:if test="${not empty previous}">
+			                <li><a aria-label="Previous"
+			                       onclick="window.location.href='dashboard?search='+'${search}'+'&page='+${previous}+'&size='+${size}"> <span
+			                        aria-hidden="true">&laquo;</span>
+			                </a></li>
+			            </c:if>
+			            <c:forEach var="page" items="${pages}">
+			                <li><a onclick="window.location.href='dashboard?search='+'${search}'+'&page='+${page}+'&size='+${size}">${page}</a></li>
+			            </c:forEach>
+			            
+			            
+			
+			            <c:if test="${not empty next}">
+			                <li><a aria-label="Next" onclick="window.location.href='dashboard?search='+'${search}'+'&page='+${next}+'&size='+${size}">
+			                    <span aria-hidden="true">&raquo;</span>
+			                </a></li>
+			            </c:if>
+    	</c:otherwise>
+</c:choose>
+            
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group">
