@@ -19,6 +19,7 @@
 		<jstl.version>1.2</jstl.version>
 		<HikariCP.version>2.6.1</HikariCP.version>
 		<spring-version>5.1.5.RELEASE</spring-version>
+		<hibernate.version>5.4.2.Final</hibernate.version>
 		
 		<!-- Test  -->
 		<junit.version>4.12</junit.version>
@@ -122,6 +123,12 @@
     <artifactId>JUnitParams</artifactId>
     <version>1.1.0</version>
     <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>   
+    <version>${hibernate.version}</version>
 </dependency>
 
 		
