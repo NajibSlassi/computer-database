@@ -123,27 +123,34 @@ public class DashboardController{
 			}
 			setNameCompanyToDTOComputer(dtoComputers);
 		
-		String orderByString=new String();
+		String orderByString[]=new String[2];
 		if (Integer.toString(1).equals(orderBy)) {
-			orderByString=ORDER_BY_NAME_ASC;
+			orderByString[0]="name";
+			orderByString[1]="asc";
 		}
 		else if (Integer.toString(2).equals(orderBy)) {
-				
-			orderByString=ORDER_BY_NAME_DESC;
+			orderByString[0]="name";
+			orderByString[1]="desc";
 		}
 		else if (Integer.toString(3).equals(orderBy)) {
-			orderByString=ORDER_BY_INTRO_ASC;
+			orderByString[0]="introduced";
+			orderByString[1]="asc";
 		}
 		else if (Integer.toString(4).equals(orderBy)) {
-			orderByString=ORDER_BY_INTRO_DESC;
+			orderByString[0]="introduced";
+			orderByString[1]="desc";
 		}
 		else if (Integer.toString(5).equals(orderBy)) {
-			orderByString=ORDER_BY_DISC_ASC;
+			orderByString[0]="discontinued";
+			orderByString[1]="asc";
 			} 
 		else if (Integer.toString(6).equals(orderBy)) {
-			orderByString=ORDER_BY_DISC_DESC;
-		}	
-		computers = serviceComputer.list((int)(pageIndex), (int)pageSize,orderByString);
+			orderByString[0]="discontinued";
+			orderByString[1]="desc";
+		}
+		if (orderBy!=null) {
+			computers = serviceComputer.list((int)(pageIndex), (int)pageSize,orderByString);
+		}
 		dtoComputers = new LinkedList<DTOComputer>();
 		for (Computer computer: computers) {
 			dtoComputers.add(MapperComputer.modelToDTO(computer));

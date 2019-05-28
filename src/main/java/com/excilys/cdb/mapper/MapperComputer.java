@@ -4,10 +4,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.DAOComputer;
+
+import ch.qos.logback.classic.Logger;
 
 public class MapperComputer {
 static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputer.class);
 	
 	/**
 	 * Converti un objet Model Computer en DTOComputer
@@ -39,7 +45,8 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			e.printStackTrace();
 		}
 		String company = "NULL";
-		if(!(computer.getCompanyId()==-1) && computer.getCompanyId() != null) {
+		LOGGER.info(computer.toString());
+		if(computer.getCompanyId() != null && !(computer.getCompanyId()==-1) ) {
 			company = Long.toString(computer.getCompanyId());
 		}
 		return new DTOComputer(id, name, introduced, discontinued, company);

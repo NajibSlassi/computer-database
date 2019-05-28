@@ -97,13 +97,13 @@ public class ServiceComputer {
 	 */
 	public List<Computer> list(int offset, int limit) throws DAOException, ParseException{
 		
-		List<Computer> computers = dao.listComputer(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit));
+		List<Computer> computers = dao.listComputer(offset, limit);
 		
 		return computers;
 	}
-	public List<Computer> list(int offset, int limit,String orderBy) throws DAOException, ParseException{
+	public List<Computer> list(int offset, int limit,String[] orderBy) throws DAOException, ParseException{
 			
-		List<Computer> computers = dao.listComputer(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),orderBy);
+		List<Computer> computers = dao.listComputer(offset,limit,orderBy);
 		
 		return computers;
 	}
@@ -114,9 +114,9 @@ public class ServiceComputer {
 		
 		return computers;
 	}
-	public List<Computer> listByName(int offset, int limit,String name,String orderBy) throws DAOException, ParseException{
+	public List<Computer> listByName(int offset, int limit,String name,String[] orderBy) throws DAOException, ParseException{
 		
-		List<Computer> computers = dao.listComputerByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name,orderBy);
+		List<Computer> computers = dao.listComputerByName(offset,limit,name,orderBy);
 		
 		return computers;
 	}

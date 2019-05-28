@@ -5,11 +5,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.model.Computer;
@@ -17,6 +24,7 @@ import com.excilys.cdb.model.Computer;
 import ch.qos.logback.classic.Logger;
 
 @Component
+@Repository
 public class DAOComputer{
 		
 	public DAOComputer(DataSource dataSource) {
@@ -42,30 +50,115 @@ public class DAOComputer{
 	private static final String SQL_COUNT_SEARCH = "SELECT COUNT(id) AS count FROM (SELECT computer.id FROM computer left join company on (computer.company_id=company.id) WHERE computer.name LIKE ? OR company.name LIKE ?) AS derived";
 	
 
-    public List<Computer> listComputer(MySQLPage pagination,String orderBy) throws DAOException, ParseException {
-    	
+    public List<Computer> listComputer(int pageNumber,int pageSize,String[] orderBy) throws DAOException, ParseException {
+    	/*
     	jdbcTemplate = new JdbcTemplate(dataSource);
 
     	List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_ALL_COMPUTERS +orderBy+" "+pagination.getPagination());
         LOGGER.info("Longueure de la liste des computers reçu: "+ Integer.toString(rows.size()));
         return ComputerRowMapper.mapComputersMapper(rows);
-    }
-	public List<Computer> listComputer(MySQLPage pagination) throws DAOException, ParseException {
-	    	
+        */
+    	Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+           transaction = session.beginTransaction();
+
+           CriteriaBuilder builder = session.getCriteriaBuilder();
+           CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
+           Root<Computer> root = query.from(Computer.class);
+           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("companyId"));
+           switch (orderBy[1]) {
+           case "asc":
+        	   query.orderBy(builder.asc(root.get(orderBy[0])));
+        	   break;
+           case "desc":
+        	   query.orderBy(builder.desc(root.get(orderBy[0])));
+        	   break;
+           }
+           Query<Computer> q=session.createQuery(query);
+           q.setFirstResult((pageNumber-1) * pageSize);
+           q.setMaxResults(pageSize);
+           
+           List<Computer> list=q.getResultList();
+           LOGGER.info("longueur de la liste trouvée par hibernate :"+list.size());
+           transaction.commit();
+           return list;
+        } catch (Exception e) {
+           e.printStackTrace();
+           if (transaction != null) {
+              transaction.rollback();
+           }
+        }
+		return null;
+     }
+    
+	public List<Computer> listComputer(int pageNumber,int pageSize) throws DAOException, ParseException {
+	    	/*
 	    	jdbcTemplate = new JdbcTemplate(dataSource);
 	
 	    	List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_ALL_COMPUTERS+pagination.getPagination());
 	        LOGGER.info("Longueure de la liste des computers reçu: "+ Integer.toString(rows.size()));
 	        return ComputerRowMapper.mapComputersMapper(rows);
+	        */
+		
+		Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+           transaction = session.beginTransaction();
+
+           CriteriaBuilder builder = session.getCriteriaBuilder();
+           CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
+           Root<Computer> root = query.from(Computer.class);
+           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("companyId"));
+           
+           Query<Computer> q=session.createQuery(query);
+           q.setFirstResult((pageNumber-1) * pageSize);
+           q.setMaxResults(pageSize);
+           List<Computer> list= q.getResultList();
+           LOGGER.info("liste trouvée par hibernate :"+list.toString());
+           transaction.commit();
+           return list;
+        } catch (Exception e) {
+           e.printStackTrace();
+           if (transaction != null) {
+              transaction.rollback();
+           }
+        }
+		return null;
 	    }
   
-    public List<Computer> listComputerByName(MySQLPage pagination,String name,String orderBy) throws DAOException, ParseException {
+    public List<Computer> listComputerByName(int pageNumber,int pageSize,String name,String[] orderBy) throws DAOException, ParseException {
     	
-    	jdbcTemplate = new JdbcTemplate(dataSource);
-        
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_SELECT_ALL_SEARCH+orderBy+" "+pagination.getPagination(),new Object[] { '%'+name+'%','%'+name+'%' });
-        LOGGER.info("1 after executing the requests :" + rows.size()+" lignes trouvés ");
-        return ComputerRowMapper.mapComputersMapper(rows);
+    	Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+           transaction = session.beginTransaction();
+
+           CriteriaBuilder builder = session.getCriteriaBuilder();
+           CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
+           Root<Computer> root = query.from(Computer.class);
+           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("companyId"));
+           query.where(builder.like(root.get("name"), "%"+name+"%"));
+           switch (orderBy[1]) {
+           case "asc":
+        	   query.orderBy(builder.asc(root.get(orderBy[0])));
+        	   break;
+           case "desc":
+        	   query.orderBy(builder.desc(root.get(orderBy[0])));
+        	   break;
+           }
+           Query<Computer> q=session.createQuery(query);
+           q.setFirstResult((pageNumber-1) * pageSize);
+           q.setMaxResults(pageSize);
+           
+           List<Computer> list=q.getResultList();
+           LOGGER.info("longueur de la liste trouvée par hibernate :"+list.size());
+           transaction.commit();
+           return list;
+        } catch (Exception e) {
+           e.printStackTrace();
+           if (transaction != null) {
+              transaction.rollback();
+           }
+        }
+		return null;
     }
     public List<Computer> listComputerByName(MySQLPage pagination,String name) throws DAOException, ParseException {
     	

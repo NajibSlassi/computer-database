@@ -2,11 +2,26 @@ package com.excilys.cdb.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "computer")
 public class Computer {
+	@Id
+    @GeneratedValue
+    @Column
 	private Long id;
+	@Column
 	private String name;
+	@Column
 	private Date introduced;
+	@Column
 	private Date discontinued;
+	@Column(name="company_id")
 	private Long companyId;
 	
 	
@@ -15,6 +30,14 @@ public class Computer {
 	public Computer(Long id, String name, Date introduced, Date discontinued, Long companyId) {
 		super();
 		this.id = id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.companyId = companyId;
+	}
+	public Computer(String name, Date introduced, Date discontinued, Long companyId) {
+		super();
+		this.id=(long) -1;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;

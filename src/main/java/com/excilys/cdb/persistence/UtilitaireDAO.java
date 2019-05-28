@@ -9,16 +9,14 @@ import java.sql.Statement;
 
 import org.slf4j.LoggerFactory;
 
-import com.excilys.cdb.servlet.Dashboard;
-
 import ch.qos.logback.classic.Logger;
 
 public class UtilitaireDAO {
 	 /*
-     * Initialise la requète préparé basé sur la connexion passé en argument,
-     * avec la requète SQL et les objets donnÃ©s.
+     * Initialise la requï¿½te prï¿½parï¿½ basï¿½ sur la connexion passï¿½ en argument,
+     * avec la requï¿½te SQL et les objets donnÃ©s.
      */
-	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(Dashboard.class);
+	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(UtilitaireDAO.class);
 	
     public static PreparedStatement initialisationRequetePreparee( Connection connexion, String sql, boolean returnGeneratedKeys, Object... objets ) throws SQLException {
         PreparedStatement preparedStatement = connexion.prepareStatement( sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );
