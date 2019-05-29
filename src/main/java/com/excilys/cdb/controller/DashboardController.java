@@ -118,6 +118,7 @@ public class DashboardController{
        
 		
 			computers = serviceComputer.list((int)(pageIndex), (int)pageSize);
+			LOGGER.info("ORdinateurs retourne par service: "+ computers.toString());
 			for (Computer computer: computers) {
 				dtoComputers.add(MapperComputer.modelToDTO(computer));
 			}

@@ -33,7 +33,7 @@
                     </div>
                     <h1><spring:message code="editcomputer"/></h1>
 
-                    <form action="editComputer" method="POST">
+                    <form action="editcomputer" method="POST">
                         <input type="hidden" name = "id" value='${id}' id="id"/> <!-- TODO: Change this value with the computer id -->
                         <fieldset>
                             <div class="form-group">
@@ -60,7 +60,7 @@
                         </div>
                     </form>
                     
-                    <form action="editComputer" method="POST">
+                    <form action="editcomputer" method="POST">
 						<input type="hidden" name="computerName" id='computerName' value="" />
 					</form>
                 </div>

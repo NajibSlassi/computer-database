@@ -46,7 +46,7 @@
 		               <a class="dropdown-item" href="?lang=fr"><spring:message code="app.lang.french"/></a>
 		            </div>
 		         </div>
-                <a class="btn btn-success" id="addComputer" href="addcomputer"><spring:message code="dashboard.addComputer"/></a> <a class="btn btn-default" id="editComputer" href="#"
+                <a class="btn btn-success" id="addComputer" href="addcomputer"><spring:message code="dashboard.addComputer"/></a> <a class="btn btn-default" id="editcomputer" href="#"
                                     onclick="$.fn.toggleEditMode();"><spring:message code="dashboard.edit"/></a>
             </div>
         </div>
@@ -94,7 +94,7 @@
                     <td class="editMode"><input type="checkbox" name="cb"
                                                 class="cb" value="${computer.getId()}"></td>
                     <td>
-                    <a href="editComputer?id=${computer.getId()}" onclick="">${computer.getName()}</a>
+                    <a href="editcomputer?id=${computer.getId()}" onclick="">${computer.getName()}</a>
                     </td>
                     <td class ="introduced">${computer.getIntroduced()}</td>
                     <td class = discontinued>${computer.getDiscontinued()}</td>
@@ -165,7 +165,7 @@
                     onclick="window.location.href='dashboard?page='+${current}+'&size=100'">100
             </button>
             
-            <form action="editComputer" method="POST">
+            <form action="editcomputer" method="POST">
 				<input type="hidden" name="computerName" id='computerName' value="" />
 			</form>
             

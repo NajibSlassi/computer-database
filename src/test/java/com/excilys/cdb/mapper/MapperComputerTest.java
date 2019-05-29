@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 public class MapperComputerTest {
@@ -18,7 +19,7 @@ public class MapperComputerTest {
 	public void testModelToDTO() {
 		
 		try {
-			computer = new Computer(Long.valueOf(1),"Excilys",dateFormat.parse("2012-11-11"),dateFormat.parse("2012-12-11"),Long.valueOf(2));
+			computer = new Computer(Long.valueOf(1),"Excilys",dateFormat.parse("2012-11-11"),dateFormat.parse("2012-12-11"),new Company(Long.valueOf(2)));
 		} catch (ParseException e) {
 			
 		}
@@ -30,7 +31,7 @@ public class MapperComputerTest {
 	public void testDTOToModel() {
 
 		try {
-			computer = new Computer(Long.valueOf(1),"Excilys",dateFormat.parse("2012-11-11"),dateFormat.parse("2012-12-11"),Long.valueOf(2));
+			computer = new Computer(Long.valueOf(1),"Excilys",dateFormat.parse("2012-11-11"),dateFormat.parse("2012-12-11"),new Company(Long.valueOf(2)));
 		} catch (ParseException e) {
 			
 		}

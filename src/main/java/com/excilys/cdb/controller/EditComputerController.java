@@ -1,12 +1,6 @@
 package com.excilys.cdb.controller;
 
-
-import java.io.IOException;
 import java.text.ParseException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.cdb.mapper.DTOComputer;
@@ -43,30 +38,32 @@ public class EditComputerController {
         }
 	
 	@GetMapping
-    public String doGet() {
-		
-		return "editComputer";
+    public ModelAndView doGet(@RequestParam(value="id") String idReq) {
+		final ModelAndView modelAndView = new ModelAndView("editComputer");
+		int id = Integer.parseInt(idReq);
+		modelAndView.addObject("id", id);
+		return modelAndView;
 	}
 	
-	@PostMapping
-	public ModelAndView doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-		Computer computer = new Computer();
+	@PostMapping		
+	public ModelAndView doPost( @RequestParam(value="computerName") String computerName,
+			@RequestParam(value="introduced") String introduced,
+			@RequestParam(value="discontinued") String discontinued,
+			@RequestParam(value="companyId") String companyId) {
 		DTOComputer dtoComputer= new DTOComputer();
+		final ModelAndView modelAndView = new ModelAndView("editComputer");
 		dtoComputer = new DTOComputer(
-				request.getParameter("id"),
-				request.getParameter("computerName"),
-				request.getParameter("introduced"),
-				request.getParameter("discontinued"),
-				request.getParameter("companyId"));
+				computerName,
+				introduced,
+				discontinued,
+				companyId);
 		LOGGER.info(dtoComputer.toString());
-		final ModelAndView modelAndView = new ModelAndView("addComputer");
-		computer = MapperComputer.DTOToModel(dtoComputer);
-		
 		if (validator.validateDTOComputer(dtoComputer).size()==0) {
 			try {
+				Computer computer = MapperComputer.DTOToModel(dtoComputer);
 				serviceComputer.update(computer);
 			} catch (IllegalArgumentException | DAOException | ParseException e) {
-				
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return modelAndView;
@@ -76,6 +73,5 @@ public class EditComputerController {
 			modelAndView.addObject("al", validator.validateDTOComputer(dtoComputer));
 			return modelAndView;
 		}
-		
 	}
 }

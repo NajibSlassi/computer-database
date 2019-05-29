@@ -107,13 +107,14 @@ public class ServiceComputer {
 		
 		return computers;
 	}
-	
+	/*
 	public List<Computer> listByName(int offset, int limit,String name) throws DAOException, ParseException{
 		
 		List<Computer> computers = dao.listComputerByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name);
 		
 		return computers;
 	}
+	*/
 	public List<Computer> listByName(int offset, int limit,String name,String[] orderBy) throws DAOException, ParseException{
 		
 		List<Computer> computers = dao.listComputerByName(offset,limit,name,orderBy);

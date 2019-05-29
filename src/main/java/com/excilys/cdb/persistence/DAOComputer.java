@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 import ch.qos.logback.classic.Logger;
@@ -65,7 +68,7 @@ public class DAOComputer{
            CriteriaBuilder builder = session.getCriteriaBuilder();
            CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
            Root<Computer> root = query.from(Computer.class);
-           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("companyId"));
+           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("company"));
            switch (orderBy[1]) {
            case "asc":
         	   query.orderBy(builder.asc(root.get(orderBy[0])));
@@ -107,7 +110,7 @@ public class DAOComputer{
            CriteriaBuilder builder = session.getCriteriaBuilder();
            CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
            Root<Computer> root = query.from(Computer.class);
-           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("companyId"));
+           query.multiselect(root.get("id"),root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("company"));
            
            Query<Computer> q=session.createQuery(query);
            q.setFirstResult((pageNumber-1) * pageSize);
@@ -134,16 +137,20 @@ public class DAOComputer{
            CriteriaBuilder builder = session.getCriteriaBuilder();
            CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
            Root<Computer> root = query.from(Computer.class);
-           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("companyId"));
+           query.multiselect(root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("company"));
            query.where(builder.like(root.get("name"), "%"+name+"%"));
-           switch (orderBy[1]) {
-           case "asc":
-        	   query.orderBy(builder.asc(root.get(orderBy[0])));
-        	   break;
-           case "desc":
-        	   query.orderBy(builder.desc(root.get(orderBy[0])));
-        	   break;
+           LOGGER.info("orderby contient "+ orderBy.toString());
+           if(orderBy[1]!=null) {
+        	   switch (orderBy[1]) {
+               case "asc":
+            	   query.orderBy(builder.asc(root.get(orderBy[0])));
+            	   break;
+               case "desc":
+            	   query.orderBy(builder.desc(root.get(orderBy[0])));
+            	   break;
+               }
            }
+           
            Query<Computer> q=session.createQuery(query);
            q.setFirstResult((pageNumber-1) * pageSize);
            q.setMaxResults(pageSize);
@@ -160,6 +167,7 @@ public class DAOComputer{
         }
 		return null;
     }
+    /*
     public List<Computer> listComputerByName(MySQLPage pagination,String name) throws DAOException, ParseException {
     	
     	jdbcTemplate = new JdbcTemplate(dataSource);
@@ -168,21 +176,38 @@ public class DAOComputer{
         LOGGER.info("2 after executing the requests :" + rows.size()+" lignes trouvés ");
         return ComputerRowMapper.mapComputersMapper(rows);
     }
-    
+    */
 	public void createComputer(Computer computer) throws IllegalArgumentException,DAOException {
-
-	        jdbcTemplate = new JdbcTemplate(dataSource);
-	        jdbcTemplate.update(SQL_INSERT, new Object[] { computer.getName(), new Date(computer.getIntroduced().getTime() + 3600*1000), new Date(computer.getDiscontinued().getTime() + 3600*1000), computer.getCompanyId()  
-	        });
-	}
+		//Problem with time zone
+		computer.setIntroduced(new Date(computer.getIntroduced().getTime() + 3600*1000));
+		computer.setDiscontinued(new Date(computer.getDiscontinued().getTime() + 3600*1000));
+		Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+      
+        //Save the employee in database
+        session.save(computer);
+ 
+        //Commit the transaction
+        session.getTransaction().commit();
+        HibernateUtil.shutdown();
+    }
+	
 
 	public void updateComputer(Computer computer) throws DAOException {
 		
-		jdbcTemplate = new JdbcTemplate(dataSource);
-		  
-        jdbcTemplate.update(SQL_UPDATE, new Object[] { computer.getName(),new Date(computer.getIntroduced().getTime() + 3600*1000), 
-        		new Date(computer.getDiscontinued().getTime() + 3600*1000),computer.getCompanyId(),computer.getId() 
-        });
+		//Problem with time zone
+		computer.setIntroduced(new Date(computer.getIntroduced().getTime() + 3600*1000));
+		computer.setDiscontinued(new Date(computer.getDiscontinued().getTime() + 3600*1000));
+		Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+      
+        //Save the employee in database
+        LOGGER.info("Updating ");
+        session.update(computer);
+ 
+        //Commit the transaction
+        session.getTransaction().commit();
+        HibernateUtil.shutdown();
 		
 	}
 

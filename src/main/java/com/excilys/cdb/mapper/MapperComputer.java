@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOComputer;
 
@@ -44,12 +45,18 @@ private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputer.clas
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String company = "NULL";
-		LOGGER.info(computer.toString());
-		if(computer.getCompanyId() != null && !(computer.getCompanyId()==-1) ) {
-			company = Long.toString(computer.getCompanyId());
+		String companyId = "NULL";
+		
+		if(computer.getCompany().getId() != null) {
+			companyId = Long.toString(computer.getCompany().getId());
 		}
-		return new DTOComputer(id, name, introduced, discontinued, company);
+		String companyName = "NULL";
+		
+		if(computer.getCompany().getName() != null) {
+			companyId = Long.toString(computer.getCompany().getId());
+		}
+		
+		return new DTOComputer(id, name, introduced, discontinued, companyId,companyName);
 	}
 	
 	/**
@@ -68,11 +75,10 @@ private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputer.clas
 					dtoComputer.getName(),
 					dateFormat.parse(Optional.ofNullable(dtoComputer.getIntroduced()).orElseGet(() -> "1996-01-15")),
 					dateFormat.parse(Optional.ofNullable(dtoComputer.getDiscontinued()).orElseGet(() -> "1996-01-15")),
-					Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1"))
+					new Company(Long.valueOf(Optional.ofNullable(dtoComputer.getCompanyId()).orElseGet(() -> "-1")),dtoComputer.getCompanyName())
 					);
 		} catch (NumberFormatException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.warn(e.toString());
 		}
 		return computer;
 	}

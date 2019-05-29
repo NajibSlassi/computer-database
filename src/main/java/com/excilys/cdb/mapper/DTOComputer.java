@@ -6,6 +6,7 @@ public class DTOComputer {
 	private String introduced;
 	private String discontinued;
 	private String companyId;
+	private String companyName;
 	
 	public DTOComputer() {};
 	
@@ -17,16 +18,24 @@ public class DTOComputer {
 		this.companyId="NULL";
 	}
 	
-	public DTOComputer(String name, String introduced, String discontinued, String companyId){
+	public DTOComputer(String name, String introduced, String discontinued, String companyId,String companyName){
 		this.id="-1";
 		this.name=name;
 		this.introduced=introduced;
 		this.discontinued=discontinued;
 		this.companyId=companyId;
+		this.companyName=companyName;
 	}
 	
-	public DTOComputer(String id, String name, String introduced, String discontinued, String companyId){
+	public DTOComputer(String id, String name, String introduced, String discontinued, String companyId,String companyName){
 		this.id=id;
+		this.name=name;
+		this.introduced=introduced;
+		this.discontinued=discontinued;
+		this.companyId=companyId;
+		this.companyName=companyName;
+	}
+	public DTOComputer(String name, String introduced, String discontinued, String companyId){
 		this.name=name;
 		this.introduced=introduced;
 		this.discontinued=discontinued;
@@ -116,6 +125,14 @@ public class DTOComputer {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	
 	

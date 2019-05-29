@@ -56,7 +56,7 @@ public class DAOComputerImplTest {
         assertEquals("Les informations sont incorrectes", computer.getName(), actual.getName());
         assertEquals("Les informations sont incorrectes", computer.getIntroduced(), actual.getIntroduced());
         assertEquals("Les informations sont incorrectes", computer.getDiscontinued(), actual.getDiscontinued());
-        assertEquals("Les informations sont incorrectes", computer.getCompanyId(), actual.getCompanyId());
+        assertEquals("Les informations sont incorrectes", computer.getCompany().getId(), actual.getCompany().getId());
     }
     
     @Test
@@ -75,7 +75,7 @@ public class DAOComputerImplTest {
         assertEquals("Les informations sont incorrectes", computer.getName(), actual.getName());
         assertEquals("Les informations sont incorrectes", computer.getIntroduced(), actual.getIntroduced());
         assertEquals("Les informations sont incorrectes", computer.getDiscontinued(), actual.getDiscontinued());
-        assertEquals("Les informations sont incorrectes", computer.getCompanyId(), actual.getCompanyId());
+        assertEquals("Les informations sont incorrectes", computer.getCompany().getId(), actual.getCompany().getId());
     }
     
     @Test
@@ -90,7 +90,7 @@ public class DAOComputerImplTest {
         long expected= id-1;
         long actual = dao.maxId();
         
-        assertEquals("L'élément n'est pas supprimé", expected, actual);
+        assertEquals("L'element n'est pas supprime", expected, actual);
         
     }
     
