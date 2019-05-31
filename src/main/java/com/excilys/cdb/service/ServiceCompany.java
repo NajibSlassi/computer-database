@@ -9,11 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.DAOCompany;
-import com.excilys.cdb.persistence.DAOException;
-import com.excilys.cdb.persistence.MySQLLimit;
-import com.excilys.cdb.persistence.MySQLOffset;
-import com.excilys.cdb.persistence.MySQLPage;
-
 
 @Component()
 public class ServiceCompany {
@@ -35,7 +30,7 @@ public class ServiceCompany {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public List<Company> list(int pageNumber,int pageSize) throws DAOException, ParseException{
+	public List<Company> list(int pageNumber,int pageSize) throws ParseException{
 		
 		List<Company> companies = dao.listCompany(pageNumber,pageSize);
 		LOGGER.info(companies.size() +" companies found");
@@ -43,18 +38,22 @@ public class ServiceCompany {
 		return companies;
 	}
 	
-	public Company find(int id) throws DAOException, ParseException {
+	public Company find(int id) throws ParseException {
 		return (dao.showCompany(id));
 	}
+	/*
 	public List<Company> listByName(int offset, int limit,String name) throws DAOException, ParseException{
 			
 			List<Company> companies = dao.listCompanyByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name);
 			
 			return companies;
 		}
-	
+		
+		*/
+	/*
 	public void deleteCompany(Long id) {
 		dao.deleteCompany(id);
 		
 	}
+	*/
 }

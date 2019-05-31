@@ -2,50 +2,22 @@ package com.excilys.cdb.persistence;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
 
 @Component
 public class DAOCompany {
 	
-	public DAOCompany(DataSource dataSource) {
-		super();
-		this.dataSource = dataSource;
-	}
-
-	private static final String SQL_SELECT_ALL_COMPANY = "SELECT id, name FROM company ";
-	private static final String SQL_FIND_COMPANY_BY_ID ="SELECT id, name FROM company WHERE id = ?";
-	private static final String SQL_FIND_COMPANY_BY_NAME ="SELECT id, name FROM company WHERE name LIKE ? ";
-	private static final String SQL_DELETE_COMPANY = "DELETE FROM company WHERE id = ?";
-	private static final String SQL_DELETE_COMPUTERS_BY_COMPANY_ID = "DELETE FROM computer WHERE company_id = ?";
-	
-	private final DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
-	
-
-    /* Impl�mentation de la méthode listCompany() définie dans l'interface DAOCompany */
-	/**
-	 * 
-	 * @param pagination
-	 * @return
-	 * @throws DAOException
-	 * @throws ParseException
-	 */
-    public List<Company> listCompany(int pageNumber,int pageSize) throws DAOException, ParseException {
+    public List<Company> listCompany(int pageNumber,int pageSize) throws ParseException {
     	Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
            transaction = session.beginTransaction();
@@ -72,8 +44,6 @@ public class DAOCompany {
 		return null;
      }
     
-    
-    @SuppressWarnings("unchecked")
 	public Company showCompany(int id) {
     	Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -99,7 +69,7 @@ public class DAOCompany {
         }
 		return null;
 	}
-    
+    /*
     public List<Company> listCompanyByName(MySQLPage pagination,String name) throws DAOException, ParseException {
     	jdbcTemplate = new JdbcTemplate(dataSource);
         
@@ -114,4 +84,5 @@ public class DAOCompany {
         jdbcTemplate.update( SQL_DELETE_COMPUTERS_BY_COMPANY_ID, new Object[] { id });
         jdbcTemplate.update( SQL_DELETE_COMPANY, new Object[] { id });
     }
+    */
 }

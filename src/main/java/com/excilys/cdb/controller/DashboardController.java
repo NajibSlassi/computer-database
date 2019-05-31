@@ -19,7 +19,6 @@ import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceCompany;
 import com.excilys.cdb.service.ServiceComputer;
 
@@ -37,12 +36,6 @@ public class DashboardController{
 	private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DashboardController.class);
 	
 	public static final String DEFAULT_PAGE_SIZE = "50";
-	private static final String ORDER_BY_NAME_ASC= "ORDER BY computer.name ASC";
-	private static final String ORDER_BY_NAME_DESC= "ORDER BY computer.name DESC";
-	private static final String ORDER_BY_INTRO_ASC= "ORDER BY computer.introduced ASC";
-	private static final String ORDER_BY_INTRO_DESC= "ORDER BY computer.introduced DESC";
-	private static final String ORDER_BY_DISC_ASC= "ORDER BY computer.discontinued ASC";
-	private static final String ORDER_BY_DISC_DESC= "ORDER BY computer.discontinued DESC";
 	
     public ServiceComputer serviceComputer;
    
@@ -102,7 +95,7 @@ public class DashboardController{
     		            @RequestParam(value="size",defaultValue = DEFAULT_PAGE_SIZE) long pageSize,
     		            @RequestParam(value="ord",required = false) String orderBy,
     		            @RequestParam(value="search",defaultValue = "%") String search
-    		            ) throws DAOException, ParseException
+    		            ) throws ParseException
             {
 
         long numberOfComputers = serviceComputer.count();
@@ -199,7 +192,7 @@ public class DashboardController{
     }	
 
     
-    private List<DTOComputer> setNameCompanyToDTOComputer(List<DTOComputer> dtoComputers) throws DAOException, ParseException{
+    private List<DTOComputer> setNameCompanyToDTOComputer(List<DTOComputer> dtoComputers) throws ParseException{
     	for (DTOComputer dtoComputer: dtoComputers) {
 			try{
 				dtoComputer.setCompanyId(MapperCompany.modelToDTO(serviceCompany.find((int)Long.parseLong(dtoComputer.getCompanyId()))).getName());

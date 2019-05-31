@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.excilys.cdb.mapper.DTOComputer;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.DAOException;
 import com.excilys.cdb.service.ServiceComputer;
 import com.excilys.cdb.validator.Validator;
 
@@ -65,7 +64,7 @@ public class EditComputerController {
 			try {
 				Computer computer = MapperComputer.DTOToModel(dtoComputer);
 				serviceComputer.update(computer);
-			} catch (IllegalArgumentException | DAOException | ParseException e) {
+			} catch (IllegalArgumentException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

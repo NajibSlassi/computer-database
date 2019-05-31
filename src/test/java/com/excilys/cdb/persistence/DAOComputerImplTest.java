@@ -49,7 +49,7 @@ public class DAOComputerImplTest {
         Computer actual = null;
 		try {
 			actual = dao.showComputer((int)(id));
-		} catch (DAOException | ParseException e) {
+		} catch (ParseException e) {
 			
 			e.printStackTrace();
 		}

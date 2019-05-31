@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.excilys.cdb.controller.Controller;
 import com.excilys.cdb.mapper.DTOCompany;
 import com.excilys.cdb.mapper.DTOComputer;
-import com.excilys.cdb.persistence.DAOException;
 
 import Main.CommandLineTable;
 
@@ -33,7 +32,7 @@ public class CLI {
 		this.controller=controller;
 	}
 
-	public void run() throws DAOException, ParseException {
+	public void run() throws  ParseException {
 		while (!quit) {
 
 			showMenu();
@@ -41,7 +40,7 @@ public class CLI {
 
 	}
 
-	private void showMenu() throws DAOException, ParseException {
+	private void showMenu() throws  ParseException {
 		printMenu();
 		boolean wenttocatch = false;
 		@SuppressWarnings("resource")
@@ -65,14 +64,14 @@ public class CLI {
 		System.out.println("Choisissez une action");
 		System.out.println("0 - Quitter");
 		System.out.println("1 - Lister les ordinateurs");
-		System.out.println("2 - Lister les sociétés");
-		System.out.println("3 - Détail d'un ordinateur");
-		System.out.println("4 - Créer un ordinateur");
-		System.out.println("5 - Mettre à jour un ordinateur");
+		System.out.println("2 - Lister les sociï¿½tï¿½s");
+		System.out.println("3 - Dï¿½tail d'un ordinateur");
+		System.out.println("4 - Crï¿½er un ordinateur");
+		System.out.println("5 - Mettre ï¿½ jour un ordinateur");
 		System.out.println("6 - Supprimer un ordinateur");
-		System.out.println("7 - Supprimer une société");
+		System.out.println("7 - Supprimer une sociï¿½tï¿½");
 	}
-	public void sendToService(int choice) throws DAOException, ParseException {
+	public void sendToService(int choice) throws ParseException {
 		switch(choice) {
 		case 0:
 			quit();
@@ -88,7 +87,7 @@ public class CLI {
 			showCompanies(controller.listCompanies(p,q));
 			break;
 		case 3:
-			int consulter =readInt("Entrez l'id de l'ordinateur à consulter");
+			int consulter =readInt("Entrez l'id de l'ordinateur ï¿½ consulter");
 			LOGGER.info("id de l'ordinateur choisi par l'utilisateur: "+consulter);
 			showComputerDetails(controller.showComputer(consulter));
 			break;
@@ -105,11 +104,13 @@ public class CLI {
 			controller.deleteComputer(deleteComputer());
 			break;
 		case 7:
+			/*
 			controller.deleteCompany(deletCompany());
+			*/
 			break;
 		}
 	}
-	public void quit() throws DAOException, ParseException {
+	public void quit() throws ParseException {
 		LOGGER.info("Fermeture de l'application"); 
 		quit = true;
 		System.out.println("n'oublie pas de revenir nous voir <3");
@@ -117,8 +118,8 @@ public class CLI {
 	}
 
 	public DTOComputer updateComputer() throws ParseException {
-		LOGGER.debug("Mise à jour de l'ordinateur...: ");
-		System.out.println("Entrez l'id de l'ordinateur que vous voulez mettre à  jour:");
+		LOGGER.debug("Mise ï¿½ jour de l'ordinateur...: ");
+		System.out.println("Entrez l'id de l'ordinateur que vous voulez mettre ï¿½ jour:");
 		Long idold = sc.nextLong();
 		LOGGER.info("Id du computer: " + idold);
 		System.out.println("Entrez le nouveau nom de l'ordinateur:");
@@ -131,9 +132,9 @@ public class CLI {
 		System.out.println("Entrez la nouvelle date de sortie de l'ordinateur:");
 		String discontinued = sc.nextLine();
 		LOGGER.info("nouvelle date de sortie de l'ordinateur: " + discontinued);
-		System.out.println("Entrez le nouveau id de la société fabricante:");
+		System.out.println("Entrez le nouveau id de la sociï¿½tï¿½ fabricante:");
 		String companyId = sc.nextLine();
-		LOGGER.info("nouveau id de la société fabricante: " + companyId);
+		LOGGER.info("nouveau id de la sociï¿½tï¿½ fabricante: " + companyId);
 		DTOComputer dtoc1 = new DTOComputer();
 		dtoc1.setId(Long.toString(idold));
 		dtoc1.setName(newname);
@@ -160,7 +161,7 @@ public class CLI {
 	}
 
 	public void showComputerDetails(DTOComputer computer) {
-		LOGGER.debug("Affichage des détails d'un ordinateur...: ");
+		LOGGER.debug("Affichage des dï¿½tails d'un ordinateur...: ");
 		CommandLineTable st = new CommandLineTable();
 		st.setShowVerticalLines(true);
 		st.setHeaders("ComputerID", "ComputerName", "Date Introduced", "Date Discontinued", "CompanyID");
@@ -171,7 +172,7 @@ public class CLI {
 			st.print();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			LOGGER.warn("Aucun ordinateur correspondant trouvé");
+			LOGGER.warn("Aucun ordinateur correspondant trouvï¿½");
 
 		}
 		quitProgram();
@@ -184,7 +185,7 @@ public class CLI {
 		Scanner scan = new Scanner(System.in);
 		int m = 0;
 		do {
-			System.out.println("Quitter? 0 = Oui, n'importe quel numéro = Non");
+			System.out.println("Quitter? 0 = Oui, n'importe quel numï¿½ro = Non");
 			if (scan.hasNextInt()) {
 				m = scan.nextInt();
 				wenttocatch = true;
@@ -198,23 +199,14 @@ public class CLI {
 
 			try {
 				quit();
-			} catch (DAOException e) {
-				// TODO Auto-generated catch block
-				LOGGER.warn("DAOExeption" + e);
-				e.printStackTrace();
 			} catch (ParseException e) {
 				LOGGER.warn("ParseException" + e);
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		} else {
 			try {
 				run();
-			} catch (DAOException e) {
-				LOGGER.warn("DAOExeption" + e);
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (ParseException e) {
 				LOGGER.warn("ParseException" + e);
 				// TODO Auto-generated catch block
@@ -224,7 +216,7 @@ public class CLI {
 	}
 
 	public DTOComputer createComputer() throws ParseException {
-		LOGGER.debug("création d'un nouveau ordinateur");
+		LOGGER.debug("crï¿½ation d'un nouveau ordinateur");
 		System.out.println("Entrez le nom de l'ordinateur:");
 		sc = new Scanner(System.in);
 		String name = sc.nextLine();
@@ -245,16 +237,16 @@ public class CLI {
 		Date dateDisc = dateFormat.parse(discontinued);
 
 		while (dateIntro.compareTo(dateDisc) > 0) {
-			LOGGER.info("date de sortie inférieur à la date d'entrée");
-			System.out.println("Date d'entré en stock: " + introduced
-					+ " supérieure à la date de sortie que vous avez saisi, Veuillez entrez une date de sortie ultérieure :");
+			LOGGER.info("date de sortie infï¿½rieur ï¿½ la date d'entrï¿½e");
+			System.out.println("Date d'entrï¿½ en stock: " + introduced
+					+ " supï¿½rieure ï¿½ la date de sortie que vous avez saisi, Veuillez entrez une date de sortie ultï¿½rieure :");
 			discontinued = sc.nextLine();
 			dateDisc = dateFormat.parse(discontinued);
 		}
 
-		System.out.println("Entrez l'id de la société fabricante:");
+		System.out.println("Entrez l'id de la sociï¿½tï¿½ fabricante:");
 		String companyId = sc.nextLine();
-		LOGGER.info("id de la société fabricante saisi par l'utilisateur: " + companyId);
+		LOGGER.info("id de la sociï¿½tï¿½ fabricante saisi par l'utilisateur: " + companyId);
 
 		DTOComputer dtoc1 = new DTOComputer();
 		dtoc1.setName(name);
@@ -283,7 +275,7 @@ public class CLI {
 
 	public void showCompanies(List<DTOCompany> c) {
 
-		LOGGER.debug("Affichage de la liste des sociétés...");
+		LOGGER.debug("Affichage de la liste des sociï¿½tï¿½s...");
 
 		CommandLineTable st = new CommandLineTable();
 
@@ -298,16 +290,16 @@ public class CLI {
 	}
 
 	public int readPage() {
-		System.out.println("Entrez la page à consulter");
+		System.out.println("Entrez la page ï¿½ consulter");
 		int id = sc.nextInt();
-		LOGGER.info("Page demandé par l'utilisateur: " + id);
+		LOGGER.info("Page demandï¿½ par l'utilisateur: " + id);
 		return id;
 	}
 
 	public int readLimit() {
-		System.out.println("Entrez le nombre d'éléments par page");
+		System.out.println("Entrez le nombre d'ï¿½lï¿½ments par page");
 		int id = sc.nextInt();
-		LOGGER.info("Elements par page deemandés par l'utilisateur: " + id);
+		LOGGER.info("Elements par page deemandï¿½s par l'utilisateur: " + id);
 		return id;
 	}
 	

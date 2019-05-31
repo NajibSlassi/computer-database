@@ -8,11 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAOComputer;
-import com.excilys.cdb.persistence.DAOException;
-import com.excilys.cdb.persistence.MySQLLimit;
-import com.excilys.cdb.persistence.MySQLOffset;
-import com.excilys.cdb.persistence.MySQLPage;
-
 
 import ch.qos.logback.classic.Logger;
 
@@ -37,7 +32,7 @@ public class ServiceComputer {
 	 * @throws DAOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public void insert(Computer computer) throws IllegalArgumentException, DAOException, ParseException{
+	public void insert(Computer computer) throws IllegalArgumentException, ParseException{
 		dao.createComputer(computer);
 		LOGGER.info("ordinateur cree : " +computer.toString());
 	}
@@ -57,7 +52,7 @@ public class ServiceComputer {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public void update(Computer computer) throws DAOException, ParseException {
+	public void update(Computer computer) throws ParseException {
 		dao.updateComputer(computer);
 	}
 	
@@ -69,7 +64,7 @@ public class ServiceComputer {
 	 * @throws DAOException 
 	 * @throws ComputerNotFoundException if not found
 	 */
-	public Computer find(int id) throws DAOException, ParseException {
+	public Computer find(int id) throws ParseException {
 		Computer computer = null;
 		try {
 			computer =dao.showComputer(id);
@@ -85,13 +80,13 @@ public class ServiceComputer {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public List<Computer> list(int offset, int limit) throws DAOException, ParseException{
+	public List<Computer> list(int offset, int limit) throws ParseException{
 		
 		List<Computer> computers = dao.listComputer(offset, limit);
 		
 		return computers;
 	}
-	public List<Computer> list(int offset, int limit,String[] orderBy) throws DAOException, ParseException{
+	public List<Computer> list(int offset, int limit,String[] orderBy) throws ParseException{
 			
 		List<Computer> computers = dao.listComputer(offset,limit,orderBy);
 		
@@ -105,28 +100,22 @@ public class ServiceComputer {
 		return computers;
 	}
 	*/
-	public List<Computer> listByName(int offset, int limit,String name,String[] orderBy) throws DAOException, ParseException{
+	public List<Computer> listByName(int offset, int limit,String name,String[] orderBy) throws ParseException{
 		
 		List<Computer> computers = dao.listComputerByName(offset,limit,name,orderBy);
+		LOGGER.info("nombre d'orrdi: " + computers.size());
 		
 		return computers;
 	}
 	
 	public long count() {
-        try {
-            return dao.count();
-        } catch (DAOException e) {
-            LOGGER.warn("count()", e);
-        }
-        return 0;
+        
+		return dao.count();
     }
 
 	public long count(String search) {
-		try {
-            return dao.count(search);
-        } catch (DAOException e) {
-            LOGGER.warn("count()", e);
-        }
-        return 0;
+		
+		return dao.count(search);
+        
 }
 }

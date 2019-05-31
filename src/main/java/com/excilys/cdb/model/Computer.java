@@ -3,6 +3,7 @@ package com.excilys.cdb.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +20,8 @@ public class Computer {
 	private String name;
 	private Date introduced;
 	private Date discontinued;
-	@ManyToOne
-	@JoinColumn(name="company_id")
+	@ManyToOne(optional = true,fetch = FetchType.LAZY)
+	@JoinColumn(name="company_id",nullable=true)
 	private Company company;
 	
 	
