@@ -85,7 +85,7 @@ public class DashboardController{
     public String deleteComputers(@RequestParam("selection") String checkedComputers,
 					    		@RequestParam(value="page",defaultValue = "1") long pageIndex, 
 					            @RequestParam(value="size",defaultValue = DEFAULT_PAGE_SIZE) long pageSize,
-					            @RequestParam(value="ord",required = false) long orderBy,
+					            @RequestParam(value="ord",required = false) Long orderBy,
 					            @RequestParam(value="search",defaultValue = "%") String search){
     	
     	String[] arrayId = checkedComputers.split(",");
@@ -118,7 +118,7 @@ public class DashboardController{
        
 		
 			computers = serviceComputer.list((int)(pageIndex), (int)pageSize);
-			LOGGER.info("ORdinateurs retourne par service: "+ computers.toString());
+			
 			for (Computer computer: computers) {
 				dtoComputers.add(MapperComputer.modelToDTO(computer));
 			}

@@ -46,13 +46,16 @@ public class EditComputerController {
 	}
 	
 	@PostMapping		
-	public ModelAndView doPost( @RequestParam(value="computerName") String computerName,
+	public ModelAndView doPost( 
+			@RequestParam(value="id") String id,
+			@RequestParam(value="computerName") String computerName,
 			@RequestParam(value="introduced") String introduced,
 			@RequestParam(value="discontinued") String discontinued,
 			@RequestParam(value="companyId") String companyId) {
 		DTOComputer dtoComputer= new DTOComputer();
 		final ModelAndView modelAndView = new ModelAndView("editComputer");
 		dtoComputer = new DTOComputer(
+				id,
 				computerName,
 				introduced,
 				discontinued,

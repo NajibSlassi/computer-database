@@ -79,16 +79,6 @@ public class ServiceComputer {
 		return (computer);
 	}
 	
-	public List<Computer> findComputerByCompanyId(Long long1) throws DAOException, ParseException {
-		List<Computer> computers = null;
-		try {
-			computers =dao.showComputerByCompanyId(long1);
-		} catch (NullPointerException e) {
-			LOGGER.warn("L'id de l'ordinateur cherch� par l'utilisateur ("+long1+") n'existe pas dans la base de donn�es "+ e);
-		}
-		return (computers);
-	}
-	
 	/**
 	 * List all the computers with pagination
 	 * @return the current page of computer

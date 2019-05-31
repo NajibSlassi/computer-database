@@ -50,13 +50,9 @@ private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputer.clas
 		if(computer.getCompany().getId() != null) {
 			companyId = Long.toString(computer.getCompany().getId());
 		}
-		String companyName = "NULL";
 		
-		if(computer.getCompany().getName() != null) {
-			companyId = Long.toString(computer.getCompany().getId());
-		}
 		
-		return new DTOComputer(id, name, introduced, discontinued, companyId,companyName);
+		return new DTOComputer(id, name, introduced, discontinued, companyId);
 	}
 	
 	/**

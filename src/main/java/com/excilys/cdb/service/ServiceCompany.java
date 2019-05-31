@@ -35,9 +35,9 @@ public class ServiceCompany {
 	 * @throws ParseException 
 	 * @throws DAOException 
 	 */
-	public List<Company> list(int page, int limit) throws DAOException, ParseException{
+	public List<Company> list(int pageNumber,int pageSize) throws DAOException, ParseException{
 		
-		List<Company> companies = dao.listCompany(new MySQLPage(new MySQLLimit(new MySQLOffset((page-1)*limit), limit),(page-1)*limit));
+		List<Company> companies = dao.listCompany(pageNumber,pageSize);
 		LOGGER.info(companies.size() +" companies found");
 		
 		return companies;
