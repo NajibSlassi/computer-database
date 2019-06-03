@@ -56,9 +56,12 @@ public class DAOCompany {
            query.where(builder.equal(root.get("id"), id));
     
            Query<Company> q=session.createQuery(query);
-            
-           Company company=q.getSingleResult();
-           
+           Company company;
+           if (id ==-1) {
+        	   company=new Company((long)-1,"NULL");
+           }else {
+        	   company=q.getSingleResult();
+           }
            transaction.commit();
            return company;
         } catch (Exception e) {

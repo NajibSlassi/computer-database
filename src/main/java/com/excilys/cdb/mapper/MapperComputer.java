@@ -32,7 +32,6 @@ private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputer.clas
 				introduced = dateFormat.format(computer.getIntroduced());
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -42,12 +41,12 @@ private static Logger LOGGER = (Logger) LoggerFactory.getLogger(DAOComputer.clas
 				discontinued = dateFormat.format(computer.getDiscontinued());
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		String companyId = "NULL";
 		
-		if(computer.getCompany().getId() != null) {
+		if(computer.getCompany()!=null && computer.getCompany().getId() != null) {
 			companyId = Long.toString(computer.getCompany().getId());
 		}
 		

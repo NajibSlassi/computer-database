@@ -1,6 +1,7 @@
 package com.excilys.cdb.model;
 
 import java.util.Date;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,6 +24,7 @@ public class Computer {
 	@ManyToOne(optional = true,fetch = FetchType.LAZY)
 	@JoinColumn(name="company_id",nullable=true)
 	private Company company;
+	private String company_name;
 	
 	
 	public Computer() {}
@@ -34,6 +36,16 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.company = company;
+	}
+	// constructeur ajoute pour assurer la recherche :)
+	public Computer(Long id, String name, Date introduced, Date discontinued, Company company,String company_name) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.company = Optional.ofNullable(company).orElseGet(() -> new Company((long)-1,"NULL"));
+		this.company_name=this.company.getName();
 	}
 	public Computer(String name, Date introduced, Date discontinued, Company company) {
 		super();

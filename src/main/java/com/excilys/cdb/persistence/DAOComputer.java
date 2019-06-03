@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 import ch.qos.logback.classic.Logger;
@@ -104,8 +106,10 @@ public class DAOComputer{
            CriteriaBuilder builder = session.getCriteriaBuilder();
            CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
            Root<Computer> root = query.from(Computer.class);
-           query.multiselect(root.get("id"),root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("company"));
-           query.where(builder.like(root.get("name"), "%"+name+"%"));
+           root.join("company", JoinType.LEFT);
+           
+           query.multiselect(root.get("id"),root.get("name"),root.get("introduced"),root.get("discontinued"),root.get("company"),root.get("company").get("name"));
+           query.where(builder.or(builder.like(root.get("name"), "%"+name+"%"),builder.like(root.get("company").get("name"), "%"+name+"%")));
           
            LOGGER.info("orderby contient "+ orderBy.toString());
            if(orderBy[1]!=null) {
@@ -119,13 +123,12 @@ public class DAOComputer{
                }
            }
            Query<Computer> q=session.createQuery(query);
-           LOGGER.info("query contient: "+ q.list().toString());
+           
            q.setFirstResult((pageNumber-1) * pageSize);
            q.setMaxResults(pageSize);
            
            List<Computer> list=q.getResultList();
-           
-           LOGGER.info("longueur de la liste trouvée par hibernate :"+list.size());
+ 
            transaction.commit();
            return list;
         } catch (Exception e) {
