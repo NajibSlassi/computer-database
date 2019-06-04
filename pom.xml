@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<groupId>com.excilys.cdb</groupId>
+	<artifactId>computer-database</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.excilys</groupId>
-	<artifactId>computer-database</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<modules>
+        <module>core</module>
+        <module>binding</module>
+        <module>persistence</module>
+        <module>service</module>
+        <module>console</module>
+        <module>webapp</module>
+    </modules>
 
 	<properties>
-		<java.version>1.8</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<module.version>1.0-SNAPSHOT</module.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Dependencies versions -->
 		<mysql-connector.version>8.0.15</mysql-connector.version>
@@ -18,8 +30,9 @@
 		<servlet.version>3.0.1</servlet.version>
 		<jstl.version>1.2</jstl.version>
 		<HikariCP.version>2.6.1</HikariCP.version>
-		<spring-version>5.1.5.RELEASE</spring-version>
+		<spring.version>5.1.7.RELEASE</spring.version>
 		<hibernate.version>5.4.2.Final</hibernate.version>
+
 		
 		<!-- Test  -->
 		<junit.version>4.12</junit.version>
@@ -131,21 +144,34 @@
     <version>${hibernate.version}</version>
 </dependency>
 
-		
 	</dependencies>
 
 	<build>
-		<finalName>ComputerDatabase</finalName>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+
+            <!-- Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <configLocation>checkstyle/checkstyle.xml</configLocation>
+                    <suppressionsLocation>checkstyle/suppressions.xml</suppressionsLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+            
+            
+       
+        </plugins>
+    </build>
 </project>
