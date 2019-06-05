@@ -35,6 +35,11 @@
     <version>5.1.7.RELEASE</version>
 </dependency>
 
+<dependency>
+  <groupId>com.zaxxer</groupId>
+  <artifactId>HikariCP</artifactId>
+  <version>${HikariCP.version}</version>
+		</dependency>
 		
 	</dependencies>
 </project>

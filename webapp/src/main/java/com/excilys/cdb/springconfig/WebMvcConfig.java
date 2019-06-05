@@ -16,8 +16,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.excilys.cdb" })
-public class WebConfig implements WebMvcConfigurer {
+@ComponentScan(basePackages = { "com.excilys.cdb.controller" })
+public class WebMvcConfig implements WebMvcConfigurer {
 
 	 @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

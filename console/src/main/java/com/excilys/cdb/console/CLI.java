@@ -1,4 +1,4 @@
-package com.excilys.cdb;
+package com.excilys.cdb.console;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -103,9 +103,9 @@ public class CLI {
 			controller.deleteComputer(deleteComputer());
 			break;
 		case 7:
-			/*
+			
 			controller.deleteCompany(deletCompany());
-			*/
+			
 			break;
 		}
 	}

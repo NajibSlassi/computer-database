@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -13,6 +14,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 
 @Component
 public class DAOCompany {
@@ -72,20 +74,39 @@ public class DAOCompany {
         }
 		return null;
 	}
-    /*
-    public List<Company> listCompanyByName(MySQLPage pagination,String name) throws DAOException, ParseException {
-    	jdbcTemplate = new JdbcTemplate(dataSource);
-        
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_FIND_COMPANY_BY_NAME+pagination.getPagination(),new Object[] { '%'+name+'%' });
-        
-        return CompanyRowMapper.mapCompaniesMapper(rows);
-    }
     
-    @Transactional
 	public void deleteCompany(Long id) {
-    	jdbcTemplate = new JdbcTemplate(dataSource); 
-        jdbcTemplate.update( SQL_DELETE_COMPUTERS_BY_COMPANY_ID, new Object[] { id });
-        jdbcTemplate.update( SQL_DELETE_COMPANY, new Object[] { id });
-    }
-    */
+   
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+			
+	        // create update
+	        CriteriaDelete<Computer> delete = cb.
+	        createCriteriaDelete(Computer.class);
+	
+	        //delete company
+	     
+	        CriteriaDelete<Company> deleteCompany = cb.
+	        createCriteriaDelete(Company.class);
+	        
+	        // set the root class
+	        Root<Computer> e = delete.from(Computer.class);
+	   
+	        delete.where(cb.equal(e.get("company"), id));
+	
+	        Root<Company> eCompany = deleteCompany.from(Company.class);
+	 	   
+	        deleteCompany.where(cb.equal(eCompany.get("id"), id));
+	        // perform update
+	        session.createQuery(delete).executeUpdate();
+	        session.createQuery(deleteCompany).executeUpdate();
+		}catch (Exception e) {
+	           e.printStackTrace();
+	           if (transaction != null) {
+	              transaction.rollback();
+	           }
+	        }
+	}
 }

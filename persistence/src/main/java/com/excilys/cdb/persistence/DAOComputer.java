@@ -10,7 +10,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
-import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -30,7 +29,7 @@ import ch.qos.logback.classic.Logger;
 @Transactional
 public class DAOComputer{
 		
-	public DAOComputer(DataSource dataSource) {
+	public DAOComputer() {
 		super();
 	}
 

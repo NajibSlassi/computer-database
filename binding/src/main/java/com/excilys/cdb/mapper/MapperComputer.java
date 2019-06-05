@@ -21,22 +21,13 @@ static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		String introduced = "NULL";
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
-		try {
-			if(computer.getIntroduced() != null && !computer.getIntroduced().equals(dateFormat.parse("1996-01-15"))) {
-				introduced = dateFormat.format(computer.getIntroduced());
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(computer.getIntroduced() != null ) {
+			introduced = dateFormat.format(computer.getIntroduced());
 		}
 		
 		String discontinued = "NULL";
-		try {
-			if(computer.getDiscontinued() != null && !computer.getDiscontinued().equals(dateFormat.parse("1996-01-15"))) {
-				discontinued = dateFormat.format(computer.getDiscontinued());
-			}
-		} catch (ParseException e) {
-
-			e.printStackTrace();
+		if(computer.getDiscontinued() != null ) {
+			discontinued = dateFormat.format(computer.getDiscontinued());
 		}
 		String companyId = "NULL";
 		

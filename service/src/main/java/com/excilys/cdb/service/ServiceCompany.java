@@ -41,19 +41,10 @@ public class ServiceCompany {
 	public Company find(int id) throws ParseException {
 		return (dao.showCompany(id));
 	}
-	/*
-	public List<Company> listByName(int offset, int limit,String name) throws DAOException, ParseException{
-			
-			List<Company> companies = dao.listCompanyByName(new MySQLPage(new MySQLLimit(new MySQLOffset((offset-1)*limit), limit),(offset-1)*limit),name);
-			
-			return companies;
-		}
-		
-		*/
-	/*
+	
 	public void deleteCompany(Long id) {
 		dao.deleteCompany(id);
 		
 	}
-	*/
+	
 }

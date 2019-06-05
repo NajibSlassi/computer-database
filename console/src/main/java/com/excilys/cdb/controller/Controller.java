@@ -70,11 +70,11 @@ public class Controller {
 	public void deleteComputer(long id) {
 		serviceComputer.delete(id);
 	}
-	/*
+	
 	public void deleteCompany(long id) {
 		serviceCompany.deleteCompany(id);
 	}
-	*/
+	
 	
 	
 	

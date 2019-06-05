@@ -1,4 +1,4 @@
-package com.excilys.cdb;
+package com.excilys.cdb.console;
 
 
 import java.text.ParseException;
@@ -19,7 +19,7 @@ public class cdb{
 	public static void main(String[] args) throws ParseException {
 		
 		@SuppressWarnings("resource")
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsoleConfig.class);
 		
 		CLI cli = context.getBean("CLI", CLI.class);
         cli.run();
