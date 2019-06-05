@@ -6,9 +6,6 @@ import java.text.ParseException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.excilys.cdb.springconfig.SpringConfig;
-
-
 @Component()
 public class cdb{
 
@@ -18,9 +15,7 @@ public class cdb{
 		super();
 		this.cli = cli;
 	}
-
 	
-
 	public static void main(String[] args) throws ParseException {
 		
 		@SuppressWarnings("resource")
@@ -28,11 +23,7 @@ public class cdb{
 		
 		CLI cli = context.getBean("CLI", CLI.class);
         cli.run();
-        
-		
 	}
-
-
 
 	public CLI getCli() {
 		return cli;

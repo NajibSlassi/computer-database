@@ -24,6 +24,7 @@ public class Computer {
 	@ManyToOne(optional = true,fetch = FetchType.LAZY)
 	@JoinColumn(name="company_id",nullable=true)
 	private Company company;
+	@SuppressWarnings("unused")
 	private String company_name;
 	
 	

@@ -7,7 +7,7 @@
     </parent>
 
     <artifactId>service</artifactId>
-    <version>1.0</version>
+   
     <packaging>jar</packaging>
 
 	<modelVersion>4.0.0</modelVersion>

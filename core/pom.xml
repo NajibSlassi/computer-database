@@ -8,12 +8,16 @@
     </parent>
 
     <artifactId>core</artifactId>
-    <version>1.0</version>
-    <packaging>jar</packaging>
 
+    <packaging>jar</packaging>
+	
 	<modelVersion>4.0.0</modelVersion>
 <dependencies>
-
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>   
+    <version>${hibernate.version}</version>
+</dependency>
 </dependencies>
 
 </project>

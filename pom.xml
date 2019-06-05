@@ -47,13 +47,6 @@
 			<version>${mysql-connector.version}</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-		<dependency>
-  <groupId>org.slf4j</groupId>
-  <artifactId>slf4j-api</artifactId>
-  <version>${slf4j.version}</version>
-		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
   <groupId>junit</groupId>
@@ -71,12 +64,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
-		</dependency>
-		
-		<dependency>
   <groupId>javax.servlet</groupId>
   <artifactId>jstl</artifactId>
   <version>${jstl.version}</version>
@@ -88,62 +75,7 @@
   <version>${servlet.version}</version>
   <scope>provided</scope>
 		</dependency>
-		
-		<dependency>
-  <groupId>commons-digester</groupId>
-  <artifactId>commons-digester</artifactId>
-  <version>1.8</version>
-		</dependency>
-		
-		<dependency>
-  <groupId>com.zaxxer</groupId>
-  <artifactId>HikariCP</artifactId>
-  <version>${HikariCP.version}</version>
-		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-context</artifactId>
-    <version>5.1.7.RELEASE</version>
-</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>5.1.7.RELEASE</version>
-		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-jdbc</artifactId>
-    <version>5.1.5.RELEASE</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-test</artifactId>
-    <version>5.1.4.RELEASE</version>
-    <scope>test</scope>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/pl.pragmatists/JUnitParams -->
-<dependency>
-    <groupId>pl.pragmatists</groupId>
-    <artifactId>JUnitParams</artifactId>
-    <version>1.1.0</version>
-    <scope>test</scope>
-</dependency>
-
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-core</artifactId>   
-    <version>${hibernate.version}</version>
-</dependency>
-
+	
 	</dependencies>
 
 	<build>

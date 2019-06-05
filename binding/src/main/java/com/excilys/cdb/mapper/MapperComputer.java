@@ -4,13 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
-import org.slf4j.LoggerFactory;
-
 import com.excilys.cdb.dto.DTOComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-
-import ch.qos.logback.classic.Logger;
 
 public class MapperComputer {
 static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
